@@ -67,6 +67,30 @@ function Footer() {
           <FaYoutube className="text-white mx-1 text-2xl cursor-pointer hover:text-red-700" />
         </div>
       </div>
+      {/* 4 */}
+      <div className="flex flex-col items-center">
+        <div className="">
+          <img
+            src="/images/shirty-brand.png"
+            alt="website brand"
+            className="md:h-8 inline"
+          />
+          <p className=" inline text-pink-700 md:text-xl ml-2 font-bold">
+            shirty
+          </p>
+        </div>
+        <div className="flex items-center justify-evenly flex-wrap">
+          <p className=" text-white mx-1 hover:text-yellow-500 cursor-pointer">
+            Conditions d'utilisation
+          </p>
+          <p className=" text-white mx-1 hover:text-yellow-500 cursor-pointer">
+            Politique de confidentialité
+          </p>
+          <p className="text-white mx-1 hover:text-yellow-500 cursor-pointer">
+            Politique relative au cookies
+          </p>
+        </div>
+      </div>
     </div>
   )
 }

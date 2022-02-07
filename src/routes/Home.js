@@ -7,7 +7,7 @@ import {
 import { FaPhotoVideo } from "react-icons/fa"
 function Home() {
   return (
-    <div className="flex flex-col items-center w-screen h-full bg-white md:pt-20 md:pb-10">
+    <div className="flex flex-col items-center w-screen h-full  md:pt-20 md:pb-10">
       <div className="relative p-4">
         <img
           alt="header shirt"
@@ -49,7 +49,7 @@ function Home() {
       </div>
       {/* section pour découvir  */}
       <div className="flex flex-col md:flex-row items-center justify-evenly flex-wrap  md:w-3/4 my-8 border h-fit bg-white">
-        <FaPhotoVideo size={400} />
+        <FaPhotoVideo size={400} className="text-blue-500" />
         <button className="bg-purple-400 text-white px-6 py-2 hover:bg-purple-600">
           Découvrir
         </button>
