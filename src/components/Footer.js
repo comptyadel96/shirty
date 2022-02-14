@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa"
 function Footer() {
   return (
-    <div className="flex flex-col md:flex-row justify-evenly items-center flex-wrap bg-gray-800 w-full mt-auto md:p-5">
+    <div className="flex flex-col md:flex-row justify-evenly items-center flex-wrap bg-gray-800 max-w-full mt-auto md:p-4">
       {/* 1 */}
       <div className="flex flex-col ">
         <p className="text-pink-800 md:text-4xl">Shirty</p>
@@ -79,14 +79,14 @@ function Footer() {
             shirty
           </p>
         </div>
-        <div className="flex items-center justify-evenly flex-wrap">
-          <p className=" text-white mx-1 hover:text-yellow-500 cursor-pointer">
+        <div className="flex flex-col  justify-evenly flex-wrap">
+          <p className=" text-white my-1 hover:text-yellow-500 cursor-pointer">
             Conditions d'utilisation
           </p>
-          <p className=" text-white mx-1 hover:text-yellow-500 cursor-pointer">
+          <p className=" text-white my-1 hover:text-yellow-500 cursor-pointer">
             Politique de confidentialité
           </p>
-          <p className="text-white mx-1 hover:text-yellow-500 cursor-pointer">
+          <p className="text-white my-1 hover:text-yellow-500 cursor-pointer">
             Politique relative au cookies
           </p>
         </div>

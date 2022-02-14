@@ -5,13 +5,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 
 import reportWebVitals from "./reportWebVitals"
 import Home from "./routes/Home"
-import Navbar from "./components/Navbar"
+// import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
 // import MakeShirt from "./routes/MakeShirt"
 // import GetShirt from "./routes/GetShirt"
 ReactDOM.render(
   <BrowserRouter>
-    <Navbar />
+    {/* <Navbar /> */}
 
     <Routes>
       <Route path="/" element={<Home />} />
