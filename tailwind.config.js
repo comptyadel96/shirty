@@ -176,6 +176,7 @@ module.exports = {
     },
     brightness: {
       0: "0",
+      30:".3",
       50: ".5",
       60: ".6",
       70: ".7",
@@ -389,6 +390,7 @@ module.exports = {
         '"Courier New"',
         "monospace",
       ],
+      title: '"Akaya Telivigala"',
     },
     fontSize: {
       xs: ["0.75rem", { lineHeight: "1rem" }],

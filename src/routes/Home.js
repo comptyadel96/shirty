@@ -8,7 +8,7 @@ import { FaPhotoVideo } from "react-icons/fa"
 import Navbar from "../components/Navbar"
 function Home() {
   const navRef = useRef(null)
- 
+
   const ImageRef = useRef(null)
   window.onscroll = function () {
     if (
@@ -28,22 +28,31 @@ function Home() {
 
   return (
     <div className="flex flex-col items-center w-screen h-full bg-gray-50 overflow-hidden">
-      <Navbar navRef={navRef}  />
-      <img
-        alt="header shirt"
-        src="/images/home.jpg"
-        className="max-h-screen bg-red-300  w-full"
-        ref={ImageRef}
-      />
-      {/* title */}
-      {/* <p className="absolute top-8 text-center inset-0 text-white md:text-5xl">
-          Titre ici
+      <Navbar navRef={navRef} />
+      <div className="relative w-full max-h-screen">
+        <img
+          alt="header shirt"
+          src="/images/home.jpg"
+          className="max-h-screen bg-red-300 brightness-30  w-full"
+          ref={ImageRef}
+        />
+        {/* title */}
+        <p className="absolute md:top-20 font-title text-center inset-0 text-yellow-500 underline decoration-4 decoration-double md:text-9xl">
+          Personalisez votre style
         </p>
-        <p className="text-white absolute inset-0 mx-auto md:top-1/3 md:text-3xl max-w-xl">
-          Mouha yasket yasket ou ki yahder il dit la merde .... zadlou rabi fe
-          tol ou na9aslou mla3kel ! lhamdoulleh li rassi kbir ou fertass khir
-          men rassi sghir et vide de bons sens .
-        </p> */}
+        <div className="absolute flex items-center  md:left-1/2 -translate-x-1/2 md:top-1/3  ">
+          <div className=" md:w-52 md:h-52  bg-white mr-12 rounded-full opacity-20 rotate-[-30deg]"></div>
+          <p className="text-white  font-title  md:text-6xl md:max-w-2xl">
+            Une solution simple pour créer et vendre des produits engageants
+          </p>
+          <div className=" md:w-14 md:h-14  bg-pink-400 ml-1 rounded-full opacity-40"></div>
+        </div>
+
+        <button className="absolute md:bottom-48 left-1/2 -translate-x-1/2 md:px-5 md:py-4 md:text-5xl rounded-full bg-transparentblack hover:text-yellow-500 text-white">
+          Commancer le design
+        </button>
+      </div>
+
       {/* <AiOutlineArrowLeft
           className="absolute top-1/2 -left-14 -translate-y-1/2 bg-purple-300  text-purple-600 rounded-full cursor-pointer hover:scale-75  transition-all duration-500"
           size={50}
