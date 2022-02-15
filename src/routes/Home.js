@@ -18,37 +18,37 @@ function Home() {
       // style the hole navbar
       navRef.current.classList.remove("bg-transparentblack")
       navRef.current.classList.remove("py-2")
-      navRef.current.classList.add("bg-purple-600")
+      navRef.current.classList.add("bg-purple-900")
     } else {
-      navRef.current.classList.remove("bg-purple-600")
+      navRef.current.classList.remove("bg-purple-900")
       navRef.current.classList.add("bg-transparentblack")
       navRef.current.classList.add("py-2")
     }
   }
 
   return (
-    <div className="flex flex-col items-center w-screen h-full bg-gray-50 overflow-hidden">
+    <div className="flex flex-col items-center w-screen h-full bg-gray-50 overflow-hidden box-border">
       <Navbar navRef={navRef} />
-      <div className="relative w-full max-h-screen">
+      <div className="relative w-screne max-h-screen box-border  ">
         <img
           alt="header shirt"
           src="/images/home.jpg"
-          className="max-h-screen bg-red-300 brightness-30  w-full"
+          className="max-h-screen  brightness-30  w-screen"
           ref={ImageRef}
         />
         {/* title */}
-        <p className="absolute md:top-20 font-title text-center inset-0 text-yellow-500 underline decoration-4 decoration-double md:text-9xl">
+        <p className="select-none absolute md:top-20 font-title text-center inset-0 text-yellow-500 underline decoration-4 decoration-double md:text-9xl">
           Personalisez votre style
         </p>
         <div className="absolute flex items-center  md:left-1/2 -translate-x-1/2 md:top-1/3  ">
-          <div className=" md:w-52 md:h-52  bg-white mr-12 rounded-full opacity-20 rotate-[-30deg]"></div>
-          <p className="text-white  font-title  md:text-6xl md:max-w-2xl">
+          <div className=" md:w-36 md:h-36  bg-white mr-12 rounded-full opacity-20 rotate-[-30deg]"></div>
+          <p className="text-white select-none font-title  md:text-6xl md:max-w-2xl">
             Une solution simple pour créer et vendre des produits engageants
           </p>
-          <div className=" md:w-14 md:h-14  bg-pink-400 ml-1 rounded-full opacity-40"></div>
+          <div className=" md:w-14 md:h-14  bg-yellow-400 ml-1 rounded-full opacity-40"></div>
         </div>
 
-        <button className="absolute md:bottom-48 left-1/2 -translate-x-1/2 md:px-5 md:py-4 md:text-5xl rounded-full bg-transparentblack hover:text-yellow-500 text-white">
+        <button className="absolute md:bottom-48 left-1/2 -translate-x-1/2 md:px-5 md:py-4 md:text-5xl rounded-full bg-transparentblack hover:text-yellow-400 hover:bg-white text-white">
           Commancer le design
         </button>
       </div>

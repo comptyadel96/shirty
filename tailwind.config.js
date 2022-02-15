@@ -38,7 +38,8 @@ module.exports = {
       fuchsia: colors.fuchsia,
       pink: colors.pink,
       rose: colors.rose,
-      transparentblack: "rgba(0,0,0,0.6)",
+      transparentblack: "rgba(0,0,0,0.8)",
+      // tranparentNav:"rgba( 167, 19, 19, 0.4)", 
     }),
     columns: {
       auto: "auto",
@@ -390,7 +391,8 @@ module.exports = {
         '"Courier New"',
         "monospace",
       ],
-      title: '"Akaya Telivigala"',
+      body: '"Akaya Telivigala"',
+      title: '"Dancing Script"',
     },
     fontSize: {
       xs: ["0.75rem", { lineHeight: "1rem" }],
