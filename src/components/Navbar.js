@@ -2,7 +2,7 @@ import React, { useRef } from "react"
 import { MdShoppingCart } from "react-icons/md"
 import { ImEarth } from "react-icons/im"
 
-function Navbar({ navRef }) {
+function Navbar({ navRef, onPressConnect }) {
   const langRef = useRef(null)
   const toggleLang = () => {
     if (langRef.current.classList.contains("max-h-0")) {
@@ -13,6 +13,7 @@ function Navbar({ navRef }) {
       langRef.current.classList.add("max-h-0")
     }
   }
+
   return (
     <div
       className=" md:flex md:items-center md:justify-between md:flex-wrap bg-transparentblack py-2 shadow-lg  fixed top-0 w-screen hidden z-50 transition-all duration-700"
@@ -43,6 +44,7 @@ function Navbar({ navRef }) {
         <li
           className="mx-5 cursor-pointer text-2xl text-white hover:text-yellow-500 font-body"
           data-color="hover:text-yellow-500"
+          onClick={onPressConnect}
         >
           Se connecter
         </li>
@@ -55,7 +57,7 @@ function Navbar({ navRef }) {
         >
           <ImEarth className="text-xl text-white cursor-pointer mx-3 transition-all duration-700 hover:rotate-180 hover:text-blue-400 " />
           <div
-            className="absolute -left-1 bottom-auto overflow-y-hidden  px-3 max-h-0 "
+            className="absolute left-2 bottom-auto overflow-y-hidden  px-1 max-h-0 bg-black "
             ref={langRef}
           >
             <p className="block text-white cursor-pointer hover:text-red-600">
@@ -67,6 +69,7 @@ function Navbar({ navRef }) {
           </div>
         </div>
       </ul>
+     
     </div>
   )
 }

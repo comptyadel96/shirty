@@ -9,12 +9,14 @@ import Home from "./routes/Home"
 import Footer from "./components/Footer"
 // import MakeShirt from "./routes/MakeShirt"
 // import GetShirt from "./routes/GetShirt"
+import Profile from "./routes/Profile"
 ReactDOM.render(
   <BrowserRouter>
     {/* <Navbar /> */}
 
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/profile" element={<Profile />} />
     </Routes>
     <Footer />
   </BrowserRouter>,

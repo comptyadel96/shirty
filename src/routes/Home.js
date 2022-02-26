@@ -1,14 +1,22 @@
-import React, { useRef } from "react"
+import React, { useRef, useEffect } from "react"
 import {
   AiOutlineVideoCamera,
   // AiOutlineArrowLeft,
   // AiOutlineArrowRight,
+  AiFillFacebook,
+  AiFillGoogleCircle,
+  // AiFillMail,
+  AiFillCloseCircle,
+  AiFillTwitterCircle,
 } from "react-icons/ai"
 import { FaPhotoVideo } from "react-icons/fa"
 import Navbar from "../components/Navbar"
+import axios from "axios"
+import HorizontalScroll from "../components/HorizontalScroll"
+
 function Home() {
   const navRef = useRef(null)
-
+  const connectRef = useRef(null)
   const ImageRef = useRef(null)
   window.onscroll = function () {
     if (
@@ -25,10 +33,84 @@ function Home() {
       navRef.current.classList.add("py-2")
     }
   }
+  const onClickConnect = () => {
+    connectRef.current.classList.toggle("hidden")
+  }
+  const socialAuth = async (url) => {
+    window.open(url, "_self")
+  }
+  // test
+  const fetchUserInfos = async () => {
+    const response = await axios.get(
+      `${process.env.REACT_APP_URL_CURRENT_USER_GOOGLE}`
+    )
 
+    console.log(response)
+  }
+  useEffect(() => {
+    fetchUserInfos()
+  }, [])
   return (
     <div className="flex flex-col items-center w-screen h-full bg-gray-50 overflow-hidden box-border">
-      <Navbar navRef={navRef} />
+      <Navbar navRef={navRef} onPressConnect={onClickConnect} />
+      {/* modal container */}
+      <div
+        className="hidden fixed h-full w-screen bg-transparentblack z-50"
+        ref={connectRef}
+      >
+        {/* modal contents */}
+        <div className="flex flex-col  z-50  items-center md:w-1/2 mx-auto md:mt-32 md:py-3 border-double border-8 border-gray-800 bg-yellow-200 relative ">
+          <div
+            className="absolute top-6 right-6 cursor-pointer z-50"
+            onClick={onClickConnect}
+          >
+            <AiFillCloseCircle
+              size={36}
+              className="text-red-500 hover:text-red-700"
+            />
+          </div>
+
+          <img
+            src="/images/login.png"
+            alt="login illustration"
+            className="h-96"
+          />
+          <p className="font-semibold text-gray-700 md:mb-2 md:text-xl">
+            Connectez-vous avec :
+          </p>
+          <div className="inline-flex items-center w-full  justify-evenly">
+            {/* facebook */}
+            <button
+              onClick={() =>
+                socialAuth("http://localhost:5000/api/shirty/auth/facebook")
+              }
+              className="inline-flex md:w-44 items-center rounded-sm text-white font-semibold cursor-pointer hover:bg-blue-600 bg-blue-500 md:px-6 md:py-1"
+            >
+              {/* onClick={() =>
+                socialAuth("http://localhost:5000/api/shirty/auth/facebook") */}
+              <AiFillFacebook className="mr-2" size={24} /> Facebook
+            </button>
+            {/* google */}
+            <button
+              onClick={() =>
+                socialAuth("http://localhost:5000/api/shirty/auth/google")
+              }
+              className="inline-flex md:w-44 items-center rounded-sm text-white font-semibold cursor-pointer hover:bg-orange-600 bg-orange-400 md:px-6 md:py-1"
+            >
+              <AiFillGoogleCircle className="mr-2" size={24} /> Google
+            </button>
+            {/* twitter */}
+            <button className="inline-flex md:w-44 items-center rounded-sm text-white font-semibold cursor-pointer hover:bg-sky-600 bg-sky-400 md:px-6 md:py-1">
+              <AiFillTwitterCircle className="mr-2" size={24} /> Twitter
+            </button>
+          </div>
+
+          {/* <button className="inline-flex md:w-44 items-center rounded-sm text-white font-semibold mb-2 cursor-pointer hover:bg-gray-800 bg-gray-400 md:px-6 md:py-1">
+            <AiFillMail className="mr-2" size={24} /> Email and password
+          </button> */}
+        </div>
+      </div>
+
       <div className="relative w-screne max-h-screen box-border  ">
         <img
           alt="header shirt"
@@ -36,19 +118,18 @@ function Home() {
           className="max-h-screen  brightness-30  w-screen"
           ref={ImageRef}
         />
-        {/* title */}
-        <p className="select-none absolute md:top-20 font-title text-center inset-0 text-yellow-500 underline decoration-4 decoration-double md:text-9xl">
-          Personalisez votre style
-        </p>
-        <div className="absolute flex items-center  md:left-1/2 -translate-x-1/2 md:top-1/3  ">
-          <div className=" md:w-36 md:h-36  bg-white mr-12 rounded-full opacity-20 rotate-[-30deg]"></div>
-          <p className="text-white select-none font-title  md:text-6xl md:max-w-2xl">
-            Une solution simple pour créer et vendre des produits engageants
+        <div className=" flex flex-col items-center flex-wrap absolute left-1/2 -translate-x-1/2 top-20   h-fit w-fit">
+          {/* title */}
+          <p className="select-none self-start md:mb-4  font-title  text-yellow-500  md:text-8xl">
+            Personalisez votre style
           </p>
-          <div className=" md:w-14 md:h-14  bg-yellow-400 ml-1 rounded-full opacity-40"></div>
+          <div className=" flex items-center   ">
+            <p className="text-white select-none font-title  md:text-6xl md:max-w-2xl">
+              Une solution simple pour créer et vendre des produits engageants
+            </p>
+          </div>
         </div>
-
-        <button className="absolute md:bottom-48 left-1/2 -translate-x-1/2 md:px-5 md:py-4 md:text-5xl rounded-full bg-transparentblack hover:text-yellow-400 hover:bg-white text-white">
+        <button className="absolute md:bottom-36 right-20 md:px-5 md:py-2 md:text-3xl mt-4 rounded-full bg-gray-700 hover:bg-gray-900 text-white">
           Commancer le design
         </button>
       </div>
@@ -93,48 +174,9 @@ function Home() {
       </div>
 
       {/* Produits à la une */}
-      <div className="flex items-center flex-nowrap overflow-x-auto snap-x snap-mandatory bg-black md:py-7 relative w-3/4 ">
-        <div className="h-52 w-52 bg-white shadow-lg md:mx-7 flex-shrink-0 snap-center">
-          <p className="text-center text-gray-700 md:text-xl font-semibold">
-            article1
-          </p>
-        </div>
-        <div className="h-52 w-52 bg-white shadow-lg md:mx-7 flex-shrink-0 snap-center">
-          <p className="text-center text-gray-700 md:text-xl font-semibold">
-            article2
-          </p>
-        </div>
-        <div className="h-52 w-52 bg-white shadow-lg md:mx-7 flex-shrink-0 snap-center">
-          <p className="text-center text-gray-700 md:text-xl font-semibold">
-            article3
-          </p>
-        </div>
-        <div className="h-52 w-52 bg-white shadow-lg md:mx-7 flex-shrink-0 snap-center">
-          <p className="text-center text-gray-700 md:text-xl font-semibold">
-            article4
-          </p>
-        </div>
-        <div className="h-52 w-52 bg-white shadow-lg md:mx-7 flex-shrink-0 snap-center">
-          <p className="text-center text-gray-700 md:text-xl font-semibold">
-            article5
-          </p>
-        </div>
-        <div className="h-52 w-52 bg-white shadow-lg md:mx-7 flex-shrink-0 snap-center">
-          <p className="text-center text-gray-700 md:text-xl font-semibold">
-            article6
-          </p>
-        </div>
-        <div className="h-52 w-52 bg-white shadow-lg md:mx-7 flex-shrink-0 snap-center">
-          <p className="text-center text-gray-700 md:text-xl font-semibold">
-            article7
-          </p>
-        </div>
-        <div className="h-52 w-52 bg-white shadow-lg md:mx-7 flex-shrink-0 snap-center">
-          <p className="text-center text-gray-700 md:text-xl font-semibold">
-            article8
-          </p>
-        </div>
-      </div>
+
+      {/* <button onClick={fetchUserInfos}>voir mes infos du compte</button> */}
+      <HorizontalScroll />
     </div>
   )
 }
