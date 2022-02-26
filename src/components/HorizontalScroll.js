@@ -7,7 +7,7 @@ const getItems = () =>
     .map((_, ind) => ({ id: `t-shirt num:${ind + 1}` }))
 
 function HorizontalScroll() {
-  const [items, setItems] = React.useState(getItems)
+  const [items] = React.useState(getItems)
 
   const handleClick = () => {}
 
