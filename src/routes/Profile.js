@@ -20,7 +20,7 @@ function Profile() {
   }
   useEffect(() => {
     fetchUserInfos()
-  }, [])
+  })
   if (user) {
     return (
       <div className="flex flex-col items-center">
