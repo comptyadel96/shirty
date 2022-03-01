@@ -1,20 +1,17 @@
-import React, { useRef, useEffect } from "react"
+import React, { useRef} from "react"
 import {
-  AiOutlineVideoCamera,
-  // AiOutlineArrowLeft,
-  // AiOutlineArrowRight,
   AiFillFacebook,
   AiFillGoogleCircle,
   // AiFillMail,
   AiFillCloseCircle,
   AiFillTwitterCircle,
 } from "react-icons/ai"
-import { FaPhotoVideo } from "react-icons/fa"
+
 import Navbar from "../components/Navbar"
-import axios from "axios"
 import HorizontalScroll from "../components/HorizontalScroll"
 
 function Home() {
+  // const [user, setUser] = useState({})
   const navRef = useRef(null)
   const connectRef = useRef(null)
   const ImageRef = useRef(null)
@@ -24,12 +21,12 @@ function Home() {
       ImageRef.current.offsetTop + ImageRef.current.offsetHeight - 20
     ) {
       // style the hole navbar
-      navRef.current.classList.remove("bg-transparentblack")
+      // navRef.current.classList.remove("bg-transparentblack")
       navRef.current.classList.remove("py-2")
-      navRef.current.classList.add("bg-purple-900")
+      // navRef.current.classList.add("bg-purple-900")
     } else {
-      navRef.current.classList.remove("bg-purple-900")
-      navRef.current.classList.add("bg-transparentblack")
+      // navRef.current.classList.remove("bg-purple-900")
+      // navRef.current.classList.add("bg-transparentblack")
       navRef.current.classList.add("py-2")
     }
   }
@@ -40,18 +37,26 @@ function Home() {
     window.open(url, "_self")
   }
   // test
-  const fetchUserInfos = async () => {
-    const response = await axios.get(
-      `${process.env.REACT_APP_URL_CURRENT_USER_GOOGLE}`
-    )
-
-    console.log(response)
-  }
-  useEffect(() => {
-    fetchUserInfos()
-  }, [])
+  // const fetchUserInfos = async () => {
+  //   const userObject = await fetch(
+  //     `${process.env.REACT_APP_URL_CURRENT_USER_GOOGLE}`,
+  //     {
+  //       method: "GET",
+  //       credentials: "include",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "Access-Control-Allow-Origin": "*",
+  //         "Access-Control-Allow-Credentials": true,
+  //       },
+  //     }
+  //   )
+  //   setUser(userObject.json())
+  // }
+  // useEffect(() => {
+  //   fetchUserInfos()
+  // }, [])
   return (
-    <div className="flex flex-col items-center w-screen h-full bg-gray-50 overflow-hidden box-border">
+    <div className="flex flex-col w-screen h-full bg-gray-800 overflow-hidden box-border">
       <Navbar navRef={navRef} onPressConnect={onClickConnect} />
       {/* modal container */}
       <div
@@ -115,7 +120,7 @@ function Home() {
         <img
           alt="header shirt"
           src="/images/home.jpg"
-          className="max-h-screen  brightness-30  w-screen"
+          className="max-h-screen  brightness-50  w-screen"
           ref={ImageRef}
         />
         <div className=" flex flex-col items-center flex-wrap absolute left-1/2 -translate-x-1/2 top-20   h-fit w-fit">
@@ -129,54 +134,67 @@ function Home() {
             </p>
           </div>
         </div>
-        <button className="absolute md:bottom-36 right-20 md:px-5 md:py-2 md:text-3xl mt-4 rounded-full bg-gray-700 hover:bg-gray-900 text-white">
+        <button className="absolute md:bottom-36 right-20 md:px-5 md:py-2 md:text-3xl mt-4 rounded-full bg-gray-800 hover:bg-gray-900 text-white">
           Commancer le design
         </button>
       </div>
 
-      {/* <AiOutlineArrowLeft
-          className="absolute top-1/2 -left-14 -translate-y-1/2 bg-purple-300  text-purple-600 rounded-full cursor-pointer hover:scale-75  transition-all duration-500"
-          size={50}
-        />
-        <AiOutlineArrowRight
-          className="absolute top-1/2 -right-14 -translate-y-1/2 bg-purple-300 text-purple-600  rounded-full cursor-pointer hover:scale-75  transition-all duration-500 "
-          size={50}
-        /> */}
-
       {/* vidéo descriptive */}
-      <div className="skew-x-[25deg] bg-pink-500 mb-4 mt-11 px-3 py-4">
-        <p className="md:text-7xl  text-white -skew-x-[25deg]   ">
-          Vidéo déscriptive
+
+      <p className="md:text-5xl md:ml-7   text-yellow-500 select-none mb-5 md:mt-9 ">
+        Pourquoi choisir Shirty ? <br />
+      </p>
+
+      <div className="mx-auto  flex items-center flex-col md:justify-evenly md:flex-row flex-wrap md:p-8 md:mb-10 md:w-3/4 w-full ">
+        <p className="text-white font-semibold md:text-2xl select-none ">
+          Découvrez comment vous pouvez créer et vendre vos produits en quelque
+          minutes avec une courte vidéo déscriptive .
         </p>
-      </div>
-      <div className="flex items-center flex-col md:justify-evenly md:flex-row flex-wrap md:p-8 md:mb-10 md:w-3/4 w-full mx-8  h-fit shadow-xl border ">
-        <p className="text-gray-700 font-semibold ">
-          bréve description de la vidéo ici .....
-        </p>
-        <div className="h-72 w-96 flex items-center flex-col  shadow-lg px-6 py-3 rounded-lg ">
-          <p className="text-gray-700 font-bold md:text-xl ">Vidéo ici </p>
-          <AiOutlineVideoCamera className="text-pink-600" size="200" />
+        <div className="flex items-center flex-col  px-6 py-3">
+          <video src="/video/Shivers.mp4" autoPlay controls muted />
         </div>
       </div>
       {/* section pour découvir  */}
-      <div className="flex flex-col md:flex-row items-center justify-evenly flex-wrap  md:w-3/4 my-8 border h-fit bg-white">
-        <FaPhotoVideo size={400} className="text-blue-500" />
-        <button className="bg-purple-400 text-white px-6 py-2 hover:bg-purple-600 rounded-full">
-          Découvrir
-        </button>
+      <div className=" bg-gray-900 md:ml-4 flex flex-col md:flex-row items-center justify-evenly flex-wrap  md:w-3/4 my-8 border h-fit">
+        <img src="/images/gold.jpg" alt="shirt" className="md:max-h-120" />
+        <div className="flex flex-col items-center">
+          <p className="md:text-5xl font-semibold text-purple-600 md:mb-4">
+            Tous ce dont vous avez révez de porter
+          </p>
+          <p className="md:text-2xl  text-white md:my-3 md:max-w-2xl md:text-center">
+            Venez découvrir des produits exclusifs , pour tous les gouts et les
+            couleurs ! découvrez aussi la nouvelle collection "mouha rass tota"
+          </p>
+          <button className="bg-purple-400 md:mb-3 text-white px-6 py-2 hover:bg-purple-600 rounded-full">
+            Découvrir
+          </button>
+        </div>
       </div>
       {/* lancez vos oeuvres */}
-      <div className="flex flex-col md:flex-row items-center justify-evenly flex-wrap  md:w-3/4 my-8 border h-fit bg-white">
-        <button className="bg-pink-400 text-white px-6 py-2 hover:bg-pink-600 rounded-full">
-          Lancez vos oeuvres
-        </button>
-        <FaPhotoVideo size={400} className="text-blue-500" />
+      <div className="bg-gray-900 ml-auto md:mr-20 md:py-1 flex flex-col md:flex-row items-center justify-evenly flex-wrap  md:w-3/4 my-8 border h-fit ">
+        <div className="flex flex-col items-center ">
+          <p className="md:text-5xl font-semibold text-pink-500 md:mb-4">
+            Tous commance par un désign
+          </p>
+          <p className="md:text-2xl md:text-center font-semibold text-white md:my-3 md:max-w-2xl">
+            Que vous soyez un designer professionelle , un débutant ou que vous
+            voulez juste faire plaisir à un proche , nous vous proposons une
+            large sélection de produits que vous pouvez modifier à vos goûts et
+            envie.
+          </p>
+          <button className="md:mt-12 bg-pink-400 text-white px-6 py-2 hover:bg-pink-600 rounded-full">
+            Lancez vos oeuvres
+          </button>
+        </div>
+
+        <img src="/images/workHard.jpg" alt="shirt no:2" />
       </div>
 
-      {/* Produits à la une */}
-
-      {/* <button onClick={fetchUserInfos}>voir mes infos du compte</button> */}
-      <HorizontalScroll />
+      {/* section produits à la une */}
+      <div className="mx-auto w-full bg-gray-900 flex flex-col items-center">
+        <p className="md:text-5xl md:mt-1 text-white">Produits à la une 🌟</p>
+        <HorizontalScroll />
+      </div>
     </div>
   )
 }

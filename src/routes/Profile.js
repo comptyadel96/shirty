@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from "react"
-import axios from "axios"
+
 function Profile() {
   const [user, setUser] = useState({})
   const fetchUserInfos = async () => {
-    const response = await axios.get(
-      `${process.env.REACT_APP_URL_CURRENT_USER}`
+    const userObject = await fetch(
+      `${process.env.REACT_APP_URL_CURRENT_USER_GOOGLE}`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+        },
+      }
     )
-    setUser(response.data)
-    console.log(response.data)
+    setUser(userObject.json())
+    console.log(user)
   }
   useEffect(() => {
     fetchUserInfos()
@@ -15,10 +24,11 @@ function Profile() {
   if (user) {
     return (
       <div className="flex flex-col items-center">
-        <p>nom: {user.name} </p>
+        {/* <p>nom: {user.name} </p>
         <p>email:{user.email} </p>
         <p>photo de profil:</p>
-        <p>numéro de téléphone:</p>
+        <p>numéro de téléphone:</p> */}
+        {user && <p>{user.name} </p>}
       </div>
     )
   } else {
