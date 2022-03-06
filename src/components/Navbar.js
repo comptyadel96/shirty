@@ -20,13 +20,13 @@ function Navbar({ navRef, onPressConnect }) {
   const navigate = useNavigate()
   return (
     <div
-      className=" md:flex md:items-center md:justify-between md:flex-wrap bg-white py-2 shadow-lg  fixed top-0 w-screen hidden z-50 transition-all duration-700"
+      className=" md:flex md:items-center md:justify-between md:flex-wrap bg-transparentblack py-2 shadow-lg  fixed top-0 w-screen hidden z-50 transition-all duration-700"
       ref={navRef}
     >
       {/* brand */}
       <div className="inline-flex items-center ml-3">
         <img alt="brand" src="/images/shirty-brand.png" className="md:h-9" />
-        <p className="md:ml-5 text-2xl font-semibold text-gray-900 font-body">
+        <p className="md:ml-5 text-2xl font-semibold text-neutral-50 font-body">
           Shirty{" "}
         </p>
       </div>
@@ -34,20 +34,20 @@ function Navbar({ navRef, onPressConnect }) {
       {/* nav elements */}
       <ul className="flex items-center justify-evenly  mr-8 relative">
         <li
-          className="mx-5 cursor-pointer text-2xl text-gray-900 hover:text-pink-600 font-body"
+          className="mx-5 cursor-pointer text-2xl text-neutral-50 hover:text-pink-600 font-body"
           data-color="hover:text-yellow-500"
         >
           Découvrez nos produits
         </li>
         <li
-          className="mx-5 cursor-pointer text-2xl text-gray-900 hover:text-pink-600 font-body"
+          className="mx-5 cursor-pointer text-2xl text-neutral-50 hover:text-pink-600 font-body"
           data-color="hover:text-yellow-500"
         >
           Commancez le design
         </li>
         {!user.currUser ? (
           <li
-            className="mx-5 cursor-pointer text-2xl text-gray-900 hover:text-pink-600 font-body"
+            className="mx-5 cursor-pointer text-2xl text-neutral-50 hover:text-pink-600 font-body"
             data-color="hover:text-yellow-500"
             onClick={onPressConnect}
           >
@@ -55,14 +55,14 @@ function Navbar({ navRef, onPressConnect }) {
           </li>
         ) : (
           <li
-            className="mx-5 cursor-pointer text-2xl text-gray-900 hover:text-pink-600 font-body"
+            className="mx-5 cursor-pointer text-2xl text-neutral-50 hover:text-pink-600 font-body"
             onClick={() => navigate("/profile")}
           >
             Profil
           </li>
         )}
 
-        <MdShoppingCart className="text-xl text-gray-900 cursor-pointer mx-3 transition-all duration-700 hover:translate-x-3 hover:text-red-400 " />
+        <MdShoppingCart className="text-xl text-neutral-50 cursor-pointer mx-3 transition-all duration-700 hover:translate-x-3 hover:text-red-400 " />
         <div
           className="relative"
           onMouseEnter={toggleLang}

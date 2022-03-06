@@ -22,12 +22,12 @@ function WelcomeScreen() {
       ImageRef.current.offsetTop + ImageRef.current.offsetHeight - 20
     ) {
       // style the hole navbar
-      // navRef.current.classList.remove("bg-transparentblack")
+      navRef.current.classList.remove("bg-transparentblack")
       navRef.current.classList.remove("py-2")
-      // navRef.current.classList.add("bg-purple-900")
+      navRef.current.classList.add("bg-gray-900")
     } else {
-      // navRef.current.classList.remove("bg-purple-900")
-      // navRef.current.classList.add("bg-transparentblack")
+      navRef.current.classList.remove("bg-gray-900")
+      navRef.current.classList.add("bg-transparentblack")
       navRef.current.classList.add("py-2")
     }
   }
@@ -39,7 +39,7 @@ function WelcomeScreen() {
   }
 
   return (
-    <div className="flex flex-col w-screen h-full bg-gray-50 overflow-hidden box-border">
+    <div className="flex flex-col w-screen h-full bg-[#fffaf9] overflow-hidden box-border">
       <Navbar navRef={navRef} onPressConnect={onClickConnect} />
       {/* modal container */}
       <div
@@ -136,15 +136,18 @@ function WelcomeScreen() {
       </div>
 
       {/* vidéo descriptive */}
-      <div className="mx-auto bg-rose-100 shadow-lg flex items-center flex-col md:justify-evenly md:flex-row flex-wrap md:p-8 md:mb-10  w-screen relative ">
-        <div className="absolute left-4 bottom-1 inline-flex items-center">
+      <div className="mx-auto  flex items-center flex-col md:justify-evenly md:flex-row flex-wrap md:p-8 md:mb-10  w-screen relative ">
+        {/* <div className="absolute left-4 bottom-1 inline-flex items-center">
           <div className="h-5 w-5 lg:w-16 lg:h-16 opacity-60  bg-pink-400 mx-1"></div>
           <div className="h-5 w-5 lg:w-16 lg:h-16 opacity-60 rounded-full bg-purple-400 mx-1"></div>
           <div className="h-5 w-5 lg:w-16 lg:h-16 opacity-60 rounded-full bg-yellow-400 mx-1"></div>
-        </div> 
-        <div className="flex flex-col items-center">
-          <p className="md:text-5xl font-body text-pink-700 md:mb-14">C'est ici que tous commance...</p>
-          <p className="text-pink-400 bg-white rounded-full text-center md:p-2 font-semibold md:text-2xl select-none md:max-w-3xl ">
+        </div>  */}
+        <div className="flex flex-col items-center md:py-6  bg-white   border-2 border-dashed  border-red-400  rounded-2xl ">
+          <p className="md:text-5xl font-body text-red-300 md:mb-14">
+            C'est ici que tous commance...
+          </p>
+          <img src="/images/siseaux.png" alt="siseaux" className="md:max-w-xs" />
+          <p className="text-gray-500  rounded-full text-center md:p-2 font-semibold md:text-2xl select-none md:max-w-3xl ">
             Découvrez comment vous pouvez créer et vendre vos produits en
             quelque minutes avec une courte vidéo déscriptive .
           </p>
@@ -156,7 +159,7 @@ function WelcomeScreen() {
       </div>
 
       {/* section pour découvir  */}
-      <div className="bg-white shadow-xl select-none  md:py-24 flex flex-col md:flex-row items-center justify-evenly   md:w-full my-8  h-fit relative">
+      <div className="bg-white shadow-xl shadow-purple-100 select-none  md:py-24 flex flex-col md:flex-row items-center justify-evenly   md:w-full my-8  h-fit relative">
         {/* svg */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -232,7 +235,7 @@ function WelcomeScreen() {
         <HorizontalScroll />
       </div>
       {currUser.currUser && (
-        <p className="text-white text-4xl"> {currUser.currUser.name} </p>
+        <p className="text-gray-900 text-4xl"> {currUser.currUser.name} </p>
       )}
     </div>
   )
