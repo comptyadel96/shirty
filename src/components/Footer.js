@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa"
 function Footer() {
   return (
-    <div className="flex flex-col md:flex-row justify-evenly items-center flex-wrap bg-gray-800 max-w-full mt-auto md:p-4">
+    <div className="flex flex-col md:flex-row justify-evenly items-center flex-wrap bg-gray-900 max-w-full mt-auto md:p-4">
       {/* 1 */}
       <div className="flex flex-col ">
         <p className="text-pink-800 md:text-4xl">Shirty</p>

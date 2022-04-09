@@ -12,7 +12,7 @@ function HorizontalScroll() {
   const handleClick = () => {}
 
   return (
-    <div className="md:w-2/3 w-full  relative z-20 my-5 ">
+    <div className="md:w-4/5 w-full bg-[#fffef7] rounded-xl shadow-xl relative z-20 my-5 ">
       <ScrollMenu
         LeftArrow={LeftArrow}
         RightArrow={RightArrow}
@@ -79,7 +79,7 @@ function Card({ onClick, selected, title, itemId }) {
         }
       >
         <img src="/images/shirt-purple.png" alt="shirt" className="" />
-        <p className="text-center text-yellow-400">{title}</p>
+        <p className="text-center text-gray-800 md:text-xl font-semibold font-body">{title}</p>
       </div>
     </div>
   )

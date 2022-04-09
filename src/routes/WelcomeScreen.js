@@ -8,14 +8,17 @@ import {
 } from "react-icons/ai"
 import HorizontalScroll from "../components/HorizontalScroll"
 import Navbar from "../components/Navbar"
+import ProfilCard from "../components/ProfilCard"
 import AuthContext from "../utils/AuthContext"
 
 function WelcomeScreen() {
   const currUser = useContext(AuthContext)
-  //   console.log(currUser.currUser)
   const navRef = useRef(null)
   const connectRef = useRef(null)
   const ImageRef = useRef(null)
+  const faq1 = useRef(null)
+  // const faq2 = useRef(null)
+  // const faq3 = useRef(null)
   window.onscroll = function () {
     if (
       window.scrollY >=
@@ -37,9 +40,12 @@ function WelcomeScreen() {
   const socialAuth = async (url) => {
     window.open(url, "_self")
   }
+  const showSubFaq = (ref) => {
+    ref.current.classList.toggle("hidden")
+  }
 
   return (
-    <div className="flex flex-col w-screen h-full bg-[#fffaf9] overflow-hidden box-border">
+    <div className="flex flex-col select-none w-screen h-full bg-[#fffaf9] overflow-hidden box-border">
       <Navbar navRef={navRef} onPressConnect={onClickConnect} />
       {/* modal container */}
       <div
@@ -123,12 +129,12 @@ function WelcomeScreen() {
       </div>
 
       <div className="w-full relative  lg:max-h-64">
-        <p className="absolute left-1/2 font-body top-7 text-center md:text-5xl text-pink-500 -translate-x-1/2">
+        <p className="absolute left-1/2 font-body top-7 text-center md:text-5xl text-rose-500 -translate-x-1/2">
           Avec shirty créer , trouvez , vendez et acheter
         </p>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
           <path
-            fill="#FCE7F3"
+            fill="#FFE4E6"
             fillOpacity="1"
             d="M0,32L60,64C120,96,240,160,360,170.7C480,181,600,139,720,122.7C840,107,960,117,1080,128C1200,139,1320,149,1380,154.7L1440,160L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"
           ></path>
@@ -146,7 +152,11 @@ function WelcomeScreen() {
           <p className="md:text-5xl font-body text-red-300 md:mb-14">
             C'est ici que tous commance...
           </p>
-          <img src="/images/siseaux.png" alt="siseaux" className="md:max-w-xs" />
+          <img
+            src="/images/siseaux.png"
+            alt="siseaux"
+            className="md:max-w-xs"
+          />
           <p className="text-gray-500  rounded-full text-center md:p-2 font-semibold md:text-2xl select-none md:max-w-3xl ">
             Découvrez comment vous pouvez créer et vendre vos produits en
             quelque minutes avec une courte vidéo déscriptive .
@@ -200,7 +210,7 @@ function WelcomeScreen() {
           <p className="md:text-5xl font-semibold text-purple-600 md:mb-4">
             Tous ce dont vous avez révez de porter
           </p>
-          <p className="md:text-2xl bg-white rounded-lg py-2 px-2  text-purple-500 md:my-3 md:max-w-2xl md:text-center">
+          <p className="md:text-2xl bg-white shadow-xl rounded-lg py-2 px-2  text-gray-700 md:my-3 md:max-w-2xl md:text-center">
             Venez découvrir des produits exclusifs , pour tous les gouts et les
             couleurs ! découvrez aussi la nouvelle collection "mouha rass tota"
           </p>
@@ -210,18 +220,18 @@ function WelcomeScreen() {
         </div>
       </div>
       {/* lancez vos oeuvres */}
-      <div className="bg-gray-900 ml-auto md:mr-20 md:py-1 flex flex-col md:flex-row items-center justify-evenly flex-wrap  md:w-3/4 my-8 border h-fit ">
-        <div className="flex flex-col items-center ">
-          <p className="md:text-5xl font-semibold text-pink-500 md:mb-4">
-            Tous commance par un désign
+      <div className="md:py-1 flex flex-col md:flex-row items-center justify-evenly flex-wrap w-full my-8 h-fit ">
+        <div className="flex flex-col items-center bg-rose-100 rounded-xl shadow-xl md:p-5">
+          <p className="md:text-5xl font-semibold text-red-400 md:mb-4">
+            On mise tous sur le désign
           </p>
-          <p className="md:text-2xl md:text-center font-semibold text-white md:my-3 md:max-w-2xl">
+          <p className="md:text-2xl md:text-center md:py-2 shadow-xl  text-gray-700 bg-white rounded-xl md:my-3 md:max-w-4xl">
             Que vous soyez un designer professionelle , un débutant ou que vous
             voulez juste faire plaisir à un proche , nous vous proposons une
             large sélection de produits que vous pouvez modifier à vos goûts et
             envie.
           </p>
-          <button className="md:mt-12 bg-pink-400 text-white px-6 py-2 hover:bg-pink-600 rounded-full">
+          <button className="md:mt-12 bg-rose-300 text-white px-6 py-2 hover:bg-rose-500 rounded-full">
             Lancez vos oeuvres
           </button>
         </div>
@@ -230,9 +240,57 @@ function WelcomeScreen() {
       </div>
 
       {/* section produits à la une */}
-      <div className="mx-auto w-full bg-gray-900 flex flex-col items-center">
-        <p className="md:text-5xl md:mt-1 text-white">Produits à la une 🌟</p>
+      <div className="mx-auto w-full bg-orange-100 flex flex-col items-center">
+        <p className="md:text-5xl md:mt-1 text-rose-500 font-body">
+          Produits à la une 🌟
+        </p>
+        <div className="flex w-full flex-wrap ">
+          <div className="bg-white p-5 text-center self-start md:ml-4 md:mt-10 rounded-2xl shadow-xl">
+            <p className="text-gray-700 md:max-w-md md:text-4xl font-title">
+              Vous trouverez içi les produits les plus visités et les mieux
+              notées par les utilisateurs , pourquoi ne pas essayer d'apporter
+              votre touche personnelle et nous montrer de quoi vous êtes capable
+              ?
+            </p>
+          </div>
+          <div className="bg-white p-5 text-center self-start md:ml-4 md:mt-10 rounded-2xl shadow-xl">
+            <p className="text-gray-700 md:max-w-md md:text-4xl font-title">
+              Vous trouverez içi les produits les plus visités et les mieux
+              notées par les utilisateurs , pourquoi ne pas essayer d'apporter
+              votre touche personnelle et nous montrer de quoi vous êtes capable
+              ?
+            </p>
+          </div>
+        </div>
+
         <HorizontalScroll />
+      </div>
+      {/* section designer en vedette */}
+      <p className="text-3xl text-gray-700 text-center md:mt-5">
+        Désigners en vedette{" "}
+      </p>
+      <div className="flex items-center flex-wrap justify-evenly">
+        <ProfilCard />
+        <ProfilCard />
+        <ProfilCard />
+        <ProfilCard />
+      </div>
+      {/* section de FAQ */}
+      <div className="flex flex-col items-center md:my-4">
+        <p className="text-center text-gray-700 md:text-2xl">FAQ</p>
+        <div
+          onClick={()=>showSubFaq(faq1)}
+          className="relative md:px-2 md:py-1 text-center bg-white border rounded-md cursor-help md:max-w-sm"
+        >
+          <p>Est-ce que mouha a une grosse bite ?</p>
+          {/* response */}
+          <div
+            ref={faq1}
+            className=" text-center bg-white  cursor-default hidden md:max-w-sm"
+          >
+            Non, il a avouer qu'il n'a pas de bite bien grosse , juste un 8 centimétres 🥴 
+          </div>
+        </div>
       </div>
       {currUser.currUser && (
         <p className="text-gray-900 text-4xl"> {currUser.currUser.name} </p>
