@@ -68,7 +68,7 @@ function Navbar({ navRef, onPressConnect }) {
           onMouseEnter={toggleLang}
           onMouseLeave={toggleLang}
         >
-          <ImEarth className="text-xl text-blue-400 cursor-pointer mx-3 transition-all duration-700 hover:rotate-180 hover:text-blue-400 " />
+          <ImEarth className="text-xl  cursor-pointer mx-3 transition-all duration-700 hover:rotate-180 hover:text-blue-400 " />
           <div
             className="absolute left-2 bottom-auto overflow-y-hidden  px-1 max-h-0 bg-black "
             ref={langRef}

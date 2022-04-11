@@ -8,7 +8,7 @@ import {
 } from "react-icons/ai"
 import HorizontalScroll from "../components/HorizontalScroll"
 import Navbar from "../components/Navbar"
-import ProfilCard from "../components/ProfilCard"
+import ScrollDesigners from "../components/ScrollDesigners"
 import AuthContext from "../utils/AuthContext"
 
 function WelcomeScreen() {
@@ -205,7 +205,7 @@ function WelcomeScreen() {
           Produits à la une :
         </p>
         <HorizontalScroll />
-        <div className="flex w-full flex-wrap bg-gray-600 ">
+        <div className="flex w-full flex-wrap justify-evenly bg-gray-600 ">
           <div className=" p-2 text-center self-start md:ml-4">
             <p className="text-white md:max-w-md md:text-lg  ">
               Vous trouverez içi les produits les plus visités et les mieux
@@ -226,13 +226,11 @@ function WelcomeScreen() {
       </div>
       {/* section designer en vedette */}
       <p className="text-3xl text-gray-700 text-center font-semibold md:mt-5">
-        Désigners en vedette{" "}
+        Désigners en vedette
       </p>
-      <div className="flex items-center flex-wrap justify-evenly">
-        <ProfilCard />
-        <ProfilCard />
-        <ProfilCard />
-        <ProfilCard />
+      {/* designers en vedette  */}
+      <div className="w-full mx-auto  my-2 flex items-center">
+        <ScrollDesigners />
       </div>
       {/* section de FAQ */}
       <div className="flex flex-col items-center md:my-4">
