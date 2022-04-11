@@ -39,7 +39,7 @@ module.exports = {
       pink: colors.pink,
       rose: colors.rose,
       transparentblack: "rgba(0,0,0,0.8)",
-      tranparentNav:"rgba( 255, 255, 255, 0.7)", 
+      tranparentWhite:"rgba( 255, 255, 255, 0.25)", 
     }),
     columns: {
       auto: "auto",

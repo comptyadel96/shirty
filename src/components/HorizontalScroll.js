@@ -12,12 +12,12 @@ function HorizontalScroll() {
   const handleClick = () => {}
 
   return (
-    <div className="md:w-4/5 w-full bg-[#fffef7] rounded-xl shadow-xl relative z-20 my-5 ">
+    <div className="w-full md:w-11/12  relative z-20   ">
       <ScrollMenu
         LeftArrow={LeftArrow}
         RightArrow={RightArrow}
         scrollContainerClassName=" z-40 md:overflow-x-hidden"
-        itemClassName="z-50  md:h-96 h-56 md:mx-4 mx-0 flex justify-center items-center "
+        itemClassName="z-50  md:h-96 h-56 md:mx-0 mx-0 flex justify-center items-center "
         transitionDuration={700}
       >
         {items.map(({ id }) => (
@@ -40,8 +40,8 @@ function LeftArrow() {
     <AiOutlineArrowLeft
       className={
         !isFirstItemVisible
-          ? "cursor-pointer bg-gray-700 text-white absolute top-1/2 -left-14 md:text-4xl rounded-full hover:scale-110 hover:-translate-x-3 transition-all duration-500"
-          : "opacity-0 cursor-default -z-10"
+          ? "cursor-pointer bg-gray-700 text-white absolute top-1/2 z-50  md:text-4xl rounded-full hover:scale-110 hover:-translate-x-3 transition-all duration-500"
+          : "opacity-0 cursor-default -z-10 "
       }
       onClick={() => scrollPrev()}
     />
@@ -56,7 +56,7 @@ function RightArrow() {
       onClick={() => scrollNext()}
       className={
         !isLastItemVisible
-          ? "cursor-pointer bg-gray-700 text-white absolute top-1/2 -right-14 md:text-4xl rounded-full hover:scale-110 hover:translate-x-3 transition-all duration-500 "
+          ? "cursor-pointer bg-gray-700 text-white absolute  top-1/2 -right-0 z-50 md:text-4xl rounded-full hover:scale-110 hover:translate-x-3 transition-all duration-500 "
           : "opacity-0 cursor-default -z-10"
       }
     />
@@ -78,7 +78,7 @@ function Card({ onClick, selected, title, itemId }) {
             : " md:transition-all md:duration-500  md:-scale-100 opacity-10 w-40 "
         }
       >
-        <img src="/images/shirt-purple.png" alt="shirt" className="" />
+        <img src="/images/shirt-purple.png" alt="shirt"  />
         <p className="text-center text-gray-800 md:text-xl font-semibold font-body">{title}</p>
       </div>
     </div>

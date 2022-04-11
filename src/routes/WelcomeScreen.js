@@ -2,7 +2,7 @@ import React, { useRef, useContext } from "react"
 import {
   AiFillFacebook,
   AiFillGoogleCircle,
-  // AiFillMail,
+  AiOutlineArrowRight,
   AiFillCloseCircle,
   AiFillTwitterCircle,
 } from "react-icons/ai"
@@ -19,21 +19,7 @@ function WelcomeScreen() {
   const faq1 = useRef(null)
   // const faq2 = useRef(null)
   // const faq3 = useRef(null)
-  window.onscroll = function () {
-    if (
-      window.scrollY >=
-      ImageRef.current.offsetTop + ImageRef.current.offsetHeight - 20
-    ) {
-      // style the hole navbar
-      navRef.current.classList.remove("bg-transparentblack")
-      navRef.current.classList.remove("py-2")
-      navRef.current.classList.add("bg-gray-900")
-    } else {
-      navRef.current.classList.remove("bg-gray-900")
-      navRef.current.classList.add("bg-transparentblack")
-      navRef.current.classList.add("py-2")
-    }
-  }
+
   const onClickConnect = () => {
     connectRef.current.classList.toggle("hidden")
   }
@@ -45,7 +31,7 @@ function WelcomeScreen() {
   }
 
   return (
-    <div className="flex flex-col select-none w-screen h-full bg-[#fffaf9] overflow-hidden box-border">
+    <div className="flex flex-col select-none w-screen h-full bg-white overflow-hidden box-border">
       <Navbar navRef={navRef} onPressConnect={onClickConnect} />
       {/* modal container */}
       <div
@@ -105,85 +91,55 @@ function WelcomeScreen() {
         </div>
       </div>
 
-      <div className="relative w-screne max-h-screen box-border  ">
+      <div className="relative w-screen max-h-screen box-border  ">
         <img
           alt="header shirt"
           src="/images/home.jpg"
           className="max-h-screen  brightness-50  w-screen"
           ref={ImageRef}
         />
-        <div className=" flex flex-col items-center flex-wrap absolute left-1/2 -translate-x-1/2 top-20   h-fit w-fit">
+        <div className=" flex flex-col items-center flex-wrap absolute left-1/4  top-20   h-fit w-fit">
           {/* title */}
-          <p className="select-none self-start md:mb-4  font-title  text-pink-500  md:text-8xl">
+          <p className="select-none self-start md:mb-4    text-rose-500  md:text-6xl">
             Personalisez votre style
           </p>
           <div className=" flex items-center   ">
-            <p className="text-white select-none font-title  md:text-6xl md:max-w-2xl">
+            <p className="text-white select-none   md:text-4xl md:max-w-2xl">
               Une solution simple pour créer et vendre des produits engageants
             </p>
           </div>
+          <button className=" items-center flex md:bottom-36 right-20 hover:px-5 hover:border-none md:py-2 md:text-2xl mt-4  border-b  hover:bg-tranparentWhite text-white  transition-all duration-700 hover:rounded-full">
+            Commancer le design
+            <AiOutlineArrowRight className="ml-1 translate-y-1" />
+          </button>
         </div>
-        <button className="absolute md:bottom-36 right-20 md:px-5 md:py-2 md:text-3xl mt-4 rounded-lg bg-white hover:bg-pink-600 text-pink-600 hover:text-white transition-all duration-700 hover:rounded-full">
-          Commancer le design
-        </button>
-      </div>
-
-      <div className="w-full relative  lg:max-h-64">
-        <p className="absolute left-1/2 font-body top-7 text-center md:text-5xl text-rose-500 -translate-x-1/2">
-          Avec shirty créer , trouvez , vendez et acheter
-        </p>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-          <path
-            fill="#FFE4E6"
-            fillOpacity="1"
-            d="M0,32L60,64C120,96,240,160,360,170.7C480,181,600,139,720,122.7C840,107,960,117,1080,128C1200,139,1320,149,1380,154.7L1440,160L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"
-          ></path>
-        </svg>
       </div>
 
       {/* vidéo descriptive */}
-      <div className="mx-auto  flex items-center flex-col md:justify-evenly md:flex-row flex-wrap md:p-8 md:mb-10  w-screen relative ">
-        {/* <div className="absolute left-4 bottom-1 inline-flex items-center">
-          <div className="h-5 w-5 lg:w-16 lg:h-16 opacity-60  bg-pink-400 mx-1"></div>
-          <div className="h-5 w-5 lg:w-16 lg:h-16 opacity-60 rounded-full bg-purple-400 mx-1"></div>
-          <div className="h-5 w-5 lg:w-16 lg:h-16 opacity-60 rounded-full bg-yellow-400 mx-1"></div>
-        </div>  */}
-        <div className="flex flex-col items-center md:py-6  bg-white   border-2 border-dashed  border-red-400  rounded-2xl ">
-          <p className="md:text-5xl font-body text-red-300 md:mb-14">
+      <div className="mx-auto  flex items-center flex-col md:justify-evenly md:flex-row flex-wrap  md:mb-10  w-screen relative ">
+        <div className="flex flex-col items-center max-w-2xl md:py-6   ">
+          <p className="md:text-4xl  text-gray-700 md:mb-4">
             C'est ici que tous commance...
           </p>
           <img
             src="/images/siseaux.png"
             alt="siseaux"
-            className="md:max-w-xs"
+            className="md:max-h-32"
           />
-          <p className="text-gray-500  rounded-full text-center md:p-2 font-semibold md:text-2xl select-none md:max-w-3xl ">
+          <p className="text-gray-400  rounded-full text-center md:p-2  md:text-xl select-none md:max-w-3xl ">
             Découvrez comment vous pouvez créer et vendre vos produits en
             quelque minutes avec une courte vidéo déscriptive .
           </p>
         </div>
 
-        <div className="flex items-center flex-col  px-6 py-3">
+        <div className="flex items-center flex-col  md:w-124  py-3">
           <video src="/video/Shivers.mp4" autoPlay controls muted />
         </div>
       </div>
 
       {/* section pour découvir  */}
-      <div className="bg-white shadow-xl shadow-purple-100 select-none  md:py-24 flex flex-col md:flex-row items-center justify-evenly   md:w-full my-8  h-fit relative">
-        {/* svg */}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1440 320"
-          className="absolute top-0 w-full "
-        >
-          <path
-            fill="#9333EA"
-            fillOpacity=".08"
-            d="M0,256L6.7,240C13.3,224,27,192,40,186.7C53.3,181,67,203,80,208C93.3,213,107,203,120,197.3C133.3,192,147,192,160,165.3C173.3,139,187,85,200,69.3C213.3,53,227,75,240,96C253.3,117,267,139,280,154.7C293.3,171,307,181,320,181.3C333.3,181,347,171,360,181.3C373.3,192,387,224,400,240C413.3,256,427,256,440,250.7C453.3,245,467,235,480,197.3C493.3,160,507,96,520,106.7C533.3,117,547,203,560,218.7C573.3,235,587,181,600,154.7C613.3,128,627,128,640,138.7C653.3,149,667,171,680,165.3C693.3,160,707,128,720,96C733.3,64,747,32,760,48C773.3,64,787,128,800,133.3C813.3,139,827,85,840,64C853.3,43,867,53,880,90.7C893.3,128,907,192,920,218.7C933.3,245,947,235,960,218.7C973.3,203,987,181,1000,181.3C1013.3,181,1027,203,1040,202.7C1053.3,203,1067,181,1080,160C1093.3,139,1107,117,1120,117.3C1133.3,117,1147,139,1160,128C1173.3,117,1187,75,1200,96C1213.3,117,1227,203,1240,245.3C1253.3,288,1267,288,1280,256C1293.3,224,1307,160,1320,117.3C1333.3,75,1347,53,1360,53.3C1373.3,53,1387,75,1400,112C1413.3,149,1427,203,1433,229.3L1440,256L1440,0L1433.3,0C1426.7,0,1413,0,1400,0C1386.7,0,1373,0,1360,0C1346.7,0,1333,0,1320,0C1306.7,0,1293,0,1280,0C1266.7,0,1253,0,1240,0C1226.7,0,1213,0,1200,0C1186.7,0,1173,0,1160,0C1146.7,0,1133,0,1120,0C1106.7,0,1093,0,1080,0C1066.7,0,1053,0,1040,0C1026.7,0,1013,0,1000,0C986.7,0,973,0,960,0C946.7,0,933,0,920,0C906.7,0,893,0,880,0C866.7,0,853,0,840,0C826.7,0,813,0,800,0C786.7,0,773,0,760,0C746.7,0,733,0,720,0C706.7,0,693,0,680,0C666.7,0,653,0,640,0C626.7,0,613,0,600,0C586.7,0,573,0,560,0C546.7,0,533,0,520,0C506.7,0,493,0,480,0C466.7,0,453,0,440,0C426.7,0,413,0,400,0C386.7,0,373,0,360,0C346.7,0,333,0,320,0C306.7,0,293,0,280,0C266.7,0,253,0,240,0C226.7,0,213,0,200,0C186.7,0,173,0,160,0C146.7,0,133,0,120,0C106.7,0,93,0,80,0C66.7,0,53,0,40,0C26.7,0,13,0,7,0L0,0Z"
-          ></path>
-        </svg>
-
-        <div className="flex flex-wrap items-center justify-evenly md:w-1/2 bg-white">
+      <div className=" md:mx-auto  md:py-10 flex flex-col md:flex-row items-center justify-evenly   md:w-11/12 my-5  h-fit relative">
+        <div className="flex flex-wrap items-center justify-evenly md:w-1/2 ">
           <img
             src="/images/gold.jpg"
             alt="shirt"
@@ -206,55 +162,60 @@ function WelcomeScreen() {
           />
         </div>
 
-        <div className="flex flex-col items-center bg-purple-100 md:p-5 shadow-lg rounded-3xl border">
-          <p className="md:text-5xl font-semibold text-purple-600 md:mb-4">
+        <div className="flex flex-col items-center md:p-5 ">
+          <p className="md:text-3xl font-semibold text-gray-700 md:mb-2">
             Tous ce dont vous avez révez de porter
           </p>
-          <p className="md:text-2xl bg-white shadow-xl rounded-lg py-2 px-2  text-gray-700 md:my-3 md:max-w-2xl md:text-center">
+          <p className="md:text-2xl     text-gray-400 md:my-1 md:max-w-2xl md:text-center">
             Venez découvrir des produits exclusifs , pour tous les gouts et les
             couleurs ! découvrez aussi la nouvelle collection "mouha rass tota"
           </p>
-          <button className="bg-purple-400 md:mb-3 z-40 text-white px-6 py-2 hover:bg-purple-600 rounded-full">
+          <button className="bg-rose-500 md:my-3 z-40 text-white px-4 py-1 hover:bg-rose-600 rounded-full">
             Découvrir
           </button>
         </div>
       </div>
       {/* lancez vos oeuvres */}
-      <div className="md:py-1 flex flex-col md:flex-row items-center justify-evenly flex-wrap w-full my-8 h-fit ">
-        <div className="flex flex-col items-center bg-rose-100 rounded-xl shadow-xl md:p-5">
-          <p className="md:text-5xl font-semibold text-red-400 md:mb-4">
+      <div className="md:py-1 flex flex-col md:flex-row items-center justify-evenly flex-wrap w-full my-5 h-fit ">
+        <div className="flex flex-col items-center  md:p-5">
+          <p className="md:text-3xl font-semibold text-gray-700 md:mb-4">
             On mise tous sur le désign
           </p>
-          <p className="md:text-2xl md:text-center md:py-2 shadow-xl  text-gray-700 bg-white rounded-xl md:my-3 md:max-w-4xl">
+          <p className="md:text-2xl md:text-center text-gray-400 md:max-w-4xl">
             Que vous soyez un designer professionelle , un débutant ou que vous
             voulez juste faire plaisir à un proche , nous vous proposons une
             large sélection de produits que vous pouvez modifier à vos goûts et
             envie.
           </p>
-          <button className="md:mt-12 bg-rose-300 text-white px-6 py-2 hover:bg-rose-500 rounded-full">
+          <button className="md:mt-4 bg-rose-500 text-white px-6 py-2 hover:bg-rose-600 rounded-full">
             Lancez vos oeuvres
           </button>
         </div>
 
-        <img src="/images/workHard.jpg" alt="shirt no:2" />
+        <img
+          src="/images/workHard.jpg"
+          alt="shirt no:2"
+          className="md:max-h-80"
+        />
       </div>
 
       {/* section produits à la une */}
-      <div className="mx-auto w-full bg-orange-100 flex flex-col items-center">
-        <p className="md:text-5xl md:mt-1 text-rose-500 font-body">
-          Produits à la une 🌟
+      <div className="mx-auto w-full  flex flex-col items-center">
+        <p className="md:text-3xl  md:my-1 text-rose-500 ">
+          Produits à la une :
         </p>
-        <div className="flex w-full flex-wrap ">
-          <div className="bg-white p-5 text-center self-start md:ml-4 md:mt-10 rounded-2xl shadow-xl">
-            <p className="text-gray-700 md:max-w-md md:text-4xl font-title">
+        <HorizontalScroll />
+        <div className="flex w-full flex-wrap bg-gray-600 ">
+          <div className=" p-2 text-center self-start md:ml-4">
+            <p className="text-white md:max-w-md md:text-lg  ">
               Vous trouverez içi les produits les plus visités et les mieux
               notées par les utilisateurs , pourquoi ne pas essayer d'apporter
               votre touche personnelle et nous montrer de quoi vous êtes capable
               ?
             </p>
           </div>
-          <div className="bg-white p-5 text-center self-start md:ml-4 md:mt-10 rounded-2xl shadow-xl">
-            <p className="text-gray-700 md:max-w-md md:text-4xl font-title">
+          <div className=" p-2 text-center self-start md:ml-4">
+            <p className="text-white md:max-w-md md:text-lg  ">
               Vous trouverez içi les produits les plus visités et les mieux
               notées par les utilisateurs , pourquoi ne pas essayer d'apporter
               votre touche personnelle et nous montrer de quoi vous êtes capable
@@ -262,11 +223,9 @@ function WelcomeScreen() {
             </p>
           </div>
         </div>
-
-        <HorizontalScroll />
       </div>
       {/* section designer en vedette */}
-      <p className="text-3xl text-gray-700 text-center md:mt-5">
+      <p className="text-3xl text-gray-700 text-center font-semibold md:mt-5">
         Désigners en vedette{" "}
       </p>
       <div className="flex items-center flex-wrap justify-evenly">
@@ -279,8 +238,8 @@ function WelcomeScreen() {
       <div className="flex flex-col items-center md:my-4">
         <p className="text-center text-gray-700 md:text-2xl">FAQ</p>
         <div
-          onClick={()=>showSubFaq(faq1)}
-          className="relative md:px-2 md:py-1 text-center bg-white border rounded-md cursor-help md:max-w-sm"
+          onClick={() => showSubFaq(faq1)}
+          className="relative md:px-2 md:py-1 text-center bg-gray-300 border rounded-md cursor-pointer md:max-w-sm"
         >
           <p>Est-ce que mouha a une grosse bite ?</p>
           {/* response */}
@@ -288,7 +247,8 @@ function WelcomeScreen() {
             ref={faq1}
             className=" text-center bg-white  cursor-default hidden md:max-w-sm"
           >
-            Non, il a avouer qu'il n'a pas de bite bien grosse , juste un 8 centimétres 🥴 
+            Non, il a avouer qu'il n'a pas de bite bien grosse , juste un 8
+            centimétres 🥴
           </div>
         </div>
       </div>
