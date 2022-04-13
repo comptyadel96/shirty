@@ -26,9 +26,9 @@ function Faq() {
           showSubFaq(faq1)
           setFaq1Clicked(!faq1Clicked)
         }}
-        className="relative md:px-2 md:py-1 text-center md:my-1    bg-gray-300 border rounded-full cursor-pointer md:max-w-sm"
+        className="relative md:px-2 md:py-1 text-center md:my-1    bg-white shadow-md border-2 rounded-full cursor-pointer md:max-w-sm"
       >
-        <p className="flex items-center">
+        <p className="flex items-center text-gray-700">
           Est-ce que mouha a une grosse bite ?{" "}
           {!faq1Clicked ? (
             <AiOutlineArrowDown className="ml-1" />
@@ -53,9 +53,9 @@ function Faq() {
           showSubFaq(faq2)
           setFaq2Clicked(!faq2Clicked)
         }}
-        className="relative md:px-2 md:py-1 text-center md:my-1    bg-gray-300 border rounded-full cursor-pointer md:max-w-sm"
+        className="relative md:px-2 md:py-1 text-center md:my-1    bg-white shadow-md border-2 rounded-full cursor-pointer md:max-w-sm"
       >
-        <p className="flex items-center">
+        <p className="flex items-center text-gray-700">
           shirty pourra vous voler votre argent ?{" "}
           {!faq2Clicked ? (
             <AiOutlineArrowDown className="ml-1" />
@@ -80,9 +80,9 @@ function Faq() {
           showSubFaq(faq3)
           setFaq3Clicked(!faq3Clicked)
         }}
-        className="relative md:px-2 md:py-1 text-center md:mb-28 mt-1   bg-gray-300 border rounded-full cursor-pointer md:max-w-sm"
+        className="relative md:px-2 md:py-1 text-center md:mb-28 mt-1   bg-white shadow-md border-2 rounded-full cursor-pointer md:max-w-sm"
       >
-        <p className="flex items-center">
+        <p className="flex items-center text-gray-700">
           shirty pourra vous voler votre argent ?{" "}
           {!faq3Clicked ? (
             <AiOutlineArrowDown className="ml-1" />

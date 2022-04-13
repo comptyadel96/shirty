@@ -105,9 +105,9 @@ function WelcomeScreen() {
           </div>
         </div>
         <button className=" items-center flex absolute bottom-20 right-12  hover:px-5  md:py-2 md:text-xl mt-4    hover:bg-tranparentWhite text-white  transition-all duration-700 hover:rounded-full">
-            Commancer le design
-            {/* <AiOutlineArrowRight className="ml-1 translate-y-1" /> */}
-          </button>
+          Commancer le design
+          {/* <AiOutlineArrowRight className="ml-1 translate-y-1" /> */}
+        </button>
       </div>
 
       {/* vidéo descriptive */}
@@ -142,16 +142,11 @@ function WelcomeScreen() {
             Venez découvrir des produits exclusifs , pour tous les gouts et les
             couleurs ! découvrez aussi la nouvelle collection "mouha rass tota"
           </p>
-          <button className="bg-rose-500 md:my-3 z-40 text-white px-6 py-2  hover:bg-rose-600 rounded-full">
+          <button className="bg-rose-500 md:my-3 text-xl z-40 text-white px-6 py-1  hover:bg-rose-600 rounded-full">
             Découvrir
           </button>
         </div>
         <div className="flex flex-wrap items-center justify-evenly md:w-1/2 ">
-          <img
-            src="/images/gold.jpg"
-            alt="shirt"
-            className="md:max-h-52 mx-2"
-          />
           <img
             src="/images/shirt1.jpg"
             alt="shirt"
@@ -181,7 +176,7 @@ function WelcomeScreen() {
             large sélection de produits que vous pouvez modifier à vos goûts et
             envie.
           </p>
-          <button className="md:mt-4 bg-rose-500 text-white px-6 py-2 hover:bg-rose-600 rounded-full">
+          <button className="md:mt-4 bg-rose-500 text-white text-xl px-6 py-2 hover:bg-rose-600 rounded-full">
             Lancez vos oeuvres
           </button>
         </div>
