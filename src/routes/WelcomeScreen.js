@@ -142,7 +142,7 @@ function WelcomeScreen() {
             Venez découvrir des produits exclusifs , pour tous les gouts et les
             couleurs ! découvrez aussi la nouvelle collection "mouha rass tota"
           </p>
-          <button className="bg-rose-500 md:my-3 text-xl z-40 text-white px-6 py-1  hover:bg-rose-600 rounded-full">
+          <button className="bg-rose-500 md:my-3 text-xl z-40 text-white px-4 py-1  hover:bg-rose-600 rounded-full">
             Découvrir
           </button>
         </div>
@@ -170,13 +170,13 @@ function WelcomeScreen() {
           <p className="md:text-3xl font-semibold text-gray-700 md:mb-4">
             On mise tous sur le désign
           </p>
-          <p className="md:text-2xl md:text-center text-gray-400 md:max-w-4xl">
+          <p className="md:text-2xl md:text-center text-gray-400 md:max-w-2xl">
             Que vous soyez un designer professionelle , un débutant ou que vous
             voulez juste faire plaisir à un proche , nous vous proposons une
             large sélection de produits que vous pouvez modifier à vos goûts et
             envie.
           </p>
-          <button className="md:mt-4 bg-rose-500 text-white text-xl px-6 py-2 hover:bg-rose-600 rounded-full">
+          <button className="md:mt-4 bg-rose-500 text-white text-xl px-4 py-2 hover:bg-rose-600 rounded-full">
             Lancez vos oeuvres
           </button>
         </div>
