@@ -34,20 +34,20 @@ function Navbar({ navRef, onPressConnect }) {
       {/* nav elements */}
       <ul className="flex items-center justify-evenly  mr-8 relative">
         <li
-          className="mx-5 cursor-pointer text-xl text-gray-700 hover:bg-gray-200 hover:rounded-full px-1 "
+          className="mx-5 cursor-pointer text-xl text-gray-700 hover:bg-gray-200 hover:rounded-full px-2 py-1"
           data-color="hover:text-yellow-500"
         >
           Découvrez nos produits
         </li>
         <li
-          className="mx-5 cursor-pointer text-xl text-gray-700 hover:bg-gray-200 hover:rounded-full px-1 "
+          className="mx-5 cursor-pointer text-xl text-gray-700 hover:bg-gray-200 hover:rounded-full px-2 py-1"
           data-color="hover:text-yellow-500"
         >
           Commancez le design
         </li>
         {!user.currUser ? (
           <li
-            className="mx-5 cursor-pointer text-xl text-gray-700 hover:bg-gray-200 hover:rounded-full px-1 "
+            className="mx-5 cursor-pointer text-xl text-gray-700 hover:bg-gray-200 hover:rounded-full px-2 py-1 "
             data-color="hover:text-yellow-500"
             onClick={onPressConnect}
           >

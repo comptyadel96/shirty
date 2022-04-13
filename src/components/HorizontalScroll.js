@@ -1,6 +1,7 @@
 import React from "react"
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu"
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
+// import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
+import { IoIosArrowDropright, IoIosArrowDropleft } from "react-icons/io"
 const getItems = () =>
   Array(15)
     .fill(0)
@@ -32,10 +33,10 @@ function LeftArrow() {
   const { isFirstItemVisible, scrollPrev } = React.useContext(VisibilityContext)
 
   return (
-    <AiOutlineArrowLeft
+    <IoIosArrowDropleft
       className={
         !isFirstItemVisible
-          ? "cursor-pointer bg-gray-700 text-white absolute top-1/2 z-50  md:text-4xl rounded-full hover:scale-110 hover:-translate-x-3 transition-all duration-500"
+          ? "cursor-pointer bg-white text-gray-800 absolute top-1/2 z-50  md:text-4xl rounded-full hover:scale-110 hover:-translate-x-3 transition-all duration-500"
           : "opacity-0 cursor-default -z-10 "
       }
       onClick={() => scrollPrev()}
@@ -47,11 +48,11 @@ function RightArrow() {
   const { isLastItemVisible, scrollNext } = React.useContext(VisibilityContext)
 
   return (
-    <AiOutlineArrowRight
+    <IoIosArrowDropright
       onClick={() => scrollNext()}
       className={
         !isLastItemVisible
-          ? "cursor-pointer bg-gray-700 text-white absolute  top-1/2 -right-0 z-50 md:text-4xl rounded-full hover:scale-110 hover:translate-x-3 transition-all duration-500 "
+          ? "cursor-pointer bg-white text-gray-800 absolute  top-1/2 -right-0 z-50 md:text-4xl rounded-full hover:scale-110 hover:translate-x-3 transition-all duration-500 "
           : "opacity-0 cursor-default -z-10"
       }
     />

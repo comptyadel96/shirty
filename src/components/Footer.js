@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa"
 function Footer() {
   return (
-    <div className="flex flex-col   items-center flex-wrap bg-gray-900 max-w-full mt-auto md:p-4">
+    <div className="flex flex-col select-none   items-center flex-wrap bg-gray-900 max-w-full mt-auto md:p-4">
       <div className="flex flex-row w-full flex-wrap justify-evenly">
         <div className="flex flex-col mx-3 ">
           <p className="text-pink-800 md:text-xl">Shirty</p>
@@ -59,7 +59,7 @@ function Footer() {
         {/* 3 */}
         <div className="flex flex-col items-center">
           <p className="text-pink-700 md:text-xl">Réseaux sociaux</p>
-          <div className="flex items-center mt-2 flex-col">
+          <div className="flex items-start mt-2 flex-col">
             <p className="text-white flex my-1 cursor-pointer hover:text-blue-400">
               <FaFacebook className=" mx-1  text-2xl " /> facebook
             </p>

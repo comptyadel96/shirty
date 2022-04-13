@@ -2,7 +2,7 @@ import React, { useRef, useContext } from "react"
 import {
   AiFillFacebook,
   AiFillGoogleCircle,
-  AiOutlineArrowRight,
+  // AiOutlineArrowRight,
   AiFillCloseCircle,
   AiFillTwitterCircle,
 } from "react-icons/ai"
@@ -103,11 +103,11 @@ function WelcomeScreen() {
               Une solution simple pour créer et vendre des produits engageants
             </p>
           </div>
-          <button className=" items-center flex md:bottom-36 right-20 hover:px-5 hover:border-none md:py-2 md:text-2xl mt-4  border-b  hover:bg-tranparentWhite text-white  transition-all duration-700 hover:rounded-full">
-            Commancer le design
-            <AiOutlineArrowRight className="ml-1 translate-y-1" />
-          </button>
         </div>
+        <button className=" items-center flex absolute bottom-20 right-12  hover:px-5  md:py-2 md:text-xl mt-4    hover:bg-tranparentWhite text-white  transition-all duration-700 hover:rounded-full">
+            Commancer le design
+            {/* <AiOutlineArrowRight className="ml-1 translate-y-1" /> */}
+          </button>
       </div>
 
       {/* vidéo descriptive */}
@@ -195,7 +195,7 @@ function WelcomeScreen() {
 
       {/* section produits à la une */}
       <div className="mx-auto w-full  flex flex-col items-center">
-        <p className="md:text-3xl self-start md:ml-3  md:my-1 text-rose-500 ">
+        <p className="md:text-3xl self-start md:ml-3  md:my-1 text-gray-700 font-semibold ">
           Produits à la une :
         </p>
         <HorizontalScroll />
@@ -227,9 +227,8 @@ function WelcomeScreen() {
         <ScrollDesigners />
       </div>
       {/* section de FAQ */}
-      <div className="self-start md:ml-5">
-        <Faq />
-      </div>
+
+      <Faq />
 
       {currUser.currUser && (
         <p className="text-gray-900 text-4xl"> {currUser.currUser.name} </p>
