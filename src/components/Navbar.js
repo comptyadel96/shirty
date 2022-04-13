@@ -20,7 +20,7 @@ function Navbar({ navRef, onPressConnect }) {
   const navigate = useNavigate()
   return (
     <div
-      className=" md:flex md:items-center md:justify-between md:flex-wrap bg-white  shadow-lg p-0   w-screen hidden z-50 transition-all duration-700"
+      className=" md:flex md:items-center md:justify-between md:flex-wrap bg-white  shadow-lg p-1 absolute top-0   w-screen hidden z-50 transition-all duration-700"
       ref={navRef}
     >
       {/* brand */}

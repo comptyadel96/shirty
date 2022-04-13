@@ -6,6 +6,7 @@ import {
   AiFillCloseCircle,
   AiFillTwitterCircle,
 } from "react-icons/ai"
+import Faq from "../components/Faq"
 import HorizontalScroll from "../components/HorizontalScroll"
 import Navbar from "../components/Navbar"
 import ScrollDesigners from "../components/ScrollDesigners"
@@ -16,18 +17,12 @@ function WelcomeScreen() {
   const navRef = useRef(null)
   const connectRef = useRef(null)
   const ImageRef = useRef(null)
-  const faq1 = useRef(null)
-  // const faq2 = useRef(null)
-  // const faq3 = useRef(null)
 
   const onClickConnect = () => {
     connectRef.current.classList.toggle("hidden")
   }
   const socialAuth = async (url) => {
     window.open(url, "_self")
-  }
-  const showSubFaq = (ref) => {
-    ref.current.classList.toggle("hidden")
   }
 
   return (
@@ -39,7 +34,7 @@ function WelcomeScreen() {
         ref={connectRef}
       >
         {/* modal contents */}
-        <div className="flex flex-col  z-50  items-center md:w-1/2 mx-auto md:mt-32 md:py-3 border-double border-8 border-gray-800 bg-yellow-200 relative ">
+        <div className="flex flex-col   z-50  items-center md:w-1/2 mx-auto md:mt-32 md:py-3 border-double border-8 border-gray-800 bg-yellow-200 relative ">
           <div
             className="absolute top-6 right-6 cursor-pointer z-50"
             onClick={onClickConnect}
@@ -139,6 +134,18 @@ function WelcomeScreen() {
 
       {/* section pour découvir  */}
       <div className=" md:mx-auto  md:py-10 flex flex-col md:flex-row items-center justify-evenly   md:w-11/12 my-5  h-fit relative">
+        <div className="flex flex-col items-center md:p-5 ">
+          <p className="md:text-3xl font-semibold text-gray-700 md:mb-2">
+            Tous ce dont vous avez révez de porter
+          </p>
+          <p className="md:text-2xl     text-gray-400 md:my-1 md:max-w-2xl md:text-center">
+            Venez découvrir des produits exclusifs , pour tous les gouts et les
+            couleurs ! découvrez aussi la nouvelle collection "mouha rass tota"
+          </p>
+          <button className="bg-rose-500 md:my-3 z-40 text-white px-6 py-2  hover:bg-rose-600 rounded-full">
+            Découvrir
+          </button>
+        </div>
         <div className="flex flex-wrap items-center justify-evenly md:w-1/2 ">
           <img
             src="/images/gold.jpg"
@@ -160,19 +167,6 @@ function WelcomeScreen() {
             alt="shirt"
             className="md:max-h-52 mx-2"
           />
-        </div>
-
-        <div className="flex flex-col items-center md:p-5 ">
-          <p className="md:text-3xl font-semibold text-gray-700 md:mb-2">
-            Tous ce dont vous avez révez de porter
-          </p>
-          <p className="md:text-2xl     text-gray-400 md:my-1 md:max-w-2xl md:text-center">
-            Venez découvrir des produits exclusifs , pour tous les gouts et les
-            couleurs ! découvrez aussi la nouvelle collection "mouha rass tota"
-          </p>
-          <button className="bg-rose-500 md:my-3 z-40 text-white px-4 py-1 hover:bg-rose-600 rounded-full">
-            Découvrir
-          </button>
         </div>
       </div>
       {/* lancez vos oeuvres */}
@@ -201,11 +195,11 @@ function WelcomeScreen() {
 
       {/* section produits à la une */}
       <div className="mx-auto w-full  flex flex-col items-center">
-        <p className="md:text-3xl  md:my-1 text-rose-500 ">
+        <p className="md:text-3xl self-start md:ml-3  md:my-1 text-rose-500 ">
           Produits à la une :
         </p>
         <HorizontalScroll />
-        <div className="flex w-full flex-wrap justify-evenly bg-gray-600 ">
+        <div className="flex w-full flex-wrap justify-evenly bg-gray-800 ">
           <div className=" p-2 text-center self-start md:ml-4">
             <p className="text-white md:max-w-md md:text-lg  ">
               Vous trouverez içi les produits les plus visités et les mieux
@@ -225,7 +219,7 @@ function WelcomeScreen() {
         </div>
       </div>
       {/* section designer en vedette */}
-      <p className="text-3xl text-gray-700 text-center font-semibold md:mt-5">
+      <p className="text-3xl text-gray-700 self-start md:ml-3 font-semibold md:mt-5">
         Désigners en vedette
       </p>
       {/* designers en vedette  */}
@@ -233,23 +227,10 @@ function WelcomeScreen() {
         <ScrollDesigners />
       </div>
       {/* section de FAQ */}
-      <div className="flex flex-col items-center md:my-4">
-        <p className="text-center text-gray-700 md:text-2xl">FAQ</p>
-        <div
-          onClick={() => showSubFaq(faq1)}
-          className="relative md:px-2 md:py-1 text-center bg-gray-300 border rounded-md cursor-pointer md:max-w-sm"
-        >
-          <p>Est-ce que mouha a une grosse bite ?</p>
-          {/* response */}
-          <div
-            ref={faq1}
-            className=" text-center bg-white  cursor-default hidden md:max-w-sm"
-          >
-            Non, il a avouer qu'il n'a pas de bite bien grosse , juste un 8
-            centimétres 🥴
-          </div>
-        </div>
+      <div className="self-start md:ml-5">
+        <Faq />
       </div>
+
       {currUser.currUser && (
         <p className="text-gray-900 text-4xl"> {currUser.currUser.name} </p>
       )}
