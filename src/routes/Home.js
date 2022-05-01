@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Profile from "./Profile"
 import Footer from "../components/Footer"
 import WelcomeScreen from "./WelcomeScreen"
+import AdminDashboard from "./AdminDashboard"
 
 function Home() {
   const [currUser, setCurrUser] = useState(null)
@@ -43,6 +44,7 @@ function Home() {
         <Routes>
           <Route path="/" element={<WelcomeScreen />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/adminDashboard" element={<AdminDashboard/>} />
         </Routes>
         <Footer />
       </BrowserRouter>

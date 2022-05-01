@@ -1,18 +1,17 @@
-import React, { useRef, useState} from "react"
+import React, { useRef, useState } from "react"
 import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai"
 function Faq() {
   const [faq1Clicked, setFaq1Clicked] = useState(false)
   const [faq2Clicked, setFaq2Clicked] = useState(false)
-  const [faq3Clicked, setFaq3Clicked] = useState(false)
   const faq1 = useRef(null)
   const faq2 = useRef(null)
-  const faq3 = useRef(null)
+
   const showSubFaq = (ref) => {
     if (ref.current.classList.contains("max-h-0")) {
       ref.current.classList.remove("max-h-0")
-      ref.current.classList.add("h-auto")
+      ref.current.classList.add("max-h-96")
     } else {
-      ref.current.classList.remove("h-auto")
+      ref.current.classList.remove("max-h-96")
       ref.current.classList.add("max-h-0")
     }
   }
@@ -26,9 +25,9 @@ function Faq() {
           showSubFaq(faq1)
           setFaq1Clicked(!faq1Clicked)
         }}
-        className="relative md:px-2 md:py-1 text-center md:my-1    bg-white shadow-md border-2 rounded-full cursor-pointer md:max-w-sm"
+        className="md:px-3 md:py-1 text-center md:my-1  bg-white border-2 cursor-pointer rounded-2xl md:max-w-xs"
       >
-        <p className="flex items-center text-gray-700">
+        <p className="flex items-center text-gray-700 font-semibold">
           Est-ce que mouha a une grosse bite ?{" "}
           {!faq1Clicked ? (
             <AiOutlineArrowDown className="ml-1" />
@@ -39,65 +38,40 @@ function Faq() {
         {/* response */}
         <div
           ref={faq1}
-          className=" absolute top-9 left-0 z-50  bg-gray-800  cursor-default overflow-hidden max-h-0  "
+          className="max-h-0 overflow-hidden transition-all duration-700 text-center"
         >
-          <p className="text-white md:p-1 ">
+          <p className="text-gray-600  md:py-1">
             Non, il a avouer qu'il n'a pas de bite bien grosse , juste un 8
             centimétres 🥴
           </p>
         </div>
       </div>
+
       {/* question 2 */}
-      <div
-        onClick={() => {
-          showSubFaq(faq2)
-          setFaq2Clicked(!faq2Clicked)
-        }}
-        className="relative md:px-2 md:py-1 text-center md:my-1    bg-white shadow-md border-2 rounded-full cursor-pointer md:max-w-sm"
-      >
-        <p className="flex items-center text-gray-700">
-          shirty pourra vous voler votre argent ?{" "}
+      <div className=" flex flex-col  items-center md:px-3 md:py-1 md:my-1  bg-white border-2 cursor-pointer rounded-2xl md:max-w-sm">
+        <p
+          onClick={() => {
+            showSubFaq(faq2)
+            setFaq2Clicked(!faq2Clicked)
+          }}
+          className="flex items-center  text-gray-700 font-semibold"
+        >
+          Shirty pourra  voler votre argent ?
           {!faq2Clicked ? (
             <AiOutlineArrowDown className="ml-1" />
           ) : (
             <AiOutlineArrowUp className="ml-1" />
           )}
         </p>
-        {/* response */}
         <div
+          className="max-h-0 overflow-hidden transition-all duration-700 text-center md:max-w-sm"
           ref={faq2}
-          className=" absolute top-9 left-0 z-50  bg-gray-800  cursor-default overflow-hidden max-h-0   "
         >
-          <p className="text-white md:p-1 ">
-            oui , si notre buisness ne marchera pas comme prévu , le développeur
-            pourra detourner les fonds afin de s'acheter chemma
-          </p>
-        </div>
-      </div>
-      {/* question 3 */}
-      <div
-        onClick={() => {
-          showSubFaq(faq3)
-          setFaq3Clicked(!faq3Clicked)
-        }}
-        className="relative md:px-2 md:py-1 text-center md:mb-28 mt-1   bg-white shadow-md border-2 rounded-full cursor-pointer md:max-w-sm"
-      >
-        <p className="flex items-center text-gray-700">
-          shirty pourra vous voler votre argent ?{" "}
-          {!faq3Clicked ? (
-            <AiOutlineArrowDown className="ml-1" />
-          ) : (
-            <AiOutlineArrowUp className="ml-1" />
-          )}
-        </p>
-        {/* response */}
-        <div
-          ref={faq3}
-          className=" absolute top-9 left-0 z-50  bg-gray-800  cursor-default overflow-hidden max-h-0   "
-        >
-          <p className="text-white md:p-1 ">
-            oui , si notre buisness ne marchera pas comme prévu , le développeur
-            pourra detourner les fonds afin de s'acheter chemma
+          <p className="text-gray-600  md:py-1">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+            Repudiandae ea ratione unde minus ipsa aliquid asperiores eaque
+            magni. Eum atque necessitatibus officiis nam, at provident facilis
+            doloremque quo fuga fugit!
           </p>
         </div>
       </div>

@@ -26,7 +26,7 @@ function WelcomeScreen() {
   }
 
   return (
-    <div className="flex flex-col select-none w-screen h-full bg-white overflow-hidden box-border">
+    <div className="flex flex-col select-none  h-full bg-white overflow-hidden box-border">
       <Navbar navRef={navRef} onPressConnect={onClickConnect} />
       {/* modal container */}
       <div
@@ -79,10 +79,6 @@ function WelcomeScreen() {
               <AiFillTwitterCircle className="mr-2" size={24} /> Twitter
             </button>
           </div>
-
-          {/* <button className="inline-flex md:w-44 items-center rounded-sm text-white font-semibold mb-2 cursor-pointer hover:bg-gray-800 bg-gray-400 md:px-6 md:py-1">
-            <AiFillMail className="mr-2" size={24} /> Email and password
-          </button> */}
         </div>
       </div>
 
@@ -112,14 +108,14 @@ function WelcomeScreen() {
 
       {/* vidéo descriptive */}
       <div className="mx-auto  flex items-center flex-col md:justify-evenly md:flex-row flex-wrap  md:mb-10  w-screen relative ">
-        <div className="flex flex-col items-center max-w-2xl md:py-6   ">
+        <div className="flex flex-col items-center max-w-2xl md:py-6  ">
           <p className="md:text-4xl  text-gray-700 md:mb-4">
             C'est ici que tous commance...
           </p>
           <img
-            src="/images/siseaux.png"
+            src="/images/shirty-logo.png"
             alt="siseaux"
-            className="md:max-h-32"
+            className="max-h-72"
           />
           <p className="text-gray-400  rounded-full text-center md:p-2  md:text-xl select-none md:max-w-3xl ">
             Découvrez comment vous pouvez créer et vendre vos produits en
@@ -194,24 +190,7 @@ function WelcomeScreen() {
           Produits à la une :
         </p>
         <HorizontalScroll />
-        <div className="flex w-full flex-wrap justify-evenly bg-gray-800 ">
-          <div className=" p-2 text-center self-start md:ml-4">
-            <p className="text-white md:max-w-md md:text-lg  ">
-              Vous trouverez içi les produits les plus visités et les mieux
-              notées par les utilisateurs , pourquoi ne pas essayer d'apporter
-              votre touche personnelle et nous montrer de quoi vous êtes capable
-              ?
-            </p>
-          </div>
-          <div className=" p-2 text-center self-start md:ml-4">
-            <p className="text-white md:max-w-md md:text-lg  ">
-              Vous trouverez içi les produits les plus visités et les mieux
-              notées par les utilisateurs , pourquoi ne pas essayer d'apporter
-              votre touche personnelle et nous montrer de quoi vous êtes capable
-              ?
-            </p>
-          </div>
-        </div>
+      
       </div>
       {/* section designer en vedette */}
       <p className="text-3xl text-gray-700 self-start md:ml-3 font-semibold md:mt-5">
