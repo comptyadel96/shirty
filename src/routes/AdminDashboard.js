@@ -1,5 +1,5 @@
 import React, { useRef } from "react"
-import Navbar from "../components/Navbar"
+
 import { IoMdArrowDropdownCircle } from "react-icons/io"
 import { Shart } from "../components/Shart"
 import { VerticalShart } from "../components/VerticalShart"
@@ -20,7 +20,7 @@ function AdminDashboard() {
   }
   return (
     <div className="h-screen w-full box-border pt-11 bg-gray-100 select-none">
-      <Navbar />
+     
       <div className="w-full h-full flex ">
         {/* vertical menu */}
         <div className="flex flex-col justify-evenly  bg-white md:h-1/2  md:px-3 border-r-2 border-r-pink-400 border-b-2 border-b-pink-400  md:py-3 relative">

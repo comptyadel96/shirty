@@ -28,7 +28,7 @@ function Faq() {
         className="md:px-3 md:py-1 text-center md:my-1  bg-white border-2 cursor-pointer rounded-2xl md:max-w-xs"
       >
         <p className="flex items-center text-gray-700 font-semibold">
-          Est-ce que mouha a une grosse bite ?{" "}
+          Est-ce que mouha est intelligent ?{" "}
           {!faq1Clicked ? (
             <AiOutlineArrowDown className="ml-1" />
           ) : (
@@ -41,8 +41,9 @@ function Faq() {
           className="max-h-0 overflow-hidden transition-all duration-700 text-center"
         >
           <p className="text-gray-600  md:py-1">
-            Non, il a avouer qu'il n'a pas de bite bien grosse , juste un 8
-            centimétres 🥴
+            Non, il a esseayer de draguer une fille en lui disant "you are like
+            sugar" , elle a tous de suite lever les vitre de sa voiture et elle
+            s'est barrer
           </p>
         </div>
       </div>
@@ -56,7 +57,7 @@ function Faq() {
           }}
           className="flex items-center  text-gray-700 font-semibold"
         >
-          Shirty pourra  voler votre argent ?
+          Shirty pourra voler votre argent ?
           {!faq2Clicked ? (
             <AiOutlineArrowDown className="ml-1" />
           ) : (
@@ -64,14 +65,12 @@ function Faq() {
           )}
         </p>
         <div
-          className="max-h-0 overflow-hidden transition-all duration-700 text-center md:max-w-sm"
+          className="max-h-0 overflow-hidden transition-all duration-700 text-center "
           ref={faq2}
         >
           <p className="text-gray-600  md:py-1">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-            Repudiandae ea ratione unde minus ipsa aliquid asperiores eaque
-            magni. Eum atque necessitatibus officiis nam, at provident facilis
-            doloremque quo fuga fugit!
+            Repudiandae ea ratione unde minus 
           </p>
         </div>
       </div>

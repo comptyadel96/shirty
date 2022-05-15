@@ -3,9 +3,9 @@ import { MdShoppingCart } from "react-icons/md"
 import { ImEarth } from "react-icons/im"
 import AuthContext from "../utils/AuthContext"
 import { useNavigate } from "react-router-dom"
-function Navbar({ navRef, onPressConnect }) {
+function Navbar() {
   const user = useContext(AuthContext)
-  console.log(user)
+
   const langRef = useRef(null)
   const toggleLang = () => {
     if (langRef.current.classList.contains("max-h-0")) {
@@ -19,41 +19,36 @@ function Navbar({ navRef, onPressConnect }) {
 
   const navigate = useNavigate()
   return (
-    <div
-      className=" md:flex md:items-center md:justify-between md:flex-wrap bg-white  shadow-lg p-1 absolute top-0  w-full hidden z-50 transition-all duration-700"
-      ref={navRef}
-    >
+    <div className=" lg:flex lg:items-center lg:justify-between bg-white  shadow-lg p-1 absolute top-0  w-full  hidden z-50 transition-all duration-700">
       {/* brand */}
       <div
-        className="inline-flex items-center ml-3 cursor-pointer"
+        className="inline-flex items-center ml-3 cursor-pointer "
         onClick={() => {
           navigate("/")
         }}
       >
-        <img alt="brand" src="/images/shirty-brand.png" className="md:h-9" />
-        <p className="md:ml-5 text-2xl font-semibold text-gray-700">
-          Shirty{" "}
-        </p>
+        <img alt="brand" src="/images/shirty-brand.png" className="md:h-6" />
+        <p className="md:ml-2 text-xl font-semibold text-gray-700">Shirty </p>
       </div>
 
       {/* nav elements */}
-      <ul className="flex items-center justify-evenly  mr-8 relative">
-        <li className="mx-5 cursor-pointer text-xl text-gray-700 hover:bg-gray-200 hover:rounded-full px-2 py-1">
+      <ul className="flex items-center p-0 justify-start  mr-5 relative  ">
+        <li className="mx-1 cursor-pointer text-xl text-gray-700 hover:text-rose-600 px-2 py-1">
           Découvrez nos produits
         </li>
-        <li className="mx-5 cursor-pointer text-xl text-gray-700 hover:bg-gray-200 hover:rounded-full px-2 py-1">
+        <li className="mx-1 cursor-pointer text-xl text-gray-700 hover:text-rose-600 px-2 py-1">
           Commancez le design
         </li>
         {!user.currUser ? (
           <li
-            className="mx-5 cursor-pointer text-xl text-gray-700 hover:bg-gray-200 hover:rounded-full px-2 py-1 "
-            onClick={onPressConnect}
+            className="mx-1 cursor-pointer text-xl text-gray-700 hover:text-rose-600 px-2 py-1 "
+            onClick={() => navigate("/login")}
           >
             Se connecter
           </li>
         ) : (
           <li
-            className="mx-5 cursor-pointer text-xl text-gray-700 hover:bg-gray-200 hover:rounded-full px-1 "
+            className="mx-1 cursor-pointer text-xl text-gray-700 hover:text-rose-600 px-2 py-1 "
             onClick={() => navigate("/profile")}
           >
             Profil
@@ -61,7 +56,7 @@ function Navbar({ navRef, onPressConnect }) {
         )}
         <li
           onClick={() => navigate("/adminDashboard")}
-          className="mx-5 cursor-pointer text-xl text-gray-700 hover:bg-gray-200 hover:rounded-full px-2 py-1"
+          className="mx-1 cursor-pointer text-xl text-gray-700 hover:text-rose-600 px-2 py-1"
         >
           Admin dashboard
         </li>

@@ -1,87 +1,15 @@
 import React, { useRef, useContext } from "react"
-import {
-  AiFillFacebook,
-  AiFillGoogleCircle,
-  // AiOutlineArrowRight,
-  AiFillCloseCircle,
-  AiFillTwitterCircle,
-} from "react-icons/ai"
 import Faq from "../components/Faq"
 import HorizontalScroll from "../components/HorizontalScroll"
-import Navbar from "../components/Navbar"
 import ScrollDesigners from "../components/ScrollDesigners"
 import AuthContext from "../utils/AuthContext"
 
 function WelcomeScreen() {
   const currUser = useContext(AuthContext)
-  const navRef = useRef(null)
-  const connectRef = useRef(null)
   const ImageRef = useRef(null)
-
-  const onClickConnect = () => {
-    connectRef.current.classList.toggle("hidden")
-  }
-  const socialAuth = async (url) => {
-    window.open(url, "_self")
-  }
 
   return (
     <div className="flex flex-col select-none  h-full bg-white overflow-hidden box-border">
-      <Navbar navRef={navRef} onPressConnect={onClickConnect} />
-      {/* modal container */}
-      <div
-        className="hidden fixed h-full w-screen bg-transparentblack z-50"
-        ref={connectRef}
-      >
-        {/* modal contents */}
-        <div className="flex flex-col   z-50  items-center md:w-1/2 mx-auto md:mt-32 md:py-3 border-double border-8 border-gray-800 bg-yellow-200 relative ">
-          <div
-            className="absolute top-6 right-6 cursor-pointer z-50"
-            onClick={onClickConnect}
-          >
-            <AiFillCloseCircle
-              size={36}
-              className="text-red-500 hover:text-red-700"
-            />
-          </div>
-
-          <img
-            src="/images/login.png"
-            alt="login illustration"
-            className="h-96"
-          />
-          <p className="font-semibold text-gray-700 md:mb-2 md:text-xl">
-            Connectez-vous avec :
-          </p>
-          <div className="inline-flex items-center w-full  justify-evenly">
-            {/* facebook */}
-            <button
-              onClick={() =>
-                socialAuth("http://localhost:5000/api/shirty/auth/facebook")
-              }
-              className="inline-flex md:w-44 items-center rounded-sm text-white font-semibold cursor-pointer hover:bg-blue-600 bg-blue-500 md:px-6 md:py-1"
-            >
-              {/* onClick={() =>
-                socialAuth("http://localhost:5000/api/shirty/auth/facebook") */}
-              <AiFillFacebook className="mr-2" size={24} /> Facebook
-            </button>
-            {/* google */}
-            <button
-              onClick={() =>
-                socialAuth("http://localhost:5000/api/shirty/auth/google")
-              }
-              className="inline-flex md:w-44 items-center rounded-sm text-white font-semibold cursor-pointer hover:bg-orange-600 bg-orange-400 md:px-6 md:py-1"
-            >
-              <AiFillGoogleCircle className="mr-2" size={24} /> Google
-            </button>
-            {/* twitter */}
-            <button className="inline-flex md:w-44 items-center rounded-sm text-white font-semibold cursor-pointer hover:bg-sky-600 bg-sky-400 md:px-6 md:py-1">
-              <AiFillTwitterCircle className="mr-2" size={24} /> Twitter
-            </button>
-          </div>
-        </div>
-      </div>
-
       <div className="relative w-screen max-h-screen box-border  ">
         <img
           alt="header shirt"
@@ -89,9 +17,9 @@ function WelcomeScreen() {
           className="max-h-screen  brightness-50  w-screen"
           ref={ImageRef}
         />
-        <div className=" flex flex-col items-center flex-wrap absolute left-1/4  top-20   h-fit w-fit">
+        <div className=" flex flex-col items-center flex-wrap absolute md:left-1/4  md:top-20 top-4 left-7   h-fit w-fit">
           {/* title */}
-          <p className="select-none self-start md:mb-4    text-rose-500  md:text-6xl">
+          <p className="select-none self-start md:mb-4    text-rose-500  md:text-6xl text-3xl">
             Personalisez votre style
           </p>
           <div className=" flex items-center   ">
@@ -100,16 +28,15 @@ function WelcomeScreen() {
             </p>
           </div>
         </div>
-        <button className=" items-center flex absolute bottom-20 right-12  hover:px-5  md:py-2 md:text-xl mt-4    hover:bg-tranparentWhite text-white  transition-all duration-700 hover:rounded-full">
+        <button className=" items-center flex absolute md:bottom-11 md:right-12 bottom-5 right-5 hover:px-5  md:py-2 md:text-xl mt-4    hover:bg-tranparentWhite text-white  transition-all duration-700 hover:rounded-full">
           Commancer le design
-          {/* <AiOutlineArrowRight className="ml-1 translate-y-1" /> */}
         </button>
       </div>
 
       {/* vidéo descriptive */}
       <div className="mx-auto  flex items-center flex-col md:justify-evenly md:flex-row flex-wrap  md:mb-10  w-screen relative ">
         <div className="flex flex-col items-center max-w-2xl md:py-6  ">
-          <p className="md:text-4xl  text-gray-700 md:mb-4">
+          <p className="md:text-4xl text-2xl mb-2 mt-5  text-gray-700 md:mb-4 md:mt-3">
             C'est ici que tous commance...
           </p>
           <img
@@ -134,9 +61,9 @@ function WelcomeScreen() {
           <p className="md:text-3xl font-semibold text-gray-700 md:mb-2">
             Tous ce dont vous avez révez de porter
           </p>
-          <p className="md:text-2xl     text-gray-400 md:my-1 md:max-w-2xl md:text-center">
+          <p className="md:text-2xl text-center    text-gray-400 md:my-1 md:max-w-2xl md:text-center">
             Venez découvrir des produits exclusifs , pour tous les gouts et les
-            couleurs ! découvrez aussi la nouvelle collection "mouha rass tota"
+            couleurs ! découvrez aussi la nouvelle collection "mouha rass balota"
           </p>
           <button className="bg-rose-500 md:my-3 text-xl z-40 text-white px-4 py-1  hover:bg-rose-600 rounded-full">
             Découvrir
@@ -190,7 +117,6 @@ function WelcomeScreen() {
           Produits à la une :
         </p>
         <HorizontalScroll />
-      
       </div>
       {/* section designer en vedette */}
       <p className="text-3xl text-gray-700 self-start md:ml-3 font-semibold md:mt-5">
