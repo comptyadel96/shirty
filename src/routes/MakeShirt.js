@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react"
 import { fabric } from "fabric"
-import shirtsArray from "./components/Shirts"
-import axios from "axios"
+import shirtsArray from "../components/Shirts"
+// import axios from "axios"
 
 function MakeShirt() {
   const canvasRef = useRef(null)
   const [canvas, setCanvas] = useState(null)
-  const [shirt, setShirt] = useState(null)
+  // const [shirt, setShirt] = useState(null)
   const [image, setImage] = useState(null)
   const [shirtId, setShirtId] = useState(shirtsArray[0])
   const [text, setText] = useState(null)
@@ -35,7 +35,7 @@ function MakeShirt() {
       tshirt.scaleToWidth(canvas.width)
       tshirt.scaleToHeight(canvas.height)
       canvas.centerObject(tshirt)
-      setShirt(tshirt)
+      // setShirt(tshirt)
       canvas.add(tshirt)
       canvas.renderAll()
     }
@@ -69,7 +69,7 @@ function MakeShirt() {
     var text = new fabric.IText("Text", {
       fill: "#eee",
       // fontSize: 30,
-      fontFamily: "Festive",
+      // fontFamily: "Festive",
       borderColor: "orange",
       borderScaleFactor: 2,
       cornerColor: "#945e11",
@@ -81,8 +81,8 @@ function MakeShirt() {
     canvas.add(text)
     canvas.renderAll()
   }
-   // change text  font
-   const textFontHandler = (e) => {
+  // change text  font
+  const textFontHandler = (e) => {
     if (canvas && canvas.getActiveObject()) {
       canvas.getActiveObject().set("fontFamily", e.target.value)
     }
@@ -95,61 +95,61 @@ function MakeShirt() {
       quality: 1,
     })
     const link = document.createElement("a")
-    link.download = "canvas.png"
+    link.download = `canvas${Math.floor(Math.random() * 10000)}.png`
     link.href = dataURL
     link.click()
   }
 
-  const sendCanvas = async () => {
-    const dataURL = canvas.toDataURL({
-      format: "png",
-      quality: 1,
-    })
-    var byMakeShirtring = atob(dataURL.split(",")[1])
+  // const sendCanvas = async () => {
+  //   const dataURL = canvas.toDataURL({
+  //     format: "png",
+  //     quality: 1,
+  //   })
+  //   var byMakeShirtring = atob(dataURL.split(",")[1])
 
-    // separate out the mime component
-    var mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0]
+  //   // separate out the mime component
+  //   var mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0]
 
-    // write the bytes of the string to an ArrayBuffer
-    var ab = new ArrayBuffer(byMakeShirtring.length)
+  //   // write the bytes of the string to an ArrayBuffer
+  //   var ab = new ArrayBuffer(byMakeShirtring.length)
 
-    // create a view into the buffer
-    var ia = new Uint8Array(ab)
+  //   // create a view into the buffer
+  //   var ia = new Uint8Array(ab)
 
-    // set the bytes of the buffer to the correct values
-    for (var i = 0; i < byMakeShirtring.length; i++) {
-      ia[i] = byMakeShirtring.charCodeAt(i)
-    }
+  //   // set the bytes of the buffer to the correct values
+  //   for (var i = 0; i < byMakeShirtring.length; i++) {
+  //     ia[i] = byMakeShirtring.charCodeAt(i)
+  //   }
 
-    // write the ArrayBuffer to a blob, and you're done
-    var blob = new Blob([ab], { type: mimeString })
-    blob.name = "canvas.png"
-    console.log(blob)
+  //   // write the ArrayBuffer to a blob
+  //   var blob = new Blob([ab], { type: mimeString })
+  //   blob.name = "canvas.png"
+  //   console.log(blob)
 
-    const formData = new FormData()
-    formData.append("shirtTof", blob, "canvas.png")
-    await axios.post("http://localhost:5000/api/admin/shirtPhoto", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
-  }
+  //   const formData = new FormData()
+  //   formData.append("shirtTof", blob, "canvas.png")
+  //   await axios.post("http://localhost:5000/api/admin/shirtPhoto", formData, {
+  //     headers: {
+  //       "Content-Type": "multipart/form-data",
+  //     },
+  //   })
+  // }
 
   //  serialize canvas to svg  and send it to the server to save it in the database (for the admin)
-  const serializeCanvas = async () => {
-    let myCanvas = canvas.toSVG()
-    let myData = {
-      canvas: myCanvas,
-      title: "title22",
-    }
-    await fetch(`${process.env.REACT_APP_URL}/shirts`, {
-      method: "POST",
-      headers: { "Content-type": "application/json; charset=UTF-8" },
-      body: JSON.stringify(myData),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-  }
+  // const serializeCanvas = async () => {
+  //   let myCanvas = canvas.toSVG()
+  //   let myData = {
+  //     canvas: myCanvas,
+  //     title: "title22",
+  //   }
+  //   await fetch(`${process.env.REACT_APP_URL}/shirts`, {
+  //     method: "POST",
+  //     headers: { "Content-type": "application/json; charset=UTF-8" },
+  //     body: JSON.stringify(myData),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => console.log(data))
+  // }
 
   // change text style color
   const textColorHandler = (e) => {
@@ -165,7 +165,7 @@ function MakeShirt() {
     }
     canvas.renderAll()
   }
- 
+
   // change text weight
   const textWeightHandler = (e) => {
     if (canvas && canvas.getActiveObject()) {
@@ -256,7 +256,7 @@ function MakeShirt() {
     })
 
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col md:pt-20 ">
       <div className="flex items-center flex-wrap bg-gradient-to-r from-yellow-300 to-purple-400">
         <canvas
           ref={canvasRef}
@@ -397,15 +397,20 @@ function MakeShirt() {
         ))}
       </div>
       {/* download the canvas */}
-      <button onClick={exportCanvas}>importer le canvas en png</button>
-      <button className="bg-red-500 w-1/4 mx-auto text-white" onClick={sendCanvas}>envoyer l'image du canvas au serveur</button>
-
       <button
+        className="bg-red-500 md:px-2 md:py-1 w-auto mx-auto text-white my-5"
+        onClick={exportCanvas}
+      >
+        importer le canvas en png
+      </button>
+      {/* <button className="bg-red-500 w-1/4 mx-auto text-white" onClick={sendCanvas}>envoyer l'image du canvas au serveur</button> */}
+
+      {/* <button
         className="bg-green-400 rounded-full py-4 px-1 text-white max-w-md"
         onClick={serializeCanvas}
       >
         envoyer le canvas au serveur
-      </button>
+      </button> */}
     </div>
   )
 }

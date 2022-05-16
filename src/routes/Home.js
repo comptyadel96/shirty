@@ -9,6 +9,7 @@ import AdminDashboard from "./AdminDashboard"
 import Error from "./Error"
 import Login from "./Login"
 import Navbar from "../components/Navbar"
+import MakeShirt from "./MakeShirt"
 
 function Home() {
   const [currUser, setCurrUser] = useState(null)
@@ -83,6 +84,7 @@ function Home() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/adminDashboard" element={<AdminDashboard />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/makeShirt" element={<MakeShirt />} />
           <Route path="*" element={<Error />} />
         </Routes>
         <Footer />

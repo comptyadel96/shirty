@@ -36,7 +36,12 @@ function Navbar() {
         <li className="mx-1 cursor-pointer text-xl text-gray-700 hover:text-rose-600 px-2 py-1">
           Découvrez nos produits
         </li>
-        <li className="mx-1 cursor-pointer text-xl text-gray-700 hover:text-rose-600 px-2 py-1">
+        <li
+          onClick={() => {
+            navigate("/makeShirt")
+          }}
+          className="mx-1 cursor-pointer text-xl text-gray-700 hover:text-rose-600 px-2 py-1"
+        >
           Commancez le design
         </li>
         {!user.currUser ? (
