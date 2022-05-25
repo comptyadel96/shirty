@@ -33,7 +33,9 @@ function Navbar() {
 
       {/* nav elements */}
       <ul className="flex items-center p-0 justify-start  mr-5 relative  ">
-        <li className="mx-1 cursor-pointer text-xl text-gray-700 hover:text-rose-600 px-2 py-1">
+        <li  onClick={() => {
+            navigate("/getShirt")
+          }}className="mx-1 cursor-pointer text-xl text-gray-700 hover:text-rose-600 px-2 py-1">
           Découvrez nos produits
         </li>
         <li
