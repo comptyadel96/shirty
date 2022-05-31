@@ -8,6 +8,7 @@ function MakeShirt() {
   const imageRef = useRef(null)
   const [canvas, setCanvas] = useState(null)
   const [image, setImage] = useState(null)
+  const [hasUploadImage, setHasUploadImage] = useState(false)
   const [shirtId, setShirtId] = useState(shirtsArray[0])
   const [text, setText] = useState(null)
 
@@ -51,6 +52,7 @@ function MakeShirt() {
     const reader = new FileReader()
     reader.readAsDataURL(e.target.files[0])
     reader.onload = (e) => {
+      setHasUploadImage(true)
       const imgObj = new Image()
       imgObj.src = e.target.result
       imgObj.onload = () => {
@@ -63,6 +65,7 @@ function MakeShirt() {
         // canvas.centerObject(image)
         canvas.add(image)
         setImage(image)
+
         canvas.renderAll()
       }
     }
@@ -233,6 +236,7 @@ function MakeShirt() {
     if (canvas && canvas.getActiveObject()) {
       if (canvas.getActiveObject().type === "image") {
         setImage(null)
+        setHasUploadImage(false)
       }
       if (canvas.getActiveObject().type === "i-text") {
         setText(null)
@@ -250,7 +254,6 @@ function MakeShirt() {
       if (e.target && e.target.type === "i-text") {
         document.querySelector("#text-options").className =
           "my-6 flex flex-col items-center flex-wrap "
-        document.querySelector("#controller").classList.remove("bg-yellow-400")
       }
     })
   // if the user click on the shirt we hide the text options
@@ -258,7 +261,6 @@ function MakeShirt() {
     canvas.on("mouse:up", function (e) {
       if (e.target.type !== "i-text") {
         document.querySelector("#text-options").className += " hidden"
-        document.querySelector("#controller").classList.add("bg-yellow-400")
       }
     })
 
@@ -271,20 +273,7 @@ function MakeShirt() {
   }
 
   // filter images
-  const imageGrayscale = () => {
-    // image.filters.push(new fabric.Image.filters.Grayscale())
-    // image.filters.push(new fabric.Image.filters.Invert())
-    image.filters.push(
-      new fabric.Image.filters.BlendColor({
-        color: "purple",
-        mode: "multiply",
-      })
-    )
-    image.applyFilters()
 
-    canvas.add(image)
-    console.log(image == null)
-  }
   const filterColorHandler = (e) => {
     image.filters = []
     image.filters.push(
@@ -334,32 +323,39 @@ function MakeShirt() {
     image.applyFilters()
     canvas.renderAll()
   }
-  // const filterNoiseHandler = (e) => {
-  //   image.filters = []
-  //   image.filters.push(
-  //     new fabric.Image.filters.Noise({ noise: e.target.value })
-  //   )
-  //   image.applyFilters()
-  //   canvas.renderAll()
-  // }
   const filterPixelateHandler = (e) => {
     image.filters = []
     image.filters.push(new fabric.Image.filters.Pixelate({ blocksize: 8 }))
     image.applyFilters()
     canvas.renderAll()
   }
-  // const filterTintHandler = (e) => {
-  //   image.filters = []
-  //   image.filters.push(
-  //     new fabric.Image.filters.Tint({
-  //       color: e.target.value,
-  //       opacity: 0.5,
-  //     })
-  //   )
-  //   image.applyFilters()
-  //   canvas.renderAll()
-  // }
 
+  const filterArray = [
+    {
+      name: "grayScale",
+      effect: () => {
+        filterGrayscaleHandler()
+      },
+    },
+    {
+      name: "sepia",
+      effect: () => {
+        filterSepiaHandler()
+      },
+    },
+    {
+      name: "invert",
+      effect: () => {
+        filterInvertHandler()
+      },
+    },
+    {
+      name: "pixelate",
+      effect: () => {
+        filterPixelateHandler()
+      },
+    },
+  ]
   return (
     <div className="flex flex-col md:pt-20 ">
       <div className="flex items-center flex-wrap">
@@ -372,7 +368,7 @@ function MakeShirt() {
         {/* controllers */}
         <div
           id="controller"
-          className="flex flex-col items-center md:ml-56 md:mr-16 mt-5 p-2 bg-yellow-400 rounded-2xl transition-all duration-1000 "
+          className="flex flex-col items-center md:ml-56 md:mr-16 mt-5 p-2 bg-gray-100 rounded-2xl transition-all duration-1000 border "
         >
           {/* add logo */}
           {!image && (
@@ -467,37 +463,41 @@ function MakeShirt() {
             </div>
           </div>
           {/* image controller */}
-          <div ref={imageRef} className="bg-gray-100 hidden">
-            {/* filtre */}
-            <div className="flex items-center my-2 mx-4">
-              <p>appliquer un filtre a votre image</p>
-              <select>
-                <option value={null}>choisir...</option>
-                <option onClick={filterGrayscaleHandler}>grayScale</option>
-                <option onClick={filterSepiaHandler}>Sepia</option>
-                <option onClick={filterPixelateHandler}>Pixeliser</option>
-                <option onClick={filterInvertHandler}>
-                  inverser les couleurs
-                </option>
-              </select>
+          {hasUploadImage && (
+            <div ref={imageRef} className="bg-gray-100 hidden">
+              {/* filtre */}
+              <div className="flex flex-col items-center my-2 mx-4">
+                <p className="font-semibold">
+                  Appliquer un filtre a votre image
+                </p>
+                {filterArray.map((filter) => (
+                  <button
+                    key={filter.name}
+                    onClick={filter.effect}
+                    className=" text-gray-800 bg-white my-1 px-2 py-1 rounded-lg mr-2 border"
+                  >
+                    {filter.name}
+                  </button>
+                ))}
+              </div>
+              {/* couleur */}
+              <div className="flex items-center my-2 mx-4">
+                <p>couleur du filtre</p>
+                <input type="color" onChange={filterColorHandler} />
+              </div>
+              {/* contrast */}
+              <div className="flex items-center my-2 mx-4">
+                <p>contraste de l'image</p>
+                <input
+                  min={0}
+                  max={50}
+                  type="range"
+                  onChange={filterContrastHandler}
+                  defaultValue={0}
+                />
+              </div>
             </div>
-            {/* couleur */}
-            <div className="flex items-center my-2 mx-4">
-              <p>couleur du filtre</p>
-              <input type="color" onChange={filterColorHandler} />
-            </div>
-            {/* contrast */}
-            <div className="flex items-center my-2 mx-4">
-              <p>contraste de l'image</p>
-              <input
-                min={0}
-                max={50}
-                type="range"
-                onChange={filterContrastHandler}
-                defaultValue={0}
-              />
-            </div>
-          </div>
+          )}
 
           {/* add text */}
           {!text && (
@@ -561,9 +561,6 @@ function MakeShirt() {
       >
         envoyer le canvas au serveur
       </button>
-      {image != null && (
-        <button onClick={imageGrayscale}>filtrer l'image</button>
-      )}
     </div>
   )
 }

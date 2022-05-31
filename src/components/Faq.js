@@ -28,7 +28,7 @@ function Faq() {
         className="md:px-3 md:py-1 text-center md:my-1  bg-white border-2 cursor-pointer rounded-2xl md:max-w-xs"
       >
         <p className="flex items-center text-gray-700 font-semibold">
-          Est-ce que mouha est intelligent ?{" "}
+          Est-ce que l'homme est intelligent ?{" "}
           {!faq1Clicked ? (
             <AiOutlineArrowDown className="ml-1" />
           ) : (
@@ -41,9 +41,9 @@ function Faq() {
           className="max-h-0 overflow-hidden transition-all duration-700 text-center"
         >
           <p className="text-gray-600  md:py-1">
-            Non, il a esseayer de draguer une fille en lui disant "you are like
-            sugar" , elle a tous de suite lever les vitre de sa voiture et elle
-            s'est barrer
+            Non, quelqu'un a essayer de draguer une fille en lui disant "you are
+            like sugar" , elle a tous de suite lever les vitre de sa voiture et
+            elle s'est barrer
           </p>
         </div>
       </div>
@@ -70,7 +70,7 @@ function Faq() {
         >
           <p className="text-gray-600  md:py-1">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-            Repudiandae ea ratione unde minus 
+            Repudiandae ea ratione unde minus
           </p>
         </div>
       </div>
