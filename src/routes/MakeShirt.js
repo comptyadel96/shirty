@@ -11,17 +11,16 @@ function MakeShirt() {
   const [hasUploadImage, setHasUploadImage] = useState(false)
   const [shirtId, setShirtId] = useState(shirtsArray[0])
   const [text, setText] = useState(null)
-
-  // const [isDrawing, setIsDrawing] = useState(false)
+  const [isDrawing, setIsDrawing] = useState(false)
   // initialize canvas and image objects on mount
   useEffect(() => {
     const canvas = new fabric.Canvas(canvasRef.current, {
       selectionColor: "rgba(0,0,0,.5)",
       selectionLineWidth: 3,
-      // isDrawingMode: isDrawing,
     })
-    canvas.freeDrawingBrush.color = "yellow"
+    canvas.freeDrawingBrush.color = "black"
     canvas.freeDrawingBrush.strokeLineCap = "round"
+    canvas.freeDrawingBrush.width = 2
     setCanvas(canvas)
     canvas.renderAll()
   }, [])
@@ -329,7 +328,20 @@ function MakeShirt() {
     image.applyFilters()
     canvas.renderAll()
   }
-
+  const filterNoiseHandler = (e) => {
+    image.filters = []
+    image.filters.push(
+      new fabric.Image.filters.Noise({ noise: e.target.value })
+    )
+    image.applyFilters()
+    canvas.renderAll()
+  }
+  const filterBlackAndWhiteHandler = () => {
+    image.filters = []
+    image.filters.push(new fabric.Image.filters.BlackWhite())
+    image.applyFilters()
+    canvas.renderAll()
+  }
   const filterArray = [
     {
       name: "grayScale",
@@ -355,7 +367,25 @@ function MakeShirt() {
         filterPixelateHandler()
       },
     },
+    {
+      name: "blackAndWhite",
+      effect: () => {
+        filterBlackAndWhiteHandler()
+      },
+    },
   ]
+
+  const drawingColorHandler = (e) => {
+    if (canvas) {
+      canvas.freeDrawingBrush.color = e.target.value
+    }
+  }
+  const drawingWidthHandler = (e) => {
+    if (canvas) {
+      canvas.freeDrawingBrush.width = e.target.value
+    }
+  }
+
   return (
     <div className="flex flex-col md:pt-20 ">
       <div className="flex items-center flex-wrap">
@@ -470,15 +500,28 @@ function MakeShirt() {
                 <p className="font-semibold">
                   Appliquer un filtre a votre image
                 </p>
-                {filterArray.map((filter) => (
-                  <button
-                    key={filter.name}
-                    onClick={filter.effect}
-                    className=" text-gray-800 bg-white my-1 px-2 py-1 rounded-lg mr-2 border"
-                  >
-                    {filter.name}
-                  </button>
-                ))}
+                <div className="flex items-center flex-wrap">
+                  {filterArray.map((filter) => (
+                    <button
+                      key={filter.name}
+                      onClick={filter.effect}
+                      className=" text-gray-800 bg-white my-1 px-2 py-1 rounded-lg mr-2 border"
+                    >
+                      {filter.name}
+                    </button>
+                  ))}
+                  <div className="inline-flex">
+                    <p>noise</p>{" "}
+                    <input
+                      onChange={filterNoiseHandler}
+                      type="range"
+                      step={5}
+                      min={0}
+                      max={250}
+                      defaultValue={0}
+                    />
+                  </div>
+                </div>
               </div>
               {/* couleur */}
               <div className="flex items-center my-2 mx-4">
@@ -511,12 +554,46 @@ function MakeShirt() {
           {/* delete object */}
           <div className="flex items-center my-2 mx-4">
             <button
-              className="text-red-600 bg-white rounded-full py-1 px-4 hover:text-white hover:bg-red-500"
+              className="text-red-600 bg-white border rounded-full py-1 px-4 hover:text-white hover:bg-red-500"
               onClick={deleteObject}
             >
               Supprimer
             </button>
           </div>
+          <button
+            className="md:px-2 bg-purple-400 text-white"
+            onClick={() => {
+              setIsDrawing(true)((canvas.isDrawingMode = true))
+            }}
+          >
+            Dessiner
+          </button>
+          {isDrawing && (
+            <div className="flex flex-col items-center bg-gray-200 my-2 px-2">
+              {/* couleur */}
+              <div className="inline-flex my-1">
+                <p className="mr-1">couleur du crayon</p>{" "}
+                <input type="color" onChange={drawingColorHandler} />
+              </div>
+              {/* taille */}
+              <div className="inline-flex my-1">
+                <p className="mr-1">taille du crayon</p>
+                <input
+                  type="range"
+                  defaultValue={1}
+                  step={1}
+                  onChange={drawingWidthHandler}
+                />
+              </div>
+              <button
+                onClick={() => {
+                  setIsDrawing(false)((canvas.isDrawingMode = false))
+                }}
+              >
+                Terminer
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
