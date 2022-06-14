@@ -11,6 +11,7 @@
     "chart.js": "^3.7.1",
     "dotenv": "^16.0.0",
     "fabric": "^4.6.0",
+    "fontfaceobserver": "^2.3.0",
     "formik": "^2.2.9",
     "http-proxy-middleware": "^2.0.3",
     "postcss": "^8.4.6",

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react"
 import { fabric } from "fabric"
 import shirtsArray from "../components/Shirts"
 // import axios from "axios"
-
+var FontFaceObserver = require("fontfaceobserver")
 function MakeShirt() {
   const canvasRef = useRef(null)
   const imageRef = useRef(null)
@@ -21,6 +21,7 @@ function MakeShirt() {
     canvas.freeDrawingBrush.color = "black"
     canvas.freeDrawingBrush.strokeLineCap = "round"
     canvas.freeDrawingBrush.width = 2
+
     setCanvas(canvas)
     canvas.renderAll()
   }, [])
@@ -74,9 +75,9 @@ function MakeShirt() {
   // function to add text
   function insertText() {
     var text = new fabric.IText("Text", {
-      textAlign: "justify-center",
       fontSize: 30,
       editable: true,
+      statefullCache: true,
     })
     canvas.centerObject(text)
 
@@ -86,10 +87,13 @@ function MakeShirt() {
   }
   // change text  font
   const textFontHandler = (e) => {
-    if (canvas && canvas.getActiveObject()) {
-      canvas.getActiveObject().set("fontFamily", e.target.value)
-    }
-    canvas.renderAll()
+    var font = new FontFaceObserver(e.target.value)
+    font.load().then(() => {
+      if (canvas && canvas.getActiveObject()) {
+        canvas.getActiveObject().set("fontFamily", e.target.value)
+      }
+      canvas.renderAll()
+    })
   }
   // export  canvas to png
   const exportCanvas = () => {
@@ -220,13 +224,7 @@ function MakeShirt() {
     }
     canvas.renderAll()
   }
-  //  change text stroke width
-  const textStrokeWidthHandler = (e) => {
-    if (canvas && canvas.getActiveObject()) {
-      canvas.getActiveObject().set("strokeWidth", e.target.value)
-    }
-    canvas.renderAll()
-  }
+
   // delete object from canvas
   const deleteObject = () => {
     if (canvas && canvas.getActiveObjects().length === 0) {
@@ -294,16 +292,7 @@ function MakeShirt() {
   //   image.applyFilters()
   //   canvas.renderAll()
   // }
-  const filterContrastHandler = (e) => {
-    image.filters = []
-    image.filters.push(
-      new fabric.Image.filters.Contrast({
-        contrast: e.target.value,
-      })
-    )
-    image.applyFilters()
-    canvas.renderAll()
-  }
+
   const filterSepiaHandler = () => {
     image.filters = []
     image.filters.push(new fabric.Image.filters.Sepia())
@@ -324,7 +313,9 @@ function MakeShirt() {
   }
   const filterPixelateHandler = (e) => {
     image.filters = []
-    image.filters.push(new fabric.Image.filters.Pixelate({ blocksize: 8 }))
+    image.filters.push(
+      new fabric.Image.filters.Pixelate({ blocksize: e.target.value })
+    )
     image.applyFilters()
     canvas.renderAll()
   }
@@ -342,9 +333,18 @@ function MakeShirt() {
     image.applyFilters()
     canvas.renderAll()
   }
+  const roundImage = () => {
+    const clipPath = new fabric.Circle({
+      radius: image.width / 2,
+      originX: "center",
+      originY: "center",
+    })
+    image.set({ clipPath })
+    canvas.renderAll()
+  }
   const filterArray = [
     {
-      name: "grayScale",
+      name: "grisatre",
       effect: () => {
         filterGrayscaleHandler()
       },
@@ -356,19 +356,14 @@ function MakeShirt() {
       },
     },
     {
-      name: "invert",
+      name: "inverser",
       effect: () => {
         filterInvertHandler()
       },
     },
+
     {
-      name: "pixelate",
-      effect: () => {
-        filterPixelateHandler()
-      },
-    },
-    {
-      name: "blackAndWhite",
+      name: "Noir et blanc",
       effect: () => {
         filterBlackAndWhiteHandler()
       },
@@ -385,7 +380,47 @@ function MakeShirt() {
       canvas.freeDrawingBrush.width = e.target.value
     }
   }
+  function brushesHandler(e) {
+    canvas.freeDrawingBrush = new fabric[e.target.value](canvas)
+  }
 
+  function loadPattern(url) {
+    if (canvas && canvas.getActiveObject()) {
+      fabric.util.loadImage(url, function (img) {
+        canvas.getActiveObject().set(
+          "fill",
+          new fabric.Pattern({
+            source: img,
+            repeat: "repeat",
+          })
+        )
+        shape.set(
+          "fill",
+          new fabric.Pattern({
+            source: img,
+            repeat: "repeat",
+          })
+        )
+        canvas.renderAll()
+      })
+    }
+  }
+  const handleImageText = (e) => {
+    loadPattern("../images/" + e.target.value)
+    canvas.renderAll()
+  }
+  var shape = new fabric.Rect({
+    width: 200,
+    height: 100,
+    left: 10,
+    top: 300,
+  })
+  const handleShape = (e) => {
+    if (canvas) {
+      canvas.add(shape)
+    }
+    canvas.renderAll()
+  }
   return (
     <div className="flex flex-col md:pt-20 ">
       <div className="flex items-center flex-wrap">
@@ -398,17 +433,20 @@ function MakeShirt() {
         {/* controllers */}
         <div
           id="controller"
-          className="flex flex-col items-center md:ml-56 md:mr-16 mt-5 p-2 bg-gray-100 rounded-2xl transition-all duration-1000 border "
+          className="flex divide-y-2 divide-gray-300 flex-col items-center md:ml-14 md:mr-12 mt-5 p-2 bg-gray-100 rounded-2xl transition-all duration-1000 border "
         >
           {/* add logo */}
           {!image && (
             <div className="flex flex-col items-center flex-wrap">
-              <p className="font-bold text-yellow-700 mb-2">
-                Ajouter votre logo
-              </p>
-              <input type="file" onChange={handleImageChange} />
+              <p className="font-bold text-gray-800 mb-2">Ajouter votre logo</p>
+              <input
+                type="file"
+                onChange={handleImageChange}
+                className=" text-sm font-semibold text-rose-600 file:mr-4 file:py-2 file:px-1 file:rounded-full file:border-0  file:text-sm file:font-semibold file:bg-violet-100 file:text-violet-700 hover:file:bg-violet-200 cursor-pointer"
+              />
             </div>
           )}
+          <button onClick={handleShape}>ajouter rectangle</button>
           {/* text options */}
           <div
             id="text-options"
@@ -416,87 +454,117 @@ function MakeShirt() {
           >
             {/* color */}
             <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-700 mr-1">couleur du text</p>
+              <p className="text-gray-800 mr-1 font-semibold ">
+                Couleur du text
+              </p>
               <input type="color" onChange={textColorHandler} />
             </div>
             {/* text stroke color */}
             <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-700 mr-1">couleur du contour</p>
+              <p className="text-gray-800 mr-1 font-semibold ">
+                Couleur du contour
+              </p>
               <input type="color" onChange={textStrokeColorHandler} />
-            </div>
-            {/* text stroke width */}
-            <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-700 mr-1">épaisseur du contour</p>
-              <input
-                type="range"
-                onChange={textStrokeWidthHandler}
-                max={3}
-                defaultValue={0}
-                min={0}
-              />
             </div>
 
             {/* font size */}
             <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-700 mr-1">taille du text</p>
+              <p className="text-gray-800 mr-1 font-semibold ">
+                Taille du text
+              </p>
               <input
                 type="number"
                 onChange={textSizeHandler}
                 min={30}
                 max={100}
                 defaultValue={30}
+                className="text-md font-semibold text-gray-800 text-center bg-amber-200"
               />
             </div>
             {/* font style */}
             <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-700 mr-1">police du text</p>
-              <select onChange={textFontHandler}>
+              <p className="text-gray-800 mr-1 font-semibold ">
+                Police du text
+              </p>
+              <select
+                onChange={textFontHandler}
+                className="bg-violet-300 text-white"
+              >
                 <option value="Festive">Festive</option>
                 <option value="Monoton">Monoton</option>
                 <option value="ZCOOL KuaiLe">ZCOOL-KuaiLe</option>
                 <option value="Fredericka the Great">
                   Fredericka the Great
                 </option>
-                <option value="Times New Roman">Times New Roman</option>
+                <option value="Blaka">blaka</option>
+                <option value="Fascinate Inline">Fascinate</option>
+                <option value="Orbitron">Orbitron</option>
+                <option value="Press Start 2P">Press Start 2P</option>
+                <option value="Blaka Hollow">Blaka Hollow</option>
+                <option value="Monofett">Monofett</option>
+                <option value="IM Fell English SC">IM Fell English SC</option>
+                <option value="VT323">VT323</option>
+                <option value="Henny Penny">Henny Penny</option>
+                <option value="Rubik Glitch">Rubik Glitch</option>
+                <option value="Rubik Wet Paint">Rubik Wet Paint</option>
+                <option value="Rubik Moonrocks">Rubik Moonrocks</option>
+                <option value="Rubik Microbe">Rubik Microbe</option>
+                <option value="Rubik Puddles">Rubik Puddles</option>
+                <option value="Bungee Shade">Bungee Shade</option>
               </select>
             </div>
             {/* font weight */}
             <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-700 mr-1">poid du text</p>
-              <select onChange={textWeightHandler}>
+              <p className="text-gray-800 mr-1 font-semibold ">Poid du text</p>
+              <select
+                onChange={textWeightHandler}
+                className="bg-red-300 text-white"
+              >
                 <option value="normal">normal</option>
                 <option value="bold">gras</option>
               </select>
             </div>
             {/* font style */}
             <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-700 mr-1">style du text</p>
-              <select onChange={textStyleHandler}>
+              <p className="text-gray-800 mr-1 font-semibold ">Style du text</p>
+              <select
+                onChange={textStyleHandler}
+                className="text-white bg-green-400"
+              >
                 <option value="normal">normal</option>
                 <option value="italic">italique</option>
               </select>
             </div>
             {/* font underline */}
             <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-700 mr-1">souligner le text</p>
+              <p className="text-gray-800 mr-1 font-semibold ">
+                souligner le text
+              </p>
               <input type="checkbox" onChange={textUnderlineHandler} />
             </div>
             {/* font overline */}
             <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-700 mr-1">surligner le text</p>
+              <p className="text-gray-800 mr-1 font-semibold ">
+                surligner le text
+              </p>
               <input type="checkbox" onChange={textOverlineHandler} />
             </div>
             {/* font strike */}
             <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-700 mr-1">barré le text</p>
+              <p className="text-gray-800 mr-1 font-semibold ">barré le text</p>
               <input type="checkbox" onChange={textStrikeHandler} />
             </div>
+            {/* background image */}
+            <select onChange={handleImageText}>
+              <option value="girl.jpg">alger</option>
+              <option value="shirt-pink.png">france</option>
+            </select>
           </div>
           {/* image controller */}
           {hasUploadImage && (
-            <div ref={imageRef} className="bg-gray-100 hidden">
+            <div ref={imageRef} className="hidden">
               {/* filtre */}
-              <div className="flex flex-col items-center my-2 mx-4">
+              <div className="flex flex-col items-center my-2 mx-4  md:px-2">
                 <p className="font-semibold">
                   Appliquer un filtre a votre image
                 </p>
@@ -511,7 +579,7 @@ function MakeShirt() {
                     </button>
                   ))}
                   <div className="inline-flex">
-                    <p>noise</p>{" "}
+                    <p className="text-gray-800 font-semibold mr-1">noise</p>{" "}
                     <input
                       onChange={filterNoiseHandler}
                       type="range"
@@ -521,24 +589,32 @@ function MakeShirt() {
                       defaultValue={0}
                     />
                   </div>
+                  <div className="inline-flex">
+                    <p className="text-gray-800 font-semibold mr-1 ml-1">
+                      Pixeliser
+                    </p>
+                    <input
+                      type="range"
+                      onChange={filterPixelateHandler}
+                      min={0}
+                      max={50}
+                      defaultValue={0}
+                    />
+                  </div>
                 </div>
               </div>
               {/* couleur */}
               <div className="flex items-center my-2 mx-4">
-                <p>couleur du filtre</p>
+                <p>couleur d'arriére plan</p>
                 <input type="color" onChange={filterColorHandler} />
               </div>
-              {/* contrast */}
-              <div className="flex items-center my-2 mx-4">
-                <p>contraste de l'image</p>
-                <input
-                  min={0}
-                  max={50}
-                  type="range"
-                  onChange={filterContrastHandler}
-                  defaultValue={0}
-                />
-              </div>
+
+              <button
+                onClick={roundImage}
+                className="md:px-2 md:py-1 rounded-xl bg-rose-600 text-white"
+              >
+                Arroundir l'image
+              </button>
             </div>
           )}
 
@@ -546,7 +622,7 @@ function MakeShirt() {
           {!text && (
             <button
               onClick={insertText}
-              className="mr-5 my-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              className="mr-5 my-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded"
             >
               Ajouter du text
             </button>
@@ -554,25 +630,32 @@ function MakeShirt() {
           {/* delete object */}
           <div className="flex items-center my-2 mx-4">
             <button
-              className="text-red-600 bg-white border rounded-full py-1 px-4 hover:text-white hover:bg-red-500"
+              className="text-red-600 bg-white border rounded-full py-1 px-2 mt-2 hover:text-white hover:bg-red-500"
               onClick={deleteObject}
             >
               Supprimer
             </button>
           </div>
           <button
-            className="md:px-2 bg-purple-400 text-white"
+            className="md:px-2 bg-amber-400  hover:bg-amber-500 rounded-md text-white"
             onClick={() => {
               setIsDrawing(true)((canvas.isDrawingMode = true))
             }}
           >
             Dessiner
           </button>
+
           {isDrawing && (
             <div className="flex flex-col items-center bg-gray-200 my-2 px-2">
+              {/* type de crayon */}
+              <select onChange={brushesHandler} className="bg-white">
+                <option value="PencilBrush">crayon</option>
+                <option value="SprayBrush">spray</option>
+                <option value="CircleBrush">circle</option>
+              </select>
               {/* couleur */}
               <div className="inline-flex my-1">
-                <p className="mr-1">couleur du crayon</p>{" "}
+                <p className="mr-1">couleur du dessin</p>{" "}
                 <input type="color" onChange={drawingColorHandler} />
               </div>
               {/* taille */}
@@ -585,6 +668,7 @@ function MakeShirt() {
                   onChange={drawingWidthHandler}
                 />
               </div>
+
               <button
                 onClick={() => {
                   setIsDrawing(false)((canvas.isDrawingMode = false))
@@ -604,8 +688,8 @@ function MakeShirt() {
             src={shirt}
             alt="shirt"
             style={{
-              height: "300px",
-              width: "300px",
+              height: "200px",
+              width: "200px",
               cursor: "pointer",
               margin: "10px 20px",
             }}

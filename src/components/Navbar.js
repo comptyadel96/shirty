@@ -19,7 +19,7 @@ function Navbar() {
 
   const navigate = useNavigate()
   return (
-    <div className=" lg:flex lg:items-center lg:justify-between bg-white  shadow-lg p-1 absolute top-0  w-full  hidden z-50 transition-all duration-700">
+    <div className=" lg:flex lg:items-center lg:justify-between bg-white  shadow-md p-1 absolute top-0  w-full  hidden z-50 transition-all duration-700">
       {/* brand */}
       <div
         className="inline-flex items-center ml-3 cursor-pointer "
