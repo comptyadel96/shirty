@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from "react"
+import React, { useContext } from "react"
 import Faq from "../components/Faq"
 import HorizontalScroll from "../components/HorizontalScroll"
 import ScrollDesigners from "../components/ScrollDesigners"
@@ -6,31 +6,56 @@ import AuthContext from "../utils/AuthContext"
 
 function WelcomeScreen() {
   const currUser = useContext(AuthContext)
-  const ImageRef = useRef(null)
+  // const ImageRef = useRef(null)
 
   return (
     <div className="flex flex-col select-none  h-full bg-white overflow-hidden box-border">
-      <div className="relative w-screen max-h-screen box-border  ">
-        <img
+      <div className="pb-5 bg-[url('https://png.pngtree.com/thumb_back/fh260/background/20210216/pngtree-soft-black-dots-backgroud-image-image_562433.jpg')] relative w-screen box-border border ">
+        {/* <img
           alt="header shirt"
           src="/images/home.jpg"
-          className="max-h-screen  brightness-50  w-screen"
+          className="md:h-132 md:mx-40 md:mt-20  brightness-50 w-3/4 z-20 rounded-xl "
           ref={ImageRef}
-        />
-        <div className=" flex flex-col items-center flex-wrap absolute md:left-1/4  md:top-20 top-4 left-7   h-fit w-fit">
-          {/* title */}
-          <p className="select-none self-start md:mb-4    text-rose-500  md:text-6xl text-3xl">
-            Personalisez votre style
+        /> */}
+        <div className="bg-white  md:mx-40 md:mt-20 md:pb-6 rounded-2xl flex md:pt-5 justify-around flex-wrap  ">
+          <div className=" flex flex-col items-center flex-wrap h-fit w-fit">
+            {/* title */}
+            <p className="select-none self-start md:mb-4    text-rose-500  md:text-4xl text-2xl md:max-w-md">
+              Créez et vendez des produits personnalisés en ligne
+            </p>
+            <div className=" flex items-center   ">
+              <p className="text-gray-800 select-none   md:text-2xl md:max-w-md">
+                Une solution simple pour créer et vendre des produits engageants
+                en quelques étapes seulement, laissez exprimer vos idées et vos
+                envies.
+              </p>
+            </div>
+            <button className="self-start mt-10 px-2 hover:px-5  md:py-1 md:text-xl shadow-lg shadow-rose-300 rounded-full bg-rose-400 hover:bg-rose-500 text-white  transition-all duration-500 hover:rounded-full">
+              Commancer le design
+            </button>
+          </div>
+          <img
+            src="/images/welcome-tof.png"
+            alt="welcome shirt illustration"
+            className="md:max-h-96  md:mr-12"
+          />
+        </div>
+
+        {/* <div className=" flex flex-col items-center flex-wrap absolute md:left-64  md:top-36 top-4 left-7   h-fit w-fit">
+          <p className="select-none self-start md:mb-4    text-rose-500  md:text-4xl text-2xl md:max-w-md">
+            Créez et vendez des produits personnalisés en ligne
           </p>
           <div className=" flex items-center   ">
-            <p className="text-white select-none   md:text-4xl md:max-w-2xl">
+            <p className="text-gray-800 select-none   md:text-2xl md:max-w-md">
               Une solution simple pour créer et vendre des produits engageants
+              en quelques étapes seulement, laissez exprimer vos idées et vos
+              envies.
             </p>
           </div>
-        </div>
-        <button className=" items-center flex absolute md:bottom-11 md:right-12 bottom-5 right-5 hover:px-5  md:py-2 md:text-xl mt-4    hover:bg-tranparentWhite text-white  transition-all duration-700 hover:rounded-full">
-          Commancer le design
-        </button>
+          <button className="self-start mt-10 px-2 hover:px-5  md:py-1 md:text-xl shadow-lg shadow-rose-300 rounded-full bg-rose-400 hover:bg-rose-500 text-white  transition-all duration-500 hover:rounded-full">
+            Commancer le design
+          </button>
+        </div> */}
       </div>
 
       {/* vidéo descriptive */}
@@ -63,7 +88,7 @@ function WelcomeScreen() {
           </p>
           <p className="md:text-2xl text-center    text-gray-400 md:my-1 md:max-w-2xl md:text-center">
             Venez découvrir des produits exclusifs , pour tous les gouts et les
-            couleurs ! découvrez aussi la nouvelle collection "mouha rass balota"
+            couleurs ! découvrez aussi la nouvelle collection "Shirtsy" 
           </p>
           <button className="bg-rose-500 md:my-3 text-xl z-40 text-white px-4 py-1  hover:bg-rose-600 rounded-full">
             Découvrir

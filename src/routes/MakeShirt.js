@@ -1,17 +1,22 @@
 import React, { useEffect, useRef, useState } from "react"
 import { fabric } from "fabric"
 import shirtsArray from "../components/Shirts"
+import { BiText, BiPhotoAlbum, BiPaint } from "react-icons/bi"
+
 // import axios from "axios"
 var FontFaceObserver = require("fontfaceobserver")
 function MakeShirt() {
   const canvasRef = useRef(null)
   const imageRef = useRef(null)
+  const textAreaRef = useRef(null)
+  const textAreaContainer = useRef(null)
   const [canvas, setCanvas] = useState(null)
   const [image, setImage] = useState(null)
   const [hasUploadImage, setHasUploadImage] = useState(false)
   const [shirtId, setShirtId] = useState(shirtsArray[0])
-  const [text, setText] = useState(null)
+  const [text, setText] = useState("")
   const [isDrawing, setIsDrawing] = useState(false)
+  const [hasRoundImage, setHasRoundImage] = useState(false)
   // initialize canvas and image objects on mount
   useEffect(() => {
     const canvas = new fabric.Canvas(canvasRef.current, {
@@ -46,6 +51,36 @@ function MakeShirt() {
       canvas.renderAll()
     }
   }, [canvas, shirtId])
+  //
+  function deleteshape(eventData, transform) {
+    var target = transform.target
+    var canvas = target.canvas
+    canvas.remove(target)
+    canvas.requestRenderAll()
+  }
+  function renderIcon(ctx, left, top, styleOverride, fabricObject) {
+    var img = document.createElement("img")
+    img.src =
+    "https://www.freeiconspng.com/uploads/remove-icon-png-7.png"
+    //   "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Ebene_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='595.275px' height='595.275px' viewBox='200 215 230 470' xml:space='preserve'%3E%3Ccircle style='fill:%23F44336;' cx='299.76' cy='439.067' r='218.516'/%3E%3Cg%3E%3Crect x='267.162' y='307.978' transform='matrix(0.7071 -0.7071 0.7071 0.7071 -222.6202 340.6915)' style='fill:white;' width='65.545' height='262.18'/%3E%3Crect x='266.988' y='308.153' transform='matrix(0.7071 0.7071 -0.7071 0.7071 398.3889 -83.3116)' style='fill:white;' width='65.544' height='262.179'/%3E%3C/g%3E%3C/svg%3E"
+    var size = this.cornerSize
+    ctx.save()
+    ctx.translate(left, top)
+    ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle))
+    ctx.drawImage(img, -size / 2, -size / 2, size, size)
+    ctx.restore()
+  }
+  if (canvas) {
+    fabric.Object.prototype.controls.deleteControl = new fabric.Control({
+      x: 0.5,
+      y: -0.5,
+      offsetY: 16,
+      cursorStyle: "pointer",
+      mouseUpHandler: deleteshape,
+      render: renderIcon,
+      cornerSize: 24,
+    })
+  }
 
   // let user upload his image (logo) on the shirt
   const handleImageChange = (e) => {
@@ -74,16 +109,47 @@ function MakeShirt() {
 
   // function to add text
   function insertText() {
-    var text = new fabric.IText("Text", {
-      fontSize: 30,
-      editable: true,
-      statefullCache: true,
-    })
-    canvas.centerObject(text)
+    const classArray = [
+      "flex",
+      "flex-col",
+      "items-center",
+      "justify-center",
+      "md:ml-20",
+      "md:w-auto",
+      "md:h-auto",
+      "bg-white",
+      "md:px-2",
+      "md:py-3",
+      "shadow-md",
+      "rounded-md",
+      "border-2",
+      "border-gray-400",
+    ]
+    const classArray2 = ["h-0", "w-0"]
+    if (textAreaContainer.current) {
+      classArray.map((clas) => {
+        return textAreaContainer.current.classList.add(clas)
+      })
+      if (textAreaContainer.current) {
+        classArray2.map((clas2) =>
+          textAreaContainer.current.classList.remove(clas2)
+        )
+      }
+    }
+  }
+  const addText = () => {
+    if (text !== "" && text != null) {
+      let myText = new fabric.IText(text, {
+        editable: true,
+        statefullCache: true,
+      })
 
-    setText(text)
-    canvas.add(text)
-    canvas.renderAll()
+      canvas.centerObject(myText)
+      canvas.add(myText)
+      canvas.renderAll()
+
+      textAreaRef.current.value = ""
+    }
   }
   // change text  font
   const textFontHandler = (e) => {
@@ -166,6 +232,7 @@ function MakeShirt() {
   //   canvas.renderAll()
 
   // }
+
   // change text style color
   const textColorHandler = (e) => {
     if (canvas && canvas.getActiveObject()) {
@@ -228,7 +295,7 @@ function MakeShirt() {
   // delete object from canvas
   const deleteObject = () => {
     if (canvas && canvas.getActiveObjects().length === 0) {
-      alert("Vous n'avez pas sélectionné d'objet(s) à supprimer")
+      alert("Vous n'avez pas sélectionné d'élement(s) à supprimer")
     }
     if (canvas && canvas.getActiveObject()) {
       if (canvas.getActiveObject().type === "image") {
@@ -245,12 +312,33 @@ function MakeShirt() {
       canvas.renderAll()
     }
   }
+  // delete objects on press delete key
+  document.onkeydown = function (e) {
+    let activeObj = canvas.getActiveObject()
+
+    if (e.key === "Delete") {
+      canvas.remove(activeObj)
+      setText(null)
+      document.querySelector("#text-options").className += " hidden"
+      if (activeObj.type === "image") {
+        setImage(null)
+        setHasUploadImage(false)
+      }
+      canvas.getActiveObjects().forEach((object) => {
+        canvas.remove(object)
+        if (object.type === "image") {
+          setImage(null)
+          setHasUploadImage(false)
+        }
+      })
+    }
+  }
   // if the user click on the text input we show him the text options
   canvas &&
     canvas.on("mouse:down", function (e) {
       if (e.target && e.target.type === "i-text") {
         document.querySelector("#text-options").className =
-          "my-6 flex flex-col items-center flex-wrap "
+          "my-6 flex  items-center flex-wrap border shadow-lg border-gray-400 rounded-lg md:mr-2 "
       }
     })
   // if the user click on the shirt we hide the text options
@@ -341,6 +429,19 @@ function MakeShirt() {
     })
     image.set({ clipPath })
     canvas.renderAll()
+    setHasRoundImage(true)
+  }
+  const normalizImage = () => {
+    const clipPath = new fabric.Rect({
+      width: image.width,
+      height: image.height,
+      originX: "center",
+      originY: "center",
+      scaleX: 100,
+    })
+    image.set({ clipPath })
+    canvas.renderAll()
+    setHasRoundImage(false)
   }
   const filterArray = [
     {
@@ -383,301 +484,310 @@ function MakeShirt() {
   function brushesHandler(e) {
     canvas.freeDrawingBrush = new fabric[e.target.value](canvas)
   }
+  const removeOutline = () => {
+    textAreaRef.current.classList.add("outline-none")
+  }
 
-  function loadPattern(url) {
-    if (canvas && canvas.getActiveObject()) {
-      fabric.util.loadImage(url, function (img) {
-        canvas.getActiveObject().set(
-          "fill",
-          new fabric.Pattern({
-            source: img,
-            repeat: "repeat",
-          })
-        )
-        shape.set(
-          "fill",
-          new fabric.Pattern({
-            source: img,
-            repeat: "repeat",
-          })
-        )
-        canvas.renderAll()
-      })
-    }
-  }
-  const handleImageText = (e) => {
-    loadPattern("../images/" + e.target.value)
-    canvas.renderAll()
-  }
-  var shape = new fabric.Rect({
-    width: 200,
-    height: 100,
-    left: 10,
-    top: 300,
-  })
-  const handleShape = (e) => {
-    if (canvas) {
-      canvas.add(shape)
-    }
-    canvas.renderAll()
-  }
   return (
     <div className="flex flex-col md:pt-20 ">
-      <div className="flex items-center flex-wrap">
+      <div
+        id="controller"
+        className="flex items-center md:ml-14 md:mr-12 mt-5 p-2  border-t-2 border-b-2 md:mb-2 "
+      >
+        {/* add logo */}
+        {!image && (
+          <div className="flex flex-col items-center flex-wrap bg-white px-2 py-1 border border-gray-400 rounded-md mx-2">
+            <BiPhotoAlbum className="text-gray-600 text-3xl" />
+            <input
+              type="file"
+              onChange={handleImageChange}
+              className=" text-sm text-gray-400 file:mr-4 file:py-1 file:px-1 file:rounded-full file:border-0  file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 cursor-pointer"
+            />
+          </div>
+        )}
+        {/* controllers */}
+        {/* text options */}
+        <div id="text-options" className="hidden">
+          {/* <textarea
+            ref={textAreaRef}
+            onKeyDown={(e) => {
+              console.log(e.key)
+              if (e.key === "Enter") {
+                handleChangeText(e)
+              }
+            }}
+            className="border border-gray-400 md:my-2 md:mx-auto"
+            placeholder="entrer votre texte ici"
+          /> */}
+          {/* color */}
+          <div className="flex items-center my-2 mx-4">
+            <p className="text-gray-800 mr-1 font-semibold ">Couleur du text</p>
+            <input type="color" onChange={textColorHandler} />
+          </div>
+          {/* text stroke color */}
+          <div className="flex items-center my-2 mx-4">
+            <p className="text-gray-800 mr-1 font-semibold ">
+              Couleur du contour
+            </p>
+            <input type="color" onChange={textStrokeColorHandler} />
+          </div>
+
+          {/* font size */}
+          <div className="flex items-center my-2 mx-4">
+            <p className="text-gray-800 mr-1 font-semibold ">Taille du text</p>
+            <input
+              type="number"
+              onChange={textSizeHandler}
+              min={30}
+              max={100}
+              defaultValue={30}
+              className="text-md font-semibold text-gray-800 text-center border"
+            />
+          </div>
+          {/* font style */}
+          <div className="flex items-center my-2 mx-2">
+            <p className="text-gray-800 mr-1 font-semibold ">Police</p>
+            <select onChange={textFontHandler} className=" border bg-white ">
+              <option value="Festive">Festive </option>
+              <option value="Monoton">Monoton </option>
+              <option value="ZCOOL KuaiLe">ZCOOL-KuaiLe </option>
+              <option value="Fredericka the Great">Fredericka the Great</option>
+              <option value="Blaka">blaka </option>
+              <option value="Fascinate Inline">Fascinate </option>
+              <option value="Orbitron">Orbitron </option>
+              <option value="Press Start 2P">Press Start 2P </option>
+              <option value="Blaka Hollow">Blaka Hollow </option>
+              <option value="Monofett">Monofett </option>
+              <option value="IM Fell English SC">IM Fell English SC </option>
+              <option value="VT323">VT323 </option>
+              <option value="Henny Penny">Henny Penny </option>
+              <option value="Rubik Glitch">Rubik Glitch </option>
+              <option value="Rubik Wet Paint">Rubik Wet Paint </option>
+              <option value="Rubik Moonrocks">Rubik Moonrocks </option>
+              <option value="Rubik Microbe">Rubik Microbe </option>
+              <option value="Rubik Puddles">Rubik Puddles </option>
+              <option value="Bungee Shade">Bungee Shade </option>
+              <option value="Astloch">Astloch </option>
+              <option value="Bungee Hairline">Bungee Hairline </option>
+              <option value="Diplomata SC">Diplomata SC </option>
+              <option value="Faster One">Faster One </option>
+              <option value="Flavors">Flavors </option>
+              <option value="Hanalei">Hanalei </option>
+              <option value="Lacquer">Lacquer </option>
+              <option value="Rock 3D">Rock 3D </option>
+              <option value="Snowburst One">Snowburst One </option>
+              <option value="Yuji Hentaigana Akebono">
+                Yuji Hentaigana Akebono
+              </option>
+            </select>
+          </div>
+          {/* font weight */}
+          <div className="flex items-center my-2 mx-4">
+            <p className="text-gray-800 mr-1 font-semibold ">Poid du text</p>
+            <select onChange={textWeightHandler} className="bg-white border ">
+              <option value="normal">normal</option>
+              <option value="bold">gras</option>
+            </select>
+          </div>
+          {/* font style */}
+          <div className="flex items-center my-2 mx-4">
+            <p className="text-gray-800 mr-1 font-semibold ">Style du text</p>
+            <select
+              onChange={textStyleHandler}
+              className="text-gray-700 bg-white border "
+            >
+              <option value="normal">normal</option>
+              <option value="italic">italique</option>
+            </select>
+          </div>
+          {/* font underline */}
+          <div className="flex items-center my-2 mx-4">
+            <p className="text-gray-800 mr-1 font-semibold ">
+              souligner le text
+            </p>
+            <input type="checkbox" onChange={textUnderlineHandler} />
+          </div>
+          {/* font overline */}
+          <div className="flex items-center my-2 mx-4">
+            <p className="text-gray-800 mr-1 font-semibold ">
+              surligner le text
+            </p>
+            <input type="checkbox" onChange={textOverlineHandler} />
+          </div>
+          {/* font strike */}
+          <div className="flex items-center my-2 mx-4">
+            <p className="text-gray-800 mr-1 font-semibold ">barré le text</p>
+            <input type="checkbox" onChange={textStrikeHandler} />
+          </div>
+        </div>
+        {/* image controller */}
+        {hasUploadImage && (
+          <div ref={imageRef} className="hidden">
+            {/* filtre */}
+            <div className="flex flex-col items-center my-2 mx-4  md:px-2">
+              <p className="font-semibold text-gray-700">
+                Appliquer un filtre a votre image
+              </p>
+              <div className="flex items-center flex-wrap">
+                {filterArray.map((filter) => (
+                  <button
+                    key={filter.name}
+                    onClick={filter.effect}
+                    className=" text-gray-800 bg-white my-1 px-2 py-1 rounded-lg mr-2 border"
+                  >
+                    {filter.name}
+                  </button>
+                ))}
+              </div>
+              <div className="inline-flex">
+                <p className="text-gray-800 font-semibold mr-1">noise</p>{" "}
+                <input
+                  onChange={filterNoiseHandler}
+                  type="range"
+                  step={5}
+                  min={0}
+                  max={250}
+                  defaultValue={0}
+                />
+              </div>
+              <div className="inline-flex">
+                <p className="text-gray-800 font-semibold mr-1 ml-1">
+                  Pixeliser
+                </p>
+                <input
+                  type="range"
+                  onChange={filterPixelateHandler}
+                  min={1}
+                  max={50}
+                  defaultValue={0}
+                />
+              </div>
+            </div>
+            {/* couleur */}
+            <div className="flex items-center my-2 mx-4">
+              <p className="text-gray-700 mr-1">couleur d'arriére plan</p>
+              <input type="color" onChange={filterColorHandler} />
+            </div>
+
+            {!hasRoundImage ? (
+              <button
+                onClick={roundImage}
+                className="md:px-2  rounded-xl bg-gray-200 text-gray-800"
+              >
+                Arroundir l'image
+              </button>
+            ) : (
+              <button
+                onClick={normalizImage}
+                className="md:px-2  rounded-xl bg-rose-600 text-white"
+              >
+                Annuler
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* add text */}
+        {!text && (
+          <button
+            onClick={insertText}
+            className="mr-5 my-2 bg-white hover:shadow-md text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
+          >
+            <BiText className="mx-auto text-3xl" />
+            <p className="font-semibold text-gray-800">Ajouter du texte </p>
+          </button>
+        )}
+
+        <div className="flex items-center my-2 ">
+          <button
+            className="md:px-2 bg-white text-gray-700 border border-gray-400 py-1 px-2 rounded-md hover:shadow-md"
+            onClick={() => {
+              setIsDrawing(true)((canvas.isDrawingMode = true))
+            }}
+          >
+            <BiPaint className="mx-auto text-3xl text-gray-500" />
+            <p className="font-semibold text-gray-800">Dessiner </p>
+          </button>
+          {/* delete object */}
+          <button
+            className="text-red-600 bg-white border rounded-full py-1 px-2 mt-2 md:ml-9 hover:text-white hover:bg-red-500"
+            onClick={deleteObject}
+          >
+            Supprimer
+          </button>
+        </div>
+
+        {isDrawing && (
+          <div className="flex flex-col items-center bg-white border-2 border-gray-200 my-2 px-2">
+            {/* type de crayon */}
+            <select
+              onChange={brushesHandler}
+              className="bg-white font-semibold text-gray-700"
+            >
+              <option value="PencilBrush">crayon</option>
+              <option value="SprayBrush">spray</option>
+              <option value="CircleBrush">circle</option>
+            </select>
+            {/* couleur */}
+            <div className="inline-flex my-1">
+              <p className="mr-1 font-semibold text-gray-700">
+                couleur du dessin
+              </p>{" "}
+              <input type="color" onChange={drawingColorHandler} />
+            </div>
+            {/* taille */}
+            <div className="inline-flex my-1">
+              <p className="mr-1 font-semibold text-gray-700">
+                taille du crayon
+              </p>
+              <input
+                type="range"
+                defaultValue={1}
+                step={1}
+                onChange={drawingWidthHandler}
+                max={10}
+              />
+            </div>
+
+            <button
+              onClick={() => {
+                setIsDrawing(false)((canvas.isDrawingMode = false))
+              }}
+            >
+              Terminer
+            </button>
+          </div>
+        )}
+      </div>
+      <div className="flex items-center flex-wrap bg-gray-100">
         <canvas
           ref={canvasRef}
           height="500px"
           width="500px"
           className="border-2 border-gray-400 border-dashed mx-2 md:ml-11 "
         />
-        {/* controllers */}
         <div
-          id="controller"
-          className="flex divide-y-2 divide-gray-300 flex-col items-center md:ml-14 md:mr-12 mt-5 p-2 bg-gray-100 rounded-2xl transition-all duration-1000 border "
+          ref={textAreaContainer}
+          className="h-0 w-0 overflow-hidden transition-all duration-700"
         >
-          {/* add logo */}
-          {!image && (
-            <div className="flex flex-col items-center flex-wrap">
-              <p className="font-bold text-gray-800 mb-2">Ajouter votre logo</p>
-              <input
-                type="file"
-                onChange={handleImageChange}
-                className=" text-sm font-semibold text-rose-600 file:mr-4 file:py-2 file:px-1 file:rounded-full file:border-0  file:text-sm file:font-semibold file:bg-violet-100 file:text-violet-700 hover:file:bg-violet-200 cursor-pointer"
-              />
-            </div>
-          )}
-          <button onClick={handleShape}>ajouter rectangle</button>
-          {/* text options */}
-          <div
-            id="text-options"
-            className="hidden transition-all duration-1000"
-          >
-            {/* color */}
-            <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-800 mr-1 font-semibold ">
-                Couleur du text
-              </p>
-              <input type="color" onChange={textColorHandler} />
-            </div>
-            {/* text stroke color */}
-            <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-800 mr-1 font-semibold ">
-                Couleur du contour
-              </p>
-              <input type="color" onChange={textStrokeColorHandler} />
-            </div>
-
-            {/* font size */}
-            <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-800 mr-1 font-semibold ">
-                Taille du text
-              </p>
-              <input
-                type="number"
-                onChange={textSizeHandler}
-                min={30}
-                max={100}
-                defaultValue={30}
-                className="text-md font-semibold text-gray-800 text-center bg-amber-200"
-              />
-            </div>
-            {/* font style */}
-            <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-800 mr-1 font-semibold ">
-                Police du text
-              </p>
-              <select
-                onChange={textFontHandler}
-                className="bg-violet-300 text-white"
-              >
-                <option value="Festive">Festive</option>
-                <option value="Monoton">Monoton</option>
-                <option value="ZCOOL KuaiLe">ZCOOL-KuaiLe</option>
-                <option value="Fredericka the Great">
-                  Fredericka the Great
-                </option>
-                <option value="Blaka">blaka</option>
-                <option value="Fascinate Inline">Fascinate</option>
-                <option value="Orbitron">Orbitron</option>
-                <option value="Press Start 2P">Press Start 2P</option>
-                <option value="Blaka Hollow">Blaka Hollow</option>
-                <option value="Monofett">Monofett</option>
-                <option value="IM Fell English SC">IM Fell English SC</option>
-                <option value="VT323">VT323</option>
-                <option value="Henny Penny">Henny Penny</option>
-                <option value="Rubik Glitch">Rubik Glitch</option>
-                <option value="Rubik Wet Paint">Rubik Wet Paint</option>
-                <option value="Rubik Moonrocks">Rubik Moonrocks</option>
-                <option value="Rubik Microbe">Rubik Microbe</option>
-                <option value="Rubik Puddles">Rubik Puddles</option>
-                <option value="Bungee Shade">Bungee Shade</option>
-              </select>
-            </div>
-            {/* font weight */}
-            <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-800 mr-1 font-semibold ">Poid du text</p>
-              <select
-                onChange={textWeightHandler}
-                className="bg-red-300 text-white"
-              >
-                <option value="normal">normal</option>
-                <option value="bold">gras</option>
-              </select>
-            </div>
-            {/* font style */}
-            <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-800 mr-1 font-semibold ">Style du text</p>
-              <select
-                onChange={textStyleHandler}
-                className="text-white bg-green-400"
-              >
-                <option value="normal">normal</option>
-                <option value="italic">italique</option>
-              </select>
-            </div>
-            {/* font underline */}
-            <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-800 mr-1 font-semibold ">
-                souligner le text
-              </p>
-              <input type="checkbox" onChange={textUnderlineHandler} />
-            </div>
-            {/* font overline */}
-            <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-800 mr-1 font-semibold ">
-                surligner le text
-              </p>
-              <input type="checkbox" onChange={textOverlineHandler} />
-            </div>
-            {/* font strike */}
-            <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-800 mr-1 font-semibold ">barré le text</p>
-              <input type="checkbox" onChange={textStrikeHandler} />
-            </div>
-            {/* background image */}
-            <select onChange={handleImageText}>
-              <option value="girl.jpg">alger</option>
-              <option value="shirt-pink.png">france</option>
-            </select>
-          </div>
-          {/* image controller */}
-          {hasUploadImage && (
-            <div ref={imageRef} className="hidden">
-              {/* filtre */}
-              <div className="flex flex-col items-center my-2 mx-4  md:px-2">
-                <p className="font-semibold">
-                  Appliquer un filtre a votre image
-                </p>
-                <div className="flex items-center flex-wrap">
-                  {filterArray.map((filter) => (
-                    <button
-                      key={filter.name}
-                      onClick={filter.effect}
-                      className=" text-gray-800 bg-white my-1 px-2 py-1 rounded-lg mr-2 border"
-                    >
-                      {filter.name}
-                    </button>
-                  ))}
-                  <div className="inline-flex">
-                    <p className="text-gray-800 font-semibold mr-1">noise</p>{" "}
-                    <input
-                      onChange={filterNoiseHandler}
-                      type="range"
-                      step={5}
-                      min={0}
-                      max={250}
-                      defaultValue={0}
-                    />
-                  </div>
-                  <div className="inline-flex">
-                    <p className="text-gray-800 font-semibold mr-1 ml-1">
-                      Pixeliser
-                    </p>
-                    <input
-                      type="range"
-                      onChange={filterPixelateHandler}
-                      min={0}
-                      max={50}
-                      defaultValue={0}
-                    />
-                  </div>
-                </div>
-              </div>
-              {/* couleur */}
-              <div className="flex items-center my-2 mx-4">
-                <p>couleur d'arriére plan</p>
-                <input type="color" onChange={filterColorHandler} />
-              </div>
-
-              <button
-                onClick={roundImage}
-                className="md:px-2 md:py-1 rounded-xl bg-rose-600 text-white"
-              >
-                Arroundir l'image
-              </button>
-            </div>
-          )}
-
-          {/* add text */}
-          {!text && (
-            <button
-              onClick={insertText}
-              className="mr-5 my-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded"
-            >
-              Ajouter du text
-            </button>
-          )}
-          {/* delete object */}
-          <div className="flex items-center my-2 mx-4">
-            <button
-              className="text-red-600 bg-white border rounded-full py-1 px-2 mt-2 hover:text-white hover:bg-red-500"
-              onClick={deleteObject}
-            >
-              Supprimer
-            </button>
-          </div>
+          <textarea
+            ref={textAreaRef}
+            // onKeyDown={(e) => {
+            //   if (e.key === "Enter") {
+            //     handleChangeText(e)
+            //   }
+            // }}
+            onChange={(e) => setText(e.target.value)}
+            className=""
+            placeholder="entrer votre texte ici"
+            onFocus={removeOutline}
+          />
           <button
-            className="md:px-2 bg-amber-400  hover:bg-amber-500 rounded-md text-white"
-            onClick={() => {
-              setIsDrawing(true)((canvas.isDrawingMode = true))
-            }}
+            onClick={addText}
+            className="bg-green-400 md:px-2 text-white mt-2 rounded-md hover:bg-green-600"
           >
-            Dessiner
+            confirmer
           </button>
-
-          {isDrawing && (
-            <div className="flex flex-col items-center bg-gray-200 my-2 px-2">
-              {/* type de crayon */}
-              <select onChange={brushesHandler} className="bg-white">
-                <option value="PencilBrush">crayon</option>
-                <option value="SprayBrush">spray</option>
-                <option value="CircleBrush">circle</option>
-              </select>
-              {/* couleur */}
-              <div className="inline-flex my-1">
-                <p className="mr-1">couleur du dessin</p>{" "}
-                <input type="color" onChange={drawingColorHandler} />
-              </div>
-              {/* taille */}
-              <div className="inline-flex my-1">
-                <p className="mr-1">taille du crayon</p>
-                <input
-                  type="range"
-                  defaultValue={1}
-                  step={1}
-                  onChange={drawingWidthHandler}
-                />
-              </div>
-
-              <button
-                onClick={() => {
-                  setIsDrawing(false)((canvas.isDrawingMode = false))
-                }}
-              >
-                Terminer
-              </button>
-            </div>
-          )}
         </div>
       </div>
 

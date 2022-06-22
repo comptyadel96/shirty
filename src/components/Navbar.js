@@ -35,27 +35,27 @@ function Navbar() {
       <ul className="flex items-center p-0 justify-start  mr-5 relative  ">
         <li  onClick={() => {
             navigate("/getShirt")
-          }}className="mx-1 cursor-pointer text-xl text-gray-700 hover:text-rose-600 px-2 py-1">
+          }}className="mx-1 cursor-pointer text-xl text-gray-800 hover:text-rose-600 px-2 py-1">
           Découvrez nos produits
         </li>
         <li
           onClick={() => {
             navigate("/makeShirt")
           }}
-          className="mx-1 cursor-pointer text-xl text-gray-700 hover:text-rose-600 px-2 py-1"
+          className="mx-1 cursor-pointer text-xl text-gray-800 hover:text-rose-600 px-2 py-1"
         >
           Commancez le design
         </li>
         {!user.currUser ? (
           <li
-            className="mx-1 cursor-pointer text-xl text-gray-700 hover:text-rose-600 px-2 py-1 "
+            className="mx-1 cursor-pointer text-xl text-gray-800 hover:text-rose-600 px-2 py-1 "
             onClick={() => navigate("/login")}
           >
             Se connecter
           </li>
         ) : (
           <li
-            className="mx-1 cursor-pointer text-xl text-gray-700 hover:text-rose-600 px-2 py-1 "
+            className="mx-1 cursor-pointer text-xl text-gray-800 hover:text-rose-600 px-2 py-1 "
             onClick={() => navigate("/profile")}
           >
             Profil
@@ -63,7 +63,7 @@ function Navbar() {
         )}
         <li
           onClick={() => navigate("/adminDashboard")}
-          className="mx-1 cursor-pointer text-xl text-gray-700 hover:text-rose-600 px-2 py-1"
+          className="mx-1 cursor-pointer text-xl text-gray-800 hover:text-rose-600 px-2 py-1"
         >
           Admin dashboard
         </li>
