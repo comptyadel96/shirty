@@ -1,8 +1,15 @@
 import React, { useEffect, useRef, useState } from "react"
 import { fabric } from "fabric"
 import shirtsArray from "../components/Shirts"
-import { BiText, BiPhotoAlbum, BiPaint } from "react-icons/bi"
-
+import {
+  BiText,
+  BiPhotoAlbum,
+  BiPaint,
+  BiCool,
+  BiInfoCircle,
+  BiTrash,
+} from "react-icons/bi"
+import Picker from "emoji-picker-react"
 // import axios from "axios"
 var FontFaceObserver = require("fontfaceobserver")
 function MakeShirt() {
@@ -10,6 +17,7 @@ function MakeShirt() {
   const imageRef = useRef(null)
   const textAreaRef = useRef(null)
   const textAreaContainer = useRef(null)
+  const emojiRef = useRef(null)
   const [canvas, setCanvas] = useState(null)
   const [image, setImage] = useState(null)
   const [hasUploadImage, setHasUploadImage] = useState(false)
@@ -51,7 +59,7 @@ function MakeShirt() {
       canvas.renderAll()
     }
   }, [canvas, shirtId])
-  //
+  // custom delete icon on objects
   function deleteshape(eventData, transform) {
     var target = transform.target
     var canvas = target.canvas
@@ -60,8 +68,7 @@ function MakeShirt() {
   }
   function renderIcon(ctx, left, top, styleOverride, fabricObject) {
     var img = document.createElement("img")
-    img.src =
-    "https://www.freeiconspng.com/uploads/remove-icon-png-7.png"
+    img.src = "https://www.freeiconspng.com/uploads/remove-icon-png-7.png"
     //   "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Ebene_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='595.275px' height='595.275px' viewBox='200 215 230 470' xml:space='preserve'%3E%3Ccircle style='fill:%23F44336;' cx='299.76' cy='439.067' r='218.516'/%3E%3Cg%3E%3Crect x='267.162' y='307.978' transform='matrix(0.7071 -0.7071 0.7071 0.7071 -222.6202 340.6915)' style='fill:white;' width='65.545' height='262.18'/%3E%3Crect x='266.988' y='308.153' transform='matrix(0.7071 0.7071 -0.7071 0.7071 398.3889 -83.3116)' style='fill:white;' width='65.544' height='262.179'/%3E%3C/g%3E%3C/svg%3E"
     var size = this.cornerSize
     ctx.save()
@@ -81,7 +88,42 @@ function MakeShirt() {
       cornerSize: 24,
     })
   }
-
+  // custom emojis for the user
+  const showEmoji = () => {
+    const styleAdd = [
+      "w-auto",
+      "h-auto",
+      "ml-20",
+      "border",
+      "border-gray-400",
+      "transition-all",
+      "duration-700",
+    ]
+    const styleRemove = ["h-0", "w-0"]
+    styleRemove.map((style) => emojiRef.current.classList.remove(style))
+    styleAdd.map((style) => emojiRef.current.classList.add(style))
+  }
+  const onEmojiClick = (event, emojiObject) => {
+    let myEmoji = new fabric.Text(emojiObject.emoji, {
+      scaleX: 4,
+      scaleY: 4,
+    })
+    canvas.centerObject(myEmoji)
+    canvas.add(myEmoji)
+    canvas.renderAll()
+  }
+  // rename custom emoji in french
+  let groupNames = {
+    smileys_people: "Smileys",
+    animals_nature: "Animeaux et nature",
+    food_drink: "Nourriture et boissons",
+    travel_places: "Voyage",
+    activities: "Sport et Activités",
+    objects: "Objets",
+    symbols: "Symbols",
+    flags: "Drapeaux",
+    recently_used: "Récemment utilisé",
+  }
   // let user upload his image (logo) on the shirt
   const handleImageChange = (e) => {
     const reader = new FileReader()
@@ -293,25 +335,25 @@ function MakeShirt() {
   }
 
   // delete object from canvas
-  const deleteObject = () => {
-    if (canvas && canvas.getActiveObjects().length === 0) {
-      alert("Vous n'avez pas sélectionné d'élement(s) à supprimer")
-    }
-    if (canvas && canvas.getActiveObject()) {
-      if (canvas.getActiveObject().type === "image") {
-        setImage(null)
-        setHasUploadImage(false)
-      }
-      if (canvas.getActiveObject().type === "i-text") {
-        setText(null)
-        document.querySelector("#text-options").className += " hidden"
-      }
-      canvas.getActiveObjects().forEach((object) => {
-        canvas.remove(object)
-      })
-      canvas.renderAll()
-    }
-  }
+  // const deleteObject = () => {
+  //   if (canvas && canvas.getActiveObjects().length === 0) {
+  //     alert("Vous n'avez pas sélectionné d'élement(s) à supprimer")
+  //   }
+  //   if (canvas && canvas.getActiveObject()) {
+  //     if (canvas.getActiveObject().type === "image") {
+  //       setImage(null)
+  //       setHasUploadImage(false)
+  //     }
+  //     if (canvas.getActiveObject().type === "i-text") {
+  //       setText(null)
+  //       document.querySelector("#text-options").className += " hidden"
+  //     }
+  //     canvas.getActiveObjects().forEach((object) => {
+  //       canvas.remove(object)
+  //     })
+  //     canvas.renderAll()
+  //   }
+  // }
   // delete objects on press delete key
   document.onkeydown = function (e) {
     let activeObj = canvas.getActiveObject()
@@ -497,11 +539,17 @@ function MakeShirt() {
         {/* add logo */}
         {!image && (
           <div className="flex flex-col items-center flex-wrap bg-white px-2 py-1 border border-gray-400 rounded-md mx-2">
-            <BiPhotoAlbum className="text-gray-600 text-3xl" />
+            <div className="inline-flex items-center md:mb-1">
+              <BiPhotoAlbum className="text-gray-600 text-3xl" />
+              <p className="font-semibold text-gray-800">
+                Ajouter votre logo
+              </p>{" "}
+            </div>
+
             <input
               type="file"
               onChange={handleImageChange}
-              className=" text-sm text-gray-400 file:mr-4 file:py-1 file:px-1 file:rounded-full file:border-0  file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 cursor-pointer"
+              className=" text-sm text-gray-400 file:mr-4 file:py-1 file:px-1 file:rounded-full file:border-0  file:text-sm file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 cursor-pointer"
             />
           </div>
         )}
@@ -708,17 +756,25 @@ function MakeShirt() {
             <BiPaint className="mx-auto text-3xl text-gray-500" />
             <p className="font-semibold text-gray-800">Dessiner </p>
           </button>
-          {/* delete object */}
+          {/* add Emoji */}
           <button
+            onClick={showEmoji}
+            className="md:px-2 bg-white text-gray-700 border border-gray-400 py-1 px-2 rounded-md hover:shadow-md md:ml-2"
+          >
+            <BiCool className="mx-auto text-3xl text-gray-500" />
+            <p className="font-semibold text-gray-800">Ajouter des emoji </p>
+          </button>
+          {/* delete object */}
+          {/* <button
             className="text-red-600 bg-white border rounded-full py-1 px-2 mt-2 md:ml-9 hover:text-white hover:bg-red-500"
             onClick={deleteObject}
           >
             Supprimer
-          </button>
+          </button> */}
         </div>
 
         {isDrawing && (
-          <div className="flex flex-col items-center bg-white border-2 border-gray-200 my-2 px-2">
+          <div className="flex flex-col items-center bg-white border-2 border-gray-200 my-2 px-2 md:ml-4">
             {/* type de crayon */}
             <select
               onChange={brushesHandler}
@@ -753,19 +809,21 @@ function MakeShirt() {
               onClick={() => {
                 setIsDrawing(false)((canvas.isDrawingMode = false))
               }}
+              className="bg-gray-700 hover:bg-gray-900 text-white md:px-2 mb-1 rounded-md"
             >
               Terminer
             </button>
           </div>
         )}
       </div>
-      <div className="flex items-center flex-wrap bg-gray-100">
+      <div className="flex items-center flex-wrap bg-gray-50">
         <canvas
           ref={canvasRef}
           height="500px"
           width="500px"
           className="border-2 border-gray-400 border-dashed mx-2 md:ml-11 "
         />
+        {/* add text */}
         <div
           ref={textAreaContainer}
           className="h-0 w-0 overflow-hidden transition-all duration-700"
@@ -788,6 +846,39 @@ function MakeShirt() {
           >
             confirmer
           </button>
+        </div>
+        {/* custom emoji */}
+        <div className="h-0 w-0 overflow-hidden" ref={emojiRef}>
+          <Picker onEmojiClick={onEmojiClick} groupNames={groupNames} />
+        </div>
+        {/* instruction */}
+        <div className=" flex flex-col items-center border self-start md:mt-4 flex-wrap md:ml-auto md:mr-8 bg-blue-50 md:px-3 md:py-2">
+          <div className="inline-flex items-center">
+            <BiInfoCircle className="text-gray-500" size={40} />
+            <p className="font-semibold md:text-lg text-gray-500">Infos</p>
+          </div>
+          <ul className="marker:text-red-400 marker:text-xl list-disc pl-5 space-y-3 text-slate-500 max-w-md">
+            <li className="bg-white border-blue-200 border-2 border-dashed px-1 md:py-3">
+              Ajouter votre design et texte personalisé 🎩
+            </li>
+            <li className="bg-white border-blue-200 border-2 border-dashed px-1 md:py-3">
+              Double click sur le texte pour modifier le contenu ✏
+            </li>
+            <li className="bg-white border-blue-200 border-2 border-dashed px-1 md:py-3">
+              Utiliser nos emojis pour donner plus de fun a votre design 😎
+            </li>
+            <li className="bg-white border-blue-200 border-2 border-dashed px-1 md:py-3">
+              Ou bien dessiner directement sur le t-shirt 💎
+            </li>
+            <li className="bg-white border-blue-200 border-2 border-dashed px-1 md:py-3">
+              <p className="">
+                Vous pouvez supprimer n'importe quel element(s) en appuyant sur
+                la touche "suppr" de votre clavier ou bien en appuyant sur
+                l'icone qui apparait en haut adroite de chaque element{" "}
+                <BiTrash />
+              </p>
+            </li>
+          </ul>
         </div>
       </div>
 
