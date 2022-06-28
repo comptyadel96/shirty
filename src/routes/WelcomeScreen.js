@@ -9,21 +9,17 @@ function WelcomeScreen() {
   // const ImageRef = useRef(null)
 
   return (
-    <div className="flex flex-col select-none  h-full bg-white overflow-hidden box-border">
-      <div className="pb-5 bg-[url('https://png.pngtree.com/thumb_back/fh260/background/20210216/pngtree-soft-black-dots-backgroud-image-image_562433.jpg')] relative w-screen box-border border ">
-        {/* <img
-          alt="header shirt"
-          src="/images/home.jpg"
-          className="md:h-132 md:mx-40 md:mt-20  brightness-50 w-3/4 z-20 rounded-xl "
-          ref={ImageRef}
-        /> */}
-        <div className="bg-white  md:mx-40 md:mt-20 md:pb-6 rounded-2xl flex md:pt-5 justify-around flex-wrap  ">
-          <div className=" flex flex-col items-center flex-wrap h-fit w-fit">
+    <div className="flex flex-col select-none h-full bg-white overflow-hidden box-border">
+      <div className=
+      "pb-5 bg-[url('http://alciontechnologie.net/assets/img/shape/1.jpg')] relative w-screen box-border border ">
+      
+        <div className="md:mx-40 md:mt-20 md:pb-6 rounded-2xl flex md:pt-5 justify-around flex-wrap  ">
+          <div className="flex flex-col items-center flex-wrap h-fit w-fit">
             {/* title */}
             <p className="select-none self-start md:mb-4    text-rose-500  md:text-4xl text-2xl md:max-w-md">
               Créez et vendez des produits personnalisés en ligne
             </p>
-            <div className=" flex items-center   ">
+            <div className=" flex items-center">
               <p className="text-gray-800 select-none   md:text-2xl md:max-w-md">
                 Une solution simple pour créer et vendre des produits engageants
                 en quelques étapes seulement, laissez exprimer vos idées et vos
