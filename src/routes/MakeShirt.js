@@ -6,11 +6,11 @@ import {
   BiPhotoAlbum,
   BiPaint,
   BiCool,
-  BiInfoCircle,
-  BiTrash,
+  BiXCircle,
 } from "react-icons/bi"
 import Picker from "emoji-picker-react"
 // import axios from "axios"
+import "../makeShirt.css"
 var FontFaceObserver = require("fontfaceobserver")
 function MakeShirt() {
   const canvasRef = useRef(null)
@@ -63,6 +63,11 @@ function MakeShirt() {
   function deleteshape(eventData, transform) {
     var target = transform.target
     var canvas = target.canvas
+    if (transform.target.type === "i-text") {
+      setText(null)
+    } else if (transform.target.type === "image") {
+      setImage(null)
+    }
     canvas.remove(target)
     canvas.requestRenderAll()
   }
@@ -160,11 +165,11 @@ function MakeShirt() {
       "md:w-auto",
       "md:h-auto",
       "bg-white",
-      "md:px-2",
-      "md:py-3",
+      "md:px-4",
+      "md:py-8",
       "shadow-md",
       "rounded-md",
-      "border-2",
+      "border",
       "border-gray-400",
     ]
     const classArray2 = ["h-0", "w-0"]
@@ -178,6 +183,36 @@ function MakeShirt() {
         )
       }
     }
+  }
+  const removeTextContainer = () => {
+    const classArray = [
+      "flex",
+      "flex-col",
+      "items-center",
+      "justify-center",
+      "md:ml-20",
+      "md:w-auto",
+      "md:h-auto",
+      "bg-white",
+      "md:px-4",
+      "md:py-8",
+      "shadow-md",
+      "rounded-md",
+      "border",
+      "border-gray-400",
+    ]
+    const classArray2 = ["h-0", "w-0"]
+    if (textAreaContainer.current) {
+      classArray.map((clas) => {
+        return textAreaContainer.current.classList.remove(clas)
+      })
+      if (textAreaContainer.current) {
+        classArray2.map((clas2) =>
+          textAreaContainer.current.classList.add(clas2)
+        )
+      }
+    }
+    setText(null)
   }
   const addText = () => {
     if (text !== "" && text != null) {
@@ -380,7 +415,7 @@ function MakeShirt() {
     canvas.on("mouse:down", function (e) {
       if (e.target && e.target.type === "i-text") {
         document.querySelector("#text-options").className =
-          "my-6 flex  items-center flex-wrap border shadow-lg border-gray-400 rounded-lg md:mr-2 "
+          "my-6 flex bg-white  items-center flex-wrap border shadow-lg border-gray-400 rounded-lg md:mr-2 md:max-w-sm md:ml-auto md:mr-10 max-w-sm "
       }
     })
   // if the user click on the shirt we hide the text options
@@ -392,11 +427,37 @@ function MakeShirt() {
     })
 
   if (image !== null && imageRef.current) {
-    imageRef.current.classList = "my-6 flex flex-col items-center flex-wrap"
-    imageRef.current.classList -= " hidden"
+    const showArray = [
+      "my-6",
+      "flex",
+      "flex-col",
+      "items-center",
+      "flex-wrap",
+      "ml-20",
+      "bg-white",
+      "md:px-3",
+      "md:py-2",
+      "border",
+      "max-w-sm",
+    ]
+    showArray.map((clas) => imageRef.current.classList.add(clas))
+    imageRef.current.classList.remove("hidden")
   } else if (image === null && imageRef.current) {
-    imageRef.current.classList += " hidden"
-    imageRef.current.classList -= " my-6 flex flex-col items-center flex-wrap"
+    const showArray = [
+      "my-6",
+      "flex",
+      "flex-col",
+      "items-center",
+      "flex-wrap",
+      "ml-20",
+      "bg-white",
+      "md:px-3",
+      "md:py-2",
+      "border",
+      "max-w-sm",
+    ]
+    imageRef.current.classList.add("hidden")
+    showArray.map((clas) => imageRef.current.classList.remove(clas))
   }
 
   // filter images
@@ -487,19 +548,19 @@ function MakeShirt() {
   }
   const filterArray = [
     {
-      name: "grisatre",
+      name: "Grisatre",
       effect: () => {
         filterGrayscaleHandler()
       },
     },
     {
-      name: "sepia",
+      name: "Sepia",
       effect: () => {
         filterSepiaHandler()
       },
     },
     {
-      name: "inverser",
+      name: "Inverser",
       effect: () => {
         filterInvertHandler()
       },
@@ -531,7 +592,7 @@ function MakeShirt() {
   }
 
   return (
-    <div className="flex flex-col md:pt-20 ">
+    <div className="flex flex-col md:pt-20  ">
       <div
         id="controller"
         className="flex items-center md:ml-14 md:mr-12 mt-5 p-2  border-t-2 border-b-2 md:mb-2 "
@@ -542,7 +603,7 @@ function MakeShirt() {
             <div className="inline-flex items-center md:mb-1">
               <BiPhotoAlbum className="text-gray-600 text-3xl" />
               <p className="font-semibold text-gray-800">
-                Ajouter votre logo
+                Ajouter votre Design
               </p>{" "}
             </div>
 
@@ -554,19 +615,195 @@ function MakeShirt() {
           </div>
         )}
         {/* controllers */}
+
+        {/* add text */}
+        {!text && (
+          <button
+            onClick={insertText}
+            className="mr-5 my-2 bg-white hover:shadow-md text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
+          >
+            <BiText className="mx-auto text-3xl" />
+            <p className="font-semibold text-gray-800">Ajouter du texte </p>
+          </button>
+        )}
+
+        <div className="flex items-center my-2 ">
+          <button
+            className="md:px-2 bg-white text-gray-700 border border-gray-400 py-1 px-2 rounded-md hover:shadow-md"
+            onClick={() => {
+              setIsDrawing(true)((canvas.isDrawingMode = true))
+            }}
+          >
+            <BiPaint className="mx-auto text-3xl text-gray-500" />
+            <p className="font-semibold text-gray-800">Dessiner </p>
+          </button>
+          {/* add Emoji */}
+          <button
+            onClick={showEmoji}
+            className="md:px-2 bg-white text-gray-700 border border-gray-400 py-1 px-2 rounded-md hover:shadow-md md:ml-2"
+          >
+            <BiCool className="mx-auto text-3xl text-gray-500" />
+            <p className="font-semibold text-gray-800">Ajouter des emoji </p>
+          </button>
+          {/* delete object */}
+          {/* <button
+            className="text-red-600 bg-white border rounded-full py-1 px-2 mt-2 md:ml-9 hover:text-white hover:bg-red-500"
+            onClick={deleteObject}
+          >
+            Supprimer
+          </button> */}
+        </div>
+
+        {isDrawing && (
+          <div className="flex flex-col items-center bg-white border-2 border-gray-200 my-2 px-2 md:ml-4">
+            {/* type de crayon */}
+            <select
+              onChange={brushesHandler}
+              className="bg-white font-semibold text-gray-700"
+            >
+              <option value="PencilBrush">crayon</option>
+              <option value="SprayBrush">spray</option>
+              <option value="CircleBrush">circle</option>
+            </select>
+            {/* couleur */}
+            <div className="inline-flex my-1">
+              <p className="mr-1 font-semibold text-gray-700">
+                couleur du dessin
+              </p>{" "}
+              <input type="color" onChange={drawingColorHandler} />
+            </div>
+            {/* taille */}
+            <div className="inline-flex my-1">
+              <p className="mr-1 font-semibold text-gray-700">
+                taille du crayon
+              </p>
+              <input
+                type="range"
+                defaultValue={1}
+                step={1}
+                onChange={drawingWidthHandler}
+                max={10}
+              />
+            </div>
+
+            <button
+              onClick={() => {
+                setIsDrawing(false)((canvas.isDrawingMode = false))
+              }}
+              className="bg-gray-700 hover:bg-gray-900 text-white md:px-2 mb-1 rounded-md"
+            >
+              Terminer
+            </button>
+          </div>
+        )}
+      </div>
+      <div className="flex items-center flex-wrap bg-gray-50">
+        <canvas
+          ref={canvasRef}
+          height="500px"
+          width="500px"
+          className="border-2 border-gray-400 border-dashed mx-2 md:ml-11 "
+        />
+        {/* add text */}
+        <div
+          ref={textAreaContainer}
+          className="h-0 w-0 overflow-hidden transition-all duration-700 relative "
+        >
+          <BiXCircle
+            onClick={removeTextContainer}
+            className="absolute right-2 top-0 cursor-pointer z-20 text-2xl text-red-500"
+          />
+          <textarea
+            ref={textAreaRef}
+            onChange={(e) => setText(e.target.value)}
+            className="bg-sky-50 border-2 border-sky-200 text-gray-700 md:py-3 md:px-3 placeholder:text-sky-400"
+            placeholder="entrer votre texte ici"
+            onFocus={removeOutline}
+          />
+          <button
+            onClick={addText}
+            className="bg-sky-50 md:px-2 font-semibold text-sky-400 border border-sky-400 mt-2 rounded-md hover:bg-sky-400 hover:text-white"
+          >
+            Ajouter le texte
+          </button>
+        </div>
+        {/* image controller */}
+        {hasUploadImage && (
+          <div ref={imageRef} className="hidden">
+            {/* filtre */}
+            <div className="flex flex-col items-center my-2   md:px-2">
+              <p className="font-semibold text-gray-700">
+                Appliquer un filtre a votre image
+              </p>
+              <div className="flex items-center flex-wrap">
+                {filterArray.map((filter) => (
+                  <button
+                    key={filter.name}
+                    onClick={filter.effect}
+                    className=" text-gray-800 bg-white my-1 px-2 py-1 rounded-lg mr-2 border hover:bg-red-600 hover:text-white"
+                  >
+                    {filter.name}
+                  </button>
+                ))}
+              </div>
+              <div className="inline-flex">
+                <p className="text-gray-800 font-semibold mr-1">noise</p>{" "}
+                <input
+                  onChange={filterNoiseHandler}
+                  type="range"
+                  step={5}
+                  min={0}
+                  max={250}
+                  defaultValue={0}
+                />
+              </div>
+              <div className="inline-flex">
+                <p className="text-gray-800 font-semibold mr-1 ml-1">
+                  Pixeliser
+                </p>
+                <input
+                  type="range"
+                  onChange={filterPixelateHandler}
+                  min={1}
+                  max={50}
+                  defaultValue={0}
+                />
+              </div>
+            </div>
+            {/* couleur */}
+            <div className="flex items-center my-2 mx-4">
+              <p className="text-gray-700 mr-1">couleur d'arriére plan</p>
+              <input type="color" onChange={filterColorHandler} />
+            </div>
+
+            {!hasRoundImage ? (
+              <button
+                onClick={roundImage}
+                className="md:px-2 md:py-1 rounded-lg bg-blue-400 text-white hover:bg-blue-500"
+              >
+                Arroundir l'image
+              </button>
+            ) : (
+              <button
+                onClick={normalizImage}
+                className="md:px-2  rounded-xl bg-rose-500 text-white"
+              >
+                Annuler
+              </button>
+            )}
+          </div>
+        )}
+        {/* custom emoji */}
+        <div className="h-0 w-0 overflow-hidden" ref={emojiRef}>
+          <Picker
+            onEmojiClick={onEmojiClick}
+            groupNames={groupNames}
+            disableSearchBar
+            disableAutoFocus
+          />
+        </div>
         {/* text options */}
         <div id="text-options" className="hidden">
-          {/* <textarea
-            ref={textAreaRef}
-            onKeyDown={(e) => {
-              console.log(e.key)
-              if (e.key === "Enter") {
-                handleChangeText(e)
-              }
-            }}
-            className="border border-gray-400 md:my-2 md:mx-auto"
-            placeholder="entrer votre texte ici"
-          /> */}
           {/* color */}
           <div className="flex items-center my-2 mx-4">
             <p className="text-gray-800 mr-1 font-semibold ">Couleur du text</p>
@@ -668,191 +905,8 @@ function MakeShirt() {
             <input type="checkbox" onChange={textStrikeHandler} />
           </div>
         </div>
-        {/* image controller */}
-        {hasUploadImage && (
-          <div ref={imageRef} className="hidden">
-            {/* filtre */}
-            <div className="flex flex-col items-center my-2 mx-4  md:px-2">
-              <p className="font-semibold text-gray-700">
-                Appliquer un filtre a votre image
-              </p>
-              <div className="flex items-center flex-wrap">
-                {filterArray.map((filter) => (
-                  <button
-                    key={filter.name}
-                    onClick={filter.effect}
-                    className=" text-gray-800 bg-white my-1 px-2 py-1 rounded-lg mr-2 border"
-                  >
-                    {filter.name}
-                  </button>
-                ))}
-              </div>
-              <div className="inline-flex">
-                <p className="text-gray-800 font-semibold mr-1">noise</p>{" "}
-                <input
-                  onChange={filterNoiseHandler}
-                  type="range"
-                  step={5}
-                  min={0}
-                  max={250}
-                  defaultValue={0}
-                />
-              </div>
-              <div className="inline-flex">
-                <p className="text-gray-800 font-semibold mr-1 ml-1">
-                  Pixeliser
-                </p>
-                <input
-                  type="range"
-                  onChange={filterPixelateHandler}
-                  min={1}
-                  max={50}
-                  defaultValue={0}
-                />
-              </div>
-            </div>
-            {/* couleur */}
-            <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-700 mr-1">couleur d'arriére plan</p>
-              <input type="color" onChange={filterColorHandler} />
-            </div>
-
-            {!hasRoundImage ? (
-              <button
-                onClick={roundImage}
-                className="md:px-2  rounded-xl bg-gray-200 text-gray-800"
-              >
-                Arroundir l'image
-              </button>
-            ) : (
-              <button
-                onClick={normalizImage}
-                className="md:px-2  rounded-xl bg-rose-600 text-white"
-              >
-                Annuler
-              </button>
-            )}
-          </div>
-        )}
-
-        {/* add text */}
-        {!text && (
-          <button
-            onClick={insertText}
-            className="mr-5 my-2 bg-white hover:shadow-md text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
-          >
-            <BiText className="mx-auto text-3xl" />
-            <p className="font-semibold text-gray-800">Ajouter du texte </p>
-          </button>
-        )}
-
-        <div className="flex items-center my-2 ">
-          <button
-            className="md:px-2 bg-white text-gray-700 border border-gray-400 py-1 px-2 rounded-md hover:shadow-md"
-            onClick={() => {
-              setIsDrawing(true)((canvas.isDrawingMode = true))
-            }}
-          >
-            <BiPaint className="mx-auto text-3xl text-gray-500" />
-            <p className="font-semibold text-gray-800">Dessiner </p>
-          </button>
-          {/* add Emoji */}
-          <button
-            onClick={showEmoji}
-            className="md:px-2 bg-white text-gray-700 border border-gray-400 py-1 px-2 rounded-md hover:shadow-md md:ml-2"
-          >
-            <BiCool className="mx-auto text-3xl text-gray-500" />
-            <p className="font-semibold text-gray-800">Ajouter des emoji </p>
-          </button>
-          {/* delete object */}
-          {/* <button
-            className="text-red-600 bg-white border rounded-full py-1 px-2 mt-2 md:ml-9 hover:text-white hover:bg-red-500"
-            onClick={deleteObject}
-          >
-            Supprimer
-          </button> */}
-        </div>
-
-        {isDrawing && (
-          <div className="flex flex-col items-center bg-white border-2 border-gray-200 my-2 px-2 md:ml-4">
-            {/* type de crayon */}
-            <select
-              onChange={brushesHandler}
-              className="bg-white font-semibold text-gray-700"
-            >
-              <option value="PencilBrush">crayon</option>
-              <option value="SprayBrush">spray</option>
-              <option value="CircleBrush">circle</option>
-            </select>
-            {/* couleur */}
-            <div className="inline-flex my-1">
-              <p className="mr-1 font-semibold text-gray-700">
-                couleur du dessin
-              </p>{" "}
-              <input type="color" onChange={drawingColorHandler} />
-            </div>
-            {/* taille */}
-            <div className="inline-flex my-1">
-              <p className="mr-1 font-semibold text-gray-700">
-                taille du crayon
-              </p>
-              <input
-                type="range"
-                defaultValue={1}
-                step={1}
-                onChange={drawingWidthHandler}
-                max={10}
-              />
-            </div>
-
-            <button
-              onClick={() => {
-                setIsDrawing(false)((canvas.isDrawingMode = false))
-              }}
-              className="bg-gray-700 hover:bg-gray-900 text-white md:px-2 mb-1 rounded-md"
-            >
-              Terminer
-            </button>
-          </div>
-        )}
-      </div>
-      <div className="flex items-center flex-wrap bg-gray-50">
-        <canvas
-          ref={canvasRef}
-          height="500px"
-          width="500px"
-          className="border-2 border-gray-400 border-dashed mx-2 md:ml-11 "
-        />
-        {/* add text */}
-        <div
-          ref={textAreaContainer}
-          className="h-0 w-0 overflow-hidden transition-all duration-700"
-        >
-          <textarea
-            ref={textAreaRef}
-            // onKeyDown={(e) => {
-            //   if (e.key === "Enter") {
-            //     handleChangeText(e)
-            //   }
-            // }}
-            onChange={(e) => setText(e.target.value)}
-            className=""
-            placeholder="entrer votre texte ici"
-            onFocus={removeOutline}
-          />
-          <button
-            onClick={addText}
-            className="bg-green-400 md:px-2 text-white mt-2 rounded-md hover:bg-green-600"
-          >
-            confirmer
-          </button>
-        </div>
-        {/* custom emoji */}
-        <div className="h-0 w-0 overflow-hidden" ref={emojiRef}>
-          <Picker onEmojiClick={onEmojiClick} groupNames={groupNames} />
-        </div>
         {/* instruction */}
-        <div className=" flex flex-col items-center border self-start md:mt-4 flex-wrap md:ml-auto md:mr-8 bg-blue-50 md:px-3 md:py-2">
+        {/* <div className=" flex flex-col items-center border self-start md:mt-4 flex-wrap md:ml-auto md:mr-8 bg-blue-50 md:px-3 md:py-2">
           <div className="inline-flex items-center">
             <BiInfoCircle className="text-gray-500" size={40} />
             <p className="font-semibold md:text-lg text-gray-500">Infos</p>
@@ -879,7 +933,7 @@ function MakeShirt() {
               </p>
             </li>
           </ul>
-        </div>
+        </div> */}
       </div>
 
       {/* let user select the shirt */}
