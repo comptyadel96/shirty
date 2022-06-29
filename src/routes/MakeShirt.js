@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import { fabric } from "fabric"
 import shirtsArray from "../components/Shirts"
-import ClipArt from "../components/ClipArt"
+import ClipArt from "./ClipArt"
 import {
   BiText,
   BiPhotoAlbum,
