@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import { fabric } from "fabric"
 import shirtsArray from "../components/Shirts"
+import ClipArt from "../components/ClipArt"
 import {
   BiText,
   BiPhotoAlbum,
@@ -12,8 +13,7 @@ import {
 } from "react-icons/bi"
 import Picker from "emoji-picker-react"
 // import axios from "axios"
-import ClipArt from "../components/ClipArt"
-import "../makeShirt.css"
+
 
 var FontFaceObserver = require("fontfaceobserver")
 function MakeShirt() {
