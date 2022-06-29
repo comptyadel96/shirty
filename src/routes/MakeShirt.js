@@ -7,16 +7,20 @@ import {
   BiPaint,
   BiCool,
   BiXCircle,
+  BiTrim,
+  BiShapeTriangle,
 } from "react-icons/bi"
 import Picker from "emoji-picker-react"
 // import axios from "axios"
 import "../makeShirt.css"
+import ClipArt from "../components/ClipArt"
 var FontFaceObserver = require("fontfaceobserver")
 function MakeShirt() {
   const canvasRef = useRef(null)
   const imageRef = useRef(null)
   const textAreaRef = useRef(null)
   const textAreaContainer = useRef(null)
+  const clipartRef = useRef(null)
   const emojiRef = useRef(null)
   const [canvas, setCanvas] = useState(null)
   const [image, setImage] = useState(null)
@@ -98,7 +102,7 @@ function MakeShirt() {
     const styleAdd = [
       "w-auto",
       "h-auto",
-      "ml-20",
+      "mx-3",
       "border",
       "border-gray-400",
       "transition-all",
@@ -161,9 +165,9 @@ function MakeShirt() {
       "flex-col",
       "items-center",
       "justify-center",
-      "md:ml-20",
       "md:w-auto",
       "md:h-auto",
+      "md:mx-2",
       "bg-white",
       "md:px-4",
       "md:py-8",
@@ -190,7 +194,6 @@ function MakeShirt() {
       "flex-col",
       "items-center",
       "justify-center",
-      "md:ml-20",
       "md:w-auto",
       "md:h-auto",
       "bg-white",
@@ -415,7 +418,7 @@ function MakeShirt() {
     canvas.on("mouse:down", function (e) {
       if (e.target && e.target.type === "i-text") {
         document.querySelector("#text-options").className =
-          "my-6 flex bg-white  items-center flex-wrap border shadow-lg border-gray-400 rounded-lg md:mr-2 md:max-w-sm md:ml-auto md:mr-10 max-w-sm "
+          "my-6 flex bg-white  items-center flex-wrap border shadow-lg border-gray-400 rounded-lg md:mr-2 md:mx-2 max-w-sm "
       }
     })
   // if the user click on the shirt we hide the text options
@@ -433,7 +436,6 @@ function MakeShirt() {
       "flex-col",
       "items-center",
       "flex-wrap",
-      "ml-20",
       "bg-white",
       "md:px-3",
       "md:py-2",
@@ -449,7 +451,6 @@ function MakeShirt() {
       "flex-col",
       "items-center",
       "flex-wrap",
-      "ml-20",
       "bg-white",
       "md:px-3",
       "md:py-2",
@@ -590,7 +591,28 @@ function MakeShirt() {
   const removeOutline = () => {
     textAreaRef.current.classList.add("outline-none")
   }
+  // add clip art
+  const addClipart = () => {
+    const styleArray = [
+      "overflow-auto",
+      "h-120",
+      "border-2",
+      "bg-white",
+      "md:px-2",
+    ]
+    clipartRef.current.classList.remove("hidden")
+    styleArray.map((clas) => clipartRef.current.classList.add(clas))
+  }
+  // add the clip art image to the canvas
+  const addClipImg = (url) => {
+    new fabric.Image.fromURL(url, (img) => {
+      img.scaleToWidth(100)
+      canvas.centerObject(img)
+      canvas.add(img)
+    })
 
+    canvas.renderAll()
+  }
   return (
     <div className="flex flex-col md:pt-20  ">
       <div
@@ -620,7 +642,7 @@ function MakeShirt() {
         {!text && (
           <button
             onClick={insertText}
-            className="mr-5 my-2 bg-white hover:shadow-md text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
+            className="mr-2 my-2 bg-white hover:shadow-md text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
           >
             <BiText className="mx-auto text-3xl" />
             <p className="font-semibold text-gray-800">Ajouter du texte </p>
@@ -652,6 +674,22 @@ function MakeShirt() {
           >
             Supprimer
           </button> */}
+          {/* clip art */}
+          <button
+            onClick={addClipart}
+            className="md:ml-2 my-2 bg-white hover:shadow-md text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
+          >
+            <BiTrim className="mx-auto text-3xl" />
+            <p className="font-semibold text-gray-800">Ajouter un clipArt </p>
+          </button>
+          {/* shapes */}
+          <button
+            onClick={addClipart}
+            className="md:ml-2 my-2 bg-white hover:shadow-md text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
+          >
+            <BiShapeTriangle className="mx-auto text-3xl" />
+            <p className="font-semibold text-gray-800">Formes géométriques </p>
+          </button>
         </div>
 
         {isDrawing && (
@@ -698,12 +736,15 @@ function MakeShirt() {
         )}
       </div>
       <div className="flex items-center flex-wrap bg-gray-50">
-        <canvas
-          ref={canvasRef}
-          height="500px"
-          width="500px"
-          className="border-2 border-gray-400 border-dashed mx-2 md:ml-11 "
-        />
+        <div className="px-4 m-5">
+          <canvas
+            ref={canvasRef}
+            height="500px"
+            width="500px"
+            className="border-2 border-gray-400 border-dashed   "
+          />
+        </div>
+
         {/* add text */}
         <div
           ref={textAreaContainer}
@@ -905,6 +946,27 @@ function MakeShirt() {
             <input type="checkbox" onChange={textStrikeHandler} />
           </div>
         </div>
+        {/* clip art container */}
+        <div ref={clipartRef} className="hidden">
+          {ClipArt.map((sectionImages) => (
+            <div className="flex flex-col">
+              <p className="text-center font-semibold text-gray-400">
+                {sectionImages.groupeTitle}
+              </p>
+              <div className="flex justify-center items-center  flex-wrap bg-white m-2 md:max-w-sm">
+                {sectionImages.url.map((img) => (
+                  <img
+                    src={img}
+                    alt="clip-art"
+                    className=" md:h-14 m-2 cursor-pointer  hover:scale-150 transition-all duration-700"
+                    onClick={() => addClipImg(img)}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
         {/* instruction */}
         {/* <div className=" flex flex-col items-center border self-start md:mt-4 flex-wrap md:ml-auto md:mr-8 bg-blue-50 md:px-3 md:py-2">
           <div className="inline-flex items-center">

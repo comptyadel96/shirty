@@ -97,7 +97,7 @@ const ClipArt = [
     ],
   },
   {
-    groupeTitle: "status",
+    groupeTitle: "statue",
     url: [
       "https://res.cloudinary.com/shirty/image/upload/v1656425664/shirty%20clip-arts/illustrations/status2_jcegkt.png",
       "https://res.cloudinary.com/shirty/image/upload/v1656425652/shirty%20clip-arts/illustrations/status3_krjmqi.png",
@@ -108,6 +108,12 @@ const ClipArt = [
       "https://res.cloudinary.com/shirty/image/upload/v1656425638/shirty%20clip-arts/illustrations/status8_wxoblh.png",
       "https://res.cloudinary.com/shirty/image/upload/v1656425639/shirty%20clip-arts/illustrations/status9_jyzgss.png",
       "https://res.cloudinary.com/shirty/image/upload/v1656425609/shirty%20clip-arts/illustrations/status_nkjlgq.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656495390/shirty%20clip-arts/illustrations/status10_m8qijy.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656495390/shirty%20clip-arts/illustrations/status14_jzbnbq.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656495391/shirty%20clip-arts/illustrations/status13_kcp4aw.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656495391/shirty%20clip-arts/illustrations/status15_u176ro.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656495391/shirty%20clip-arts/illustrations/status12_q3kylh.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656495391/shirty%20clip-arts/illustrations/status11_oka0cb.png",
     ],
   },
   {
@@ -149,6 +155,14 @@ const ClipArt = [
       "https://res.cloudinary.com/shirty/image/upload/v1656424923/shirty%20clip-arts/illustrations/coffee4_milhms.png",
       "https://res.cloudinary.com/shirty/image/upload/v1656424919/shirty%20clip-arts/illustrations/coffee3_bsay0z.png",
       "https://res.cloudinary.com/shirty/image/upload/v1656424920/shirty%20clip-arts/illustrations/coffee2_b8qkjm.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656495388/shirty%20clip-arts/illustrations/coffee9_jcwds9.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656495388/shirty%20clip-arts/illustrations/coffee11_ubqazc.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656495389/shirty%20clip-arts/illustrations/coffee8_mj52uy.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656495388/shirty%20clip-arts/illustrations/coffee12_tcb2qx.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656495388/shirty%20clip-arts/illustrations/coffee12_tcb2qx.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656495388/shirty%20clip-arts/illustrations/coffee13_ravvoe.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656495389/shirty%20clip-arts/illustrations/coffee14_odsc28.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656495389/shirty%20clip-arts/illustrations/coffee10_xnmwih.png",
     ],
   },
   {
@@ -276,11 +290,26 @@ const ClipArt = [
   },
   {
     groupeTitle: "guitars",
-    url: [],
+    url: [
+      "https://res.cloudinary.com/shirty/image/upload/v1656425303/shirty%20clip-arts/illustrations/guitar_2_srqlsh.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656425311/shirty%20clip-arts/illustrations/guitar4_kwpxiy.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656425305/shirty%20clip-arts/illustrations/guitar3_srcyie.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656425299/shirty%20clip-arts/illustrations/guitar1_jksdw7.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656425305/shirty%20clip-arts/illustrations/guitar5_ikdu6t.png",
+    ],
   },
   {
     groupeTitle: "egypte",
-    url: [],
+    url: [
+      "https://res.cloudinary.com/shirty/image/upload/v1656425041/shirty%20clip-arts/illustrations/egypt8_eqbvpg.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656425054/shirty%20clip-arts/illustrations/egypt7_jim8dr.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656425037/shirty%20clip-arts/illustrations/egypt6_hpmok1.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656425034/shirty%20clip-arts/illustrations/egypt5_vyntd4.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656425029/shirty%20clip-arts/illustrations/egypt4_mmmt7c.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656425027/shirty%20clip-arts/illustrations/egypt3_vvd9ht.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656425016/shirty%20clip-arts/illustrations/egypt2_q69mr2.png",
+      "https://res.cloudinary.com/shirty/image/upload/v1656425009/shirty%20clip-arts/illustrations/egypt1_lxigkz.png",
+    ],
   },
 ]
 export default ClipArt
