@@ -12,8 +12,9 @@ import {
 } from "react-icons/bi"
 import Picker from "emoji-picker-react"
 // import axios from "axios"
-import "../makeShirt.css"
 import ClipArt from "../components/ClipArt"
+import "../makeShirt.css"
+
 var FontFaceObserver = require("fontfaceobserver")
 function MakeShirt() {
   const canvasRef = useRef(null)
