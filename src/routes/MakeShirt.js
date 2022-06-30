@@ -7,13 +7,14 @@ import {
   BiPhotoAlbum,
   BiPaint,
   BiCool,
-  BiXCircle,
   BiTrim,
   BiShapeTriangle,
 } from "react-icons/bi"
+import { IoCloseSharp } from "react-icons/io5"
+import { FaPencilAlt } from "react-icons/fa"
 import Picker from "emoji-picker-react"
+// import MySlider from "../components/MySlider"
 // import axios from "axios"
-
 
 var FontFaceObserver = require("fontfaceobserver")
 function MakeShirt() {
@@ -108,6 +109,8 @@ function MakeShirt() {
       "border-gray-400",
       "transition-all",
       "duration-700",
+      "relative",
+      "overflow-visible",
     ]
     const styleRemove = ["h-0", "w-0"]
     styleRemove.map((style) => emojiRef.current.classList.remove(style))
@@ -133,6 +136,23 @@ function MakeShirt() {
     symbols: "Symbols",
     flags: "Drapeaux",
     recently_used: "Récemment utilisé",
+  }
+  // remove emoji picker
+  const removeEmoji = () => {
+    const styleRemove = ["h-0", "w-0"]
+    const styleAdd = [
+      "w-auto",
+      "h-auto",
+      "mx-3",
+      "border",
+      "border-gray-400",
+      "transition-all",
+      "duration-700",
+      "relative",
+      "overflow-visible",
+    ]
+    styleRemove.map((style) => emojiRef.current.classList.add(style))
+    styleAdd.map((style) => emojiRef.current.classList.remove(style))
   }
   // let user upload his image (logo) on the shirt
   const handleImageChange = (e) => {
@@ -419,7 +439,7 @@ function MakeShirt() {
     canvas.on("mouse:down", function (e) {
       if (e.target && e.target.type === "i-text") {
         document.querySelector("#text-options").className =
-          "my-6 flex bg-white  items-center flex-wrap border shadow-lg border-gray-400 rounded-lg md:mr-2 md:mx-2 max-w-sm "
+          " relative my-6 flex flex-col bg-white  items-center flex-wrap border shadow-lg border-gray-400 rounded-lg md:mr-2 md:mx-2 max-w-sm "
       }
     })
   // if the user click on the shirt we hide the text options
@@ -429,7 +449,9 @@ function MakeShirt() {
         document.querySelector("#text-options").className += " hidden"
       }
     })
-
+  const removeTextOptions = () => {
+    document.querySelector("#text-options").className = "hidden"
+  }
   if (image !== null && imageRef.current) {
     const showArray = [
       "my-6",
@@ -440,8 +462,9 @@ function MakeShirt() {
       "bg-white",
       "md:px-3",
       "md:py-2",
-      "border",
+      "border-2",
       "max-w-sm",
+      "relative",
     ]
     showArray.map((clas) => imageRef.current.classList.add(clas))
     imageRef.current.classList.remove("hidden")
@@ -461,7 +484,23 @@ function MakeShirt() {
     imageRef.current.classList.add("hidden")
     showArray.map((clas) => imageRef.current.classList.remove(clas))
   }
-
+  const imageFilterContainer = () => {
+    const showArray = [
+      "my-6",
+      "flex",
+      "flex-col",
+      "items-center",
+      "flex-wrap",
+      "bg-white",
+      "md:px-3",
+      "md:py-2",
+      "border-2",
+      "max-w-sm",
+      "relative",
+    ]
+    showArray.map((clas) => imageRef.current.classList.remove(clas))
+    imageRef.current.classList.add("hidden")
+  }
   // filter images
 
   const filterColorHandler = (e) => {
@@ -526,6 +565,16 @@ function MakeShirt() {
     image.applyFilters()
     canvas.renderAll()
   }
+
+  const filterSaturation = (e) => {
+    image.filters = []
+    image.filters.push(
+      new fabric.Image.filters.Saturation({ saturation: e.target.value })
+    )
+    image.applyFilters()
+    canvas.renderAll()
+  }
+
   const roundImage = () => {
     const clipPath = new fabric.Circle({
       radius: image.width / 2,
@@ -600,6 +649,7 @@ function MakeShirt() {
       "border-2",
       "bg-white",
       "md:px-2",
+      "relative",
     ]
     clipartRef.current.classList.remove("hidden")
     styleArray.map((clas) => clipartRef.current.classList.add(clas))
@@ -614,6 +664,36 @@ function MakeShirt() {
 
     canvas.renderAll()
   }
+  // remove clip art container
+  const removeClipArt = () => {
+    const styleArray = [
+      "overflow-auto",
+      "h-120",
+      "border-2",
+      "bg-white",
+      "md:px-2",
+      "relative",
+    ]
+    styleArray.map((clas) => clipartRef.current.classList.remove(clas))
+    clipartRef.current.classList.add("hidden")
+  }
+  // add gradient to objects
+  const addGradient = () => {
+    var gradient = new fabric.Gradient({
+      type: "linear",
+      gradientUnits: "percentage",
+      coords: { x1: 0, y1: 0, x2: 1, y2: 0 },
+      colorStops: [
+        { offset: 0, color: "red" },
+        { offset: 1, color: "blue" },
+      ],
+    })
+    if (canvas && canvas.getActiveObject()) {
+      canvas.getActiveObject().set("fill", gradient)
+    }
+    canvas.renderAll()
+  }
+
   return (
     <div className="flex flex-col md:pt-20  ">
       <div
@@ -691,6 +771,12 @@ function MakeShirt() {
             <BiShapeTriangle className="mx-auto text-3xl" />
             <p className="font-semibold text-gray-800">Formes géométriques </p>
           </button>
+          <button
+            onClick={addGradient}
+            className="md:ml-2 my-2 bg-white hover:shadow-md text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
+          >
+            appliquer gradient
+          </button>
         </div>
 
         {isDrawing && (
@@ -751,20 +837,20 @@ function MakeShirt() {
           ref={textAreaContainer}
           className="h-0 w-0 overflow-hidden transition-all duration-700 relative "
         >
-          <BiXCircle
+          <IoCloseSharp
             onClick={removeTextContainer}
-            className="absolute right-2 top-0 cursor-pointer z-20 text-2xl text-red-500"
+            className="absolute right-2 top-1 cursor-pointer z-20 text-2xl text-gray-400 hover:text-gray-600"
           />
           <textarea
             ref={textAreaRef}
             onChange={(e) => setText(e.target.value)}
-            className="bg-sky-50 border-2 border-sky-200 text-gray-700 md:py-3 md:px-3 placeholder:text-sky-400"
+            className="bg-gray-50 border-2 border-gray-200 text-gray-700 md:py-3 md:px-3 placeholder:text-gray-400"
             placeholder="entrer votre texte ici"
             onFocus={removeOutline}
           />
           <button
             onClick={addText}
-            className="bg-sky-50 md:px-2 font-semibold text-sky-400 border border-sky-400 mt-2 rounded-md hover:bg-sky-400 hover:text-white"
+            className="bg-gray-50 md:px-2 font-semibold text-gray-400 border border-gray-400 mt-2 rounded-md hover:bg-gray-400 hover:text-white"
           >
             Ajouter le texte
           </button>
@@ -772,17 +858,23 @@ function MakeShirt() {
         {/* image controller */}
         {hasUploadImage && (
           <div ref={imageRef} className="hidden">
+            <IoCloseSharp
+              onClick={imageFilterContainer}
+              className="absolute right-2 top-1 cursor-pointer z-20 text-2xl text-gray-400 hover:text-gray-600"
+            />
             {/* filtre */}
             <div className="flex flex-col items-center my-2   md:px-2">
-              <p className="font-semibold text-gray-700">
-                Appliquer un filtre a votre image
-              </p>
+              <div className="inline-flex">
+                <p className="font-semibold text-gray-700">Filtres image</p>
+                <BiPhotoAlbum className="text-gray-600 text-3xl" />
+              </div>
+
               <div className="flex items-center flex-wrap">
                 {filterArray.map((filter) => (
                   <button
                     key={filter.name}
                     onClick={filter.effect}
-                    className=" text-gray-800 bg-white my-1 px-2 py-1 rounded-lg mr-2 border hover:bg-red-600 hover:text-white"
+                    className=" text-gray-800 bg-white my-1 px-2 py-1 rounded-lg mr-2 border shadow-lg hover:text-red-500 hover:border-red-500 hover:shadow-red-100 "
                   >
                     {filter.name}
                   </button>
@@ -795,7 +887,7 @@ function MakeShirt() {
                   type="range"
                   step={5}
                   min={0}
-                  max={250}
+                  max={350}
                   defaultValue={0}
                 />
               </div>
@@ -807,21 +899,52 @@ function MakeShirt() {
                   type="range"
                   onChange={filterPixelateHandler}
                   min={1}
+                  max={10}
+                  defaultValue={0}
+                />
+                {/* <MySlider
+                  onChange={filterPixelateHandler}
+                  min={1}
+                  max={30}
+                  step={0.5}
+                  
+                /> */}
+              </div>
+              {/* <div className="inline-flex">
+                <p className="text-gray-800 font-semibold mr-1">luminositée</p>
+                <input
+                  onChange={filterBrightness}
+                  type="range"
+                  step={1}
+                  min={0}
                   max={50}
+                  defaultValue={0}
+                />
+              </div> */}
+              <div className="inline-flex">
+                <p className="text-gray-800 font-semibold mr-1">saturation</p>
+                <input
+                  onChange={filterSaturation}
+                  type="range"
+                  step={1}
+                  min={0}
+                  max={10}
                   defaultValue={0}
                 />
               </div>
             </div>
             {/* couleur */}
             <div className="flex items-center my-2 mx-4">
-              <p className="text-gray-700 mr-1">couleur d'arriére plan</p>
+              <p className="text-gray-700 font-semibold mr-1">
+                couleur d'arriére plan
+              </p>
               <input type="color" onChange={filterColorHandler} />
             </div>
 
             {!hasRoundImage ? (
               <button
                 onClick={roundImage}
-                className="md:px-2 md:py-1 rounded-lg bg-blue-400 text-white hover:bg-blue-500"
+                className="md:px-2  rounded-lg bg-blue-600 text-white hover:bg-blue-800"
               >
                 Arroundir l'image
               </button>
@@ -837,6 +960,10 @@ function MakeShirt() {
         )}
         {/* custom emoji */}
         <div className="h-0 w-0 overflow-hidden" ref={emojiRef}>
+          <IoCloseSharp
+            onClick={removeEmoji}
+            className="absolute right-0 -top-6 cursor-pointer z-20 text-2xl text-red-500"
+          />
           <Picker
             onEmojiClick={onEmojiClick}
             groupNames={groupNames}
@@ -845,10 +972,22 @@ function MakeShirt() {
           />
         </div>
         {/* text options */}
-        <div id="text-options" className="hidden">
+        <div id="text-options" className="hidden relative">
+          <IoCloseSharp
+            onClick={removeTextOptions}
+            className="absolute right-2 top-1 cursor-pointer z-20 text-2xl text-gray-400 hover:text-gray-600"
+          />
+          <div className="inline-flex items-center border-b-2 md:my-2 md:pb-2">
+            <p className="text-gray-700 font-semibold text-xl mr-2">
+              Options texte
+            </p>
+            <FaPencilAlt className="md:text-2xl text-gray-500" />
+          </div>
           {/* color */}
           <div className="flex items-center my-2 mx-4">
-            <p className="text-gray-800 mr-1 font-semibold ">Couleur du text</p>
+            <p className="text-gray-800 mr-1 font-semibold ">
+              Couleur du texte
+            </p>
             <input type="color" onChange={textColorHandler} />
           </div>
           {/* text stroke color */}
@@ -868,13 +1007,13 @@ function MakeShirt() {
               min={30}
               max={100}
               defaultValue={30}
-              className="text-md font-semibold text-gray-800 text-center border"
+              className="text-md font-semibold text-gray-800 text-center bg-gray-50 px-3"
             />
           </div>
           {/* font style */}
           <div className="flex items-center my-2 mx-2">
             <p className="text-gray-800 mr-1 font-semibold ">Police</p>
-            <select onChange={textFontHandler} className=" border bg-white ">
+            <select onChange={textFontHandler} className="  bg-gray-50 ">
               <option value="Festive">Festive </option>
               <option value="Monoton">Monoton </option>
               <option value="ZCOOL KuaiLe">ZCOOL-KuaiLe </option>
@@ -911,7 +1050,7 @@ function MakeShirt() {
           {/* font weight */}
           <div className="flex items-center my-2 mx-4">
             <p className="text-gray-800 mr-1 font-semibold ">Poid du text</p>
-            <select onChange={textWeightHandler} className="bg-white border ">
+            <select onChange={textWeightHandler} className="bg-gray-100 ">
               <option value="normal">normal</option>
               <option value="bold">gras</option>
             </select>
@@ -921,7 +1060,7 @@ function MakeShirt() {
             <p className="text-gray-800 mr-1 font-semibold ">Style du text</p>
             <select
               onChange={textStyleHandler}
-              className="text-gray-700 bg-white border "
+              className="text-gray-700 bg-gray-100"
             >
               <option value="normal">normal</option>
               <option value="italic">italique</option>
@@ -930,27 +1069,31 @@ function MakeShirt() {
           {/* font underline */}
           <div className="flex items-center my-2 mx-4">
             <p className="text-gray-800 mr-1 font-semibold ">
-              souligner le text
+              Souligner le text
             </p>
             <input type="checkbox" onChange={textUnderlineHandler} />
           </div>
           {/* font overline */}
           <div className="flex items-center my-2 mx-4">
             <p className="text-gray-800 mr-1 font-semibold ">
-              surligner le text
+              Surligner le text
             </p>
             <input type="checkbox" onChange={textOverlineHandler} />
           </div>
           {/* font strike */}
           <div className="flex items-center my-2 mx-4">
-            <p className="text-gray-800 mr-1 font-semibold ">barré le text</p>
+            <p className="text-gray-800 mr-1 font-semibold ">Barré le text</p>
             <input type="checkbox" onChange={textStrikeHandler} />
           </div>
         </div>
         {/* clip art container */}
         <div ref={clipartRef} className="hidden">
+          <IoCloseSharp
+            onClick={removeClipArt}
+            className="sticky ml-auto top-1 cursor-pointer z-20 text-2xl text-gray-400 hover:text-gray-600"
+          />
           {ClipArt.map((sectionImages) => (
-            <div className="flex flex-col">
+            <div className="flex flex-col" key={sectionImages.groupeTitle}>
               <p className="text-center font-semibold text-gray-400">
                 {sectionImages.groupeTitle}
               </p>
@@ -958,9 +1101,10 @@ function MakeShirt() {
                 {sectionImages.url.map((img) => (
                   <img
                     src={img}
-                    alt="clip-art"
+                    alt={img}
                     className=" md:h-14 m-2 cursor-pointer  hover:scale-150 transition-all duration-700"
                     onClick={() => addClipImg(img)}
+                    key={img}
                   />
                 ))}
               </div>
