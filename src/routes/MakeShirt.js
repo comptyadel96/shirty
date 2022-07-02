@@ -24,6 +24,8 @@ function MakeShirt() {
   const textAreaContainer = useRef(null)
   const clipartRef = useRef(null)
   const emojiRef = useRef(null)
+  const shapesRef = useRef(null)
+  const shapeControllerRef = useRef(null)
   const [canvas, setCanvas] = useState(null)
   const [image, setImage] = useState(null)
   const [hasUploadImage, setHasUploadImage] = useState(false)
@@ -693,6 +695,108 @@ function MakeShirt() {
     }
     canvas.renderAll()
   }
+  //   show shapes container
+  const showShapes = () => {
+    const removeStyle = ["h-0", "w-0"]
+    const addStyle = [
+      "transition-all",
+      "duration-700",
+      "flex",
+      "flex-col",
+      "items-center",
+    ]
+    removeStyle.map((clas) => shapesRef.current.classList.remove(clas))
+    addStyle.map((clas) => shapesRef.current.classList.add(clas))
+  }
+  const addShape = (shape) => {
+    let myShape
+    if (shape === "Circle") {
+      myShape = new fabric[shape]({
+        radius: 50,
+        fill: "black",
+      })
+    } else if (shape === "Polygon") {
+      myShape = new fabric[shape](
+        [
+          { x: 200, y: 0 },
+          { x: 250, y: 50 },
+          { x: 250, y: 100 },
+          { x: 150, y: 100 },
+          { x: 150, y: 50 },
+        ],
+        {
+          fill: "black",
+          width: 100,
+          height: 100,
+        }
+      )
+    } else if (shape === "Line") {
+      myShape = new fabric.Line([50, 200, 200, 200], {
+        stroke: "black",
+        width: 400,
+        strokeWidth: 10,
+      })
+    } else {
+      myShape = new fabric[shape]({
+        fill: "black",
+        width: 100,
+        height: 100,
+      })
+    }
+    canvas.add(myShape)
+    canvas.centerObject(myShape)
+    canvas.renderAll()
+  }
+  // shapes options :
+  const shapesColor = (e) => {
+    canvas.getActiveObject().set("fill", e.target.value)
+    canvas.renderAll()
+  }
+  const shapesCornerColor = (e) => {
+    canvas.getActiveObject().set("stroke", e.target.value)
+    canvas.renderAll()
+  }
+  const shapesCornerWidth = (e) => {
+    canvas.getActiveObject().set("strokeWidth", Math.floor(e.target.value))
+    canvas.renderAll()
+  }
+  const shapesOpacity = (e) => {
+    canvas.getActiveObject().set("opacity", e.target.value / 10)
+    canvas.renderAll()
+  }
+
+  // toggle shapes controller
+
+  canvas &&
+    canvas.on("mouse:down", function (e) {
+      const showArray = [
+        "flex",
+        "flex-col",
+        "items-center",
+        "bg-white",
+        "shadow-lg",
+        "border",
+        "md:p-4",
+      ]
+      const target = e.target.type
+      if (
+        e.target &&
+        (target === "rect" ||
+          target === "triangle" ||
+          target === "circle" ||
+          target === "line" ||
+          target === "polygon")
+      ) {
+        showArray.map((clas) => shapeControllerRef.current.classList.add(clas))
+        shapeControllerRef.current.classList.remove("hidden")
+      } else {
+        showArray.map((clas) =>
+          shapeControllerRef.current.classList.remove(clas)
+        )
+
+        shapeControllerRef.current.classList.add("hidden")
+      }
+    })
 
   return (
     <div className="flex flex-col md:pt-20  ">
@@ -748,13 +852,7 @@ function MakeShirt() {
             <BiCool className="mx-auto text-3xl text-gray-500" />
             <p className="font-semibold text-gray-800">Ajouter des emoji </p>
           </button>
-          {/* delete object */}
-          {/* <button
-            className="text-red-600 bg-white border rounded-full py-1 px-2 mt-2 md:ml-9 hover:text-white hover:bg-red-500"
-            onClick={deleteObject}
-          >
-            Supprimer
-          </button> */}
+
           {/* clip art */}
           <button
             onClick={addClipart}
@@ -765,7 +863,7 @@ function MakeShirt() {
           </button>
           {/* shapes */}
           <button
-            onClick={addClipart}
+            onClick={showShapes}
             className="md:ml-2 my-2 bg-white hover:shadow-md text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
           >
             <BiShapeTriangle className="mx-auto text-3xl" />
@@ -778,7 +876,7 @@ function MakeShirt() {
             appliquer gradient
           </button>
         </div>
-
+        {/* drawing mode  */}
         {isDrawing && (
           <div className="flex flex-col items-center bg-white border-2 border-gray-200 my-2 px-2 md:ml-4">
             {/* type de crayon */}
@@ -822,7 +920,7 @@ function MakeShirt() {
           </div>
         )}
       </div>
-      <div className="flex items-center flex-wrap bg-gray-50">
+      <div className="flex items-center flex-wrap bg-gray-50 overflow-auto md:max-h-128">
         <div className="px-4 m-5">
           <canvas
             ref={canvasRef}
@@ -863,13 +961,13 @@ function MakeShirt() {
               className="absolute right-2 top-1 cursor-pointer z-20 text-2xl text-gray-400 hover:text-gray-600"
             />
             {/* filtre */}
-            <div className="flex flex-col items-center my-2   md:px-2">
-              <div className="inline-flex">
+            <div className="flex flex-col items-center my-2  ">
+              <div className="inline-flex md:my-2 border-b-2 md:pb-1">
                 <p className="font-semibold text-gray-700">Filtres image</p>
                 <BiPhotoAlbum className="text-gray-600 text-3xl" />
               </div>
 
-              <div className="flex items-center flex-wrap">
+              <div className="flex items-center flex-wrap bg-gray-100">
                 {filterArray.map((filter) => (
                   <button
                     key={filter.name}
@@ -902,25 +1000,8 @@ function MakeShirt() {
                   max={10}
                   defaultValue={0}
                 />
-                {/* <MySlider
-                  onChange={filterPixelateHandler}
-                  min={1}
-                  max={30}
-                  step={0.5}
-                  
-                /> */}
               </div>
-              {/* <div className="inline-flex">
-                <p className="text-gray-800 font-semibold mr-1">luminositée</p>
-                <input
-                  onChange={filterBrightness}
-                  type="range"
-                  step={1}
-                  min={0}
-                  max={50}
-                  defaultValue={0}
-                />
-              </div> */}
+
               <div className="inline-flex">
                 <p className="text-gray-800 font-semibold mr-1">saturation</p>
                 <input
@@ -944,7 +1025,7 @@ function MakeShirt() {
             {!hasRoundImage ? (
               <button
                 onClick={roundImage}
-                className="md:px-2  rounded-lg bg-blue-600 text-white hover:bg-blue-800"
+                className="md:px-2  rounded-lg bg-white text-blue-600 border border-blue-600 hover:bg-blue-800 hover:text-white hover:border-none "
               >
                 Arroundir l'image
               </button>
@@ -1112,6 +1193,79 @@ function MakeShirt() {
           ))}
         </div>
 
+        {/* shapes container */}
+        <div className="h-0 w-0 overflow-hidden self-start " ref={shapesRef}>
+          <div className="flex items-center flex-wrap bg-white shadow-lg border-2 mb-3 ">
+            <button
+              className="m-4 bg-white md:px-3 md:py-2 hover:shadow-lg "
+              onClick={() => addShape("Triangle")}
+            >
+              <img className="h-9" src="/images/triangle.png" alt="triangle" />
+              <p className="font-semibold text-gray-700">triangle</p>
+            </button>
+            <button
+              className="m-4 bg-white md:px-3 md:py-2 hover:shadow-lg "
+              onClick={() => addShape("Rect")}
+            >
+              <img
+                className="h-9"
+                src="/images/Rectangle.png"
+                alt="rectangle"
+              />
+              <p className="font-semibold text-gray-600">rectangle</p>
+            </button>
+            <button
+              className="m-4 bg-white md:px-3 md:py-2 hover:shadow-lg "
+              onClick={() => addShape("Circle")}
+            >
+              <img className="h-9" src="/images/Ellipse.png" alt="Ellipse" />
+              <p className="font-semibold text-gray-600">cercle</p>
+            </button>
+
+            <button
+              className="m-4 bg-white md:px-3 md:py-2 hover:shadow-lg "
+              onClick={() => addShape("Line")}
+            >
+              <img className="h-3 w-32" src="/images/Line.png" alt="Line" />
+              <p className="font-semibold text-gray-600">line</p>
+            </button>
+            <button
+              className="m-4 bg-white md:px-3 md:py-2 hover:shadow-lg "
+              onClick={() => addShape("Polygon")}
+            >
+              <img className="h-9 mx-auto" src="/images/polygon.png" alt="polygon" />
+              <p className="font-semibold text-gray-600">Polygone</p>
+            </button>
+          </div>
+          {/* shapes options */}
+          <div className="hidden" ref={shapeControllerRef}>
+            <div className="inline-flex items-center">
+              <p>Couleur</p>
+              <input type="color" onChange={shapesColor} />
+            </div>
+
+            <div className="inline-flex items-center">
+              <p>taille de la bordure</p>
+              <input
+                type="range"
+                min={0}
+                max={10}
+                onChange={shapesCornerWidth}
+                defaultValue={1}
+              />
+            </div>
+
+            <div className="inline-flex items-center">
+              <p>couleur de la bordure</p>
+              <input type="color" onChange={shapesCornerColor} />
+            </div>
+
+            <div className="inline-flex items-center">
+              <p>opacité</p>
+              <input type="range" onChange={shapesOpacity} min={0} max={10} />
+            </div>
+          </div>
+        </div>
         {/* instruction */}
         {/* <div className=" flex flex-col items-center border self-start md:mt-4 flex-wrap md:ml-auto md:mr-8 bg-blue-50 md:px-3 md:py-2">
           <div className="inline-flex items-center">
