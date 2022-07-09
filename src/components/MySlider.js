@@ -2,14 +2,14 @@ import React from "react"
 import ReactSlider from "react-slider"
 function MySlider({ step = 1, min, max, onChange }) {
   return (
- 
     <ReactSlider
-      className="w-96 bg-black flex flex-col items-center max-w-sm"
-      thumbClassName="w-6 h-6 rounded-md bg-red-400 self-center"
-      trackClassName="bg-white h-full max-w-lg bg-blue-300"
-      renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
+      className="w-3/4 self-start   mb-2"
+      thumbClassName="w-3 h-3 rounded-full border border-black bg-red-400 cursor-pointer "
+      trackClassName=" h-3 bg-white rounded-full border border-gray-400"
+      marks={5}
+      // markClassName="rounded-full w-2 h-2 bg-black"
       onChange={onChange}
-      value={0}
+      defaultValue={1}
     />
   )
 }
