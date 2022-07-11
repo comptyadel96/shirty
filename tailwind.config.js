@@ -701,6 +701,7 @@ module.exports = {
     },
     minWidth: {
       0: "0px",
+      rightBar: "19rem",
       full: "100%",
       min: "min-content",
       max: "max-content",

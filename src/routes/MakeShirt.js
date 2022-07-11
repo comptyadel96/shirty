@@ -33,6 +33,7 @@ import Svgs from "../components/Svgs"
 import MySlider from "../components/MySlider"
 import MyPicker from "../components/MyPicker"
 import ToolTip from "../components/ToolTip"
+import NormalPicker from "../components/NormalPicker"
 // import axios from "axios"
 
 var FontFaceObserver = require("fontfaceobserver")
@@ -55,6 +56,8 @@ function MakeShirt() {
   const [text, setText] = useState("")
   const [hasRoundImage, setHasRoundImage] = useState(false)
   const [strokeVal, setStrokeVal] = useState(0)
+  const [isDrawing, setIsDrawing] = useState(false)
+
   // initialize canvas and image objects on mount
   useEffect(() => {
     const canvas = new fabric.Canvas(canvasRef.current, {
@@ -777,13 +780,13 @@ function MakeShirt() {
       canvas.freeDrawingBrush.color = e.target.value
     }
   }
-  const drawingWidthHandler = (e) => {
+  const drawingWidthHandler = (value) => {
     if (canvas) {
-      canvas.freeDrawingBrush.width = e.target.value
+      canvas.freeDrawingBrush.width = value / 4
     }
   }
-  function brushesHandler(e) {
-    canvas.freeDrawingBrush = new fabric[e.target.value](canvas)
+  function brushesHandler(value) {
+    canvas.freeDrawingBrush = new fabric[value](canvas)
   }
   const removeOutline = () => {
     textAreaRef.current.classList.add("outline-none")
@@ -925,12 +928,11 @@ function MakeShirt() {
       "md:h-128",
       "select-none",
       "max-w-rightBar",
+      "min-w-rightBar",
       "flex",
       "flex-col",
       "items-center",
       "bg-white",
-      "transition-all",
-      "duration-700",
       "z-50",
       "overflow-visible",
       "border-2",
@@ -945,7 +947,7 @@ function MakeShirt() {
     hideArr.map((clas) => optionsContainerRef.current.classList.remove(clas))
   }
   const showDrawingOptions = () => {
-    const showArray = ["flex", "flex-col", "items-center", "bg-[#eee]"]
+    const showArray = ["flex", "flex-col", "items-center", "w-full"]
     showArray.map((clas) => drawingRef.current.classList.add(clas))
     drawingRef.current.classList.remove("hidden")
   }
@@ -991,6 +993,7 @@ function MakeShirt() {
             className="md:px-2 bg-white text-gray-700 border border-gray-400 py-1 px-2 rounded-md hover:shadow-md"
             onClick={() => {
               canvas.isDrawingMode = true
+              setIsDrawing(true)
               showDrawingOptions()
               toggleMenu(drawingRef)
             }}
@@ -1778,42 +1781,64 @@ function MakeShirt() {
 
           {/* drawing mode  */}
           <div ref={drawingRef} className="hidden">
-            {/* type de crayon */}
-            <select
-              onChange={brushesHandler}
-              className="bg-white font-semibold text-gray-700"
-            >
-              <option value="PencilBrush">crayon</option>
-              <option value="SprayBrush">spray</option>
-              <option value="CircleBrush">circle</option>
-            </select>
-            {/* couleur */}
-            <div className="inline-flex my-1">
-              <p className="mr-1 font-semibold text-gray-700">
-                couleur du dessin
-              </p>
-              <input type="color" onChange={drawingColorHandler} />
-            </div>
-            {/* taille */}
-            <div className="inline-flex my-1">
-              <p className="mr-1 font-semibold text-gray-700">
-                taille du crayon
-              </p>
-              <input
-                type="range"
-                defaultValue={1}
-                step={1}
-                onChange={drawingWidthHandler}
-                max={10}
-              />
-            </div>
+            <p className="bg-[#eee] md:p-2 self-start italic font-semibold">
+              Mode dessin libre
+            </p>
+            <div className="flex flex-col bg-[#eee] md:p-2 w-full">
+              {/* type de crayon */}
+              <div className="flex items-center max-w-xs ">
+                <p className="text-sm font-semibold italic mr-2">Mode</p>
+                <NormalPicker
+                  values={[
+                    { value: "PencilBrush", name: "Crayon" },
+                    { value: "SprayBrush", name: "Spray" },
+                    { value: "CircleBrush", name: "Circle" },
+                  ]}
+                  onItemClick={brushesHandler}
+                />
+              </div>
 
-            <button
-              onClick={() => (canvas.isDrawingMode = false)}
-              className="bg-gray-700 hover:bg-gray-900 text-white md:px-2 mb-1 rounded-md"
-            >
-              Terminer
-            </button>
+              {/* couleur */}
+              <div className="inline-flex my-1">
+                <p className="mr-1 font-semibold ">Couleur</p>
+                <div className="rounded-full w-5 h-5 overflow-hidden border-2 border-black">
+                  <input
+                    className="cursor-pointer"
+                    type="color"
+                    onChange={drawingColorHandler}
+                  />
+                </div>
+              </div>
+              {/* taille */}
+              <div className="inline-flex my-1 items-center">
+                <p className="mr-1 font-semibold  text-sm">Taille</p>
+                <div className="w-full">
+                  <MySlider max={10} onChange={drawingWidthHandler} />
+                </div>
+              </div>
+
+              {isDrawing ? (
+                <button
+                  onClick={() => {
+                    canvas.isDrawingMode = false
+                    setIsDrawing(false)
+                  }}
+                  className="bg-rose-500 hover:bg-rose-600 text-white md:px-2  mb-1 rounded-full"
+                >
+                  Quitter le mode dessin libre
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    canvas.isDrawingMode = true
+                    setIsDrawing(true)
+                  }}
+                  className="bg-gray-700 hover:bg-gray-900 text-white md:px-2  mb-1 rounded-full"
+                >
+                  Reprendre le mode dessin libre
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
