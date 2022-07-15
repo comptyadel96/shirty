@@ -1,7 +1,9 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState, Suspense } from "react"
 import { fabric } from "fabric"
 import shirtsArray from "../components/Shirts"
 import ClipArt from "./ClipArt"
+import { Canvas } from "@react-three/fiber"
+import { OrbitControls } from "@react-three/drei"
 import {
   BiText,
   BiPhotoAlbum,
@@ -18,6 +20,7 @@ import {
   MdLightMode,
   MdFilterDrama,
   MdPhotoFilter,
+  MdRemoveCircle,
 } from "react-icons/md"
 import { IoCloseSharp } from "react-icons/io5"
 import {
@@ -34,6 +37,8 @@ import MySlider from "../components/MySlider"
 import MyPicker from "../components/MyPicker"
 import ToolTip from "../components/ToolTip"
 import NormalPicker from "../components/NormalPicker"
+import ModelDraco from "../components/ModelDraco"
+
 // import axios from "axios"
 
 var FontFaceObserver = require("fontfaceobserver")
@@ -63,10 +68,11 @@ function MakeShirt() {
     const canvas = new fabric.Canvas(canvasRef.current, {
       selectionColor: "rgba(0,0,0,.5)",
       selectionLineWidth: 3,
+      preserveObjectStacking: true,
     })
-    canvas.freeDrawingBrush.color = "black"
-    canvas.freeDrawingBrush.strokeLineCap = "round"
-    canvas.freeDrawingBrush.width = 2
+    // canvas.freeDrawingBrush.color = "black"
+    // canvas.freeDrawingBrush.strokeLineCap = "round"
+    // canvas.freeDrawingBrush.width = 2
 
     setCanvas(canvas)
     canvas.renderAll()
@@ -163,6 +169,7 @@ function MakeShirt() {
   }
   // let user upload his image (logo) on the shirt
   const handleImageChange = (e) => {
+    // console.log(e)
     const reader = new FileReader()
     reader.readAsDataURL(e.target.files[0])
     reader.onload = (e) => {
@@ -177,6 +184,7 @@ function MakeShirt() {
           left: canvas.width / 3,
         })
         // canvas.centerObject(image)
+
         canvas.add(image)
         setImage(image)
 
@@ -193,11 +201,14 @@ function MakeShirt() {
       "flex-col",
       "items-center",
       "justify-center",
-      "md:w-auto",
-      "md:h-auto",
-      "md:mx-2",
       "bg-white",
       "md:px-4",
+      "md:pt-7",
+      "md:pb-4",
+      "shadow-lg",
+      "mx-auto",
+      "relative",
+      "rounded-md",
     ]
     const classArray2 = ["hidden"]
     if (textAreaContainer.current) {
@@ -247,13 +258,20 @@ function MakeShirt() {
         textAlign: "center",
         stroke: 0,
       })
-
       canvas.centerObject(myText)
       canvas.add(myText)
       canvas.renderAll()
       textAreaRef.current.value = ""
     }
   }
+  
+  // make active object in front of other objects (text above images etc ...)
+  canvas &&
+    canvas.on("object:moving", function (event) {
+      event.target.bringToFront()
+      canvas.renderAll()
+    })
+
   // text character spacing
   const textChar = (e) => {
     if (canvas && canvas.getActiveObject()) {
@@ -363,7 +381,6 @@ function MakeShirt() {
   }
   // change text  font
   const textFontHandler = (val) => {
-    console.log(val)
     var font = new FontFaceObserver(val)
     font.load().then(() => {
       if (canvas && canvas.getActiveObject()) {
@@ -607,9 +624,7 @@ function MakeShirt() {
         document.querySelector("#text-options").className += " hidden"
       }
     })
-  // const removeTextOptions = () => {
-  //   document.querySelector("#text-options").className = "hidden"
-  // }
+
   if (image !== null && imageRef.current) {
     const showArray = [
       "my-6",
@@ -720,7 +735,12 @@ function MakeShirt() {
     image.applyFilters()
     canvas.renderAll()
   }
-
+  //  remove all filters
+  const removeFilters = () => {
+    image.filters = []
+    image.applyFilters()
+    canvas.renderAll()
+  }
   const roundImage = () => {
     const clipPath = new fabric.Circle({
       radius: image.width < image.height ? image.width / 2 : image.height / 2,
@@ -796,9 +816,9 @@ function MakeShirt() {
     const styleArray = [
       "overflow-auto",
       "max-h-full",
-      "bg-white",
-      "md:px-2",
       "relative",
+      "w-full",
+      "bg-[#eee]",
     ]
     clipartRef.current.classList.remove("hidden")
     styleArray.map((clas) => clipartRef.current.classList.add(clas))
@@ -813,18 +833,7 @@ function MakeShirt() {
 
     canvas.renderAll()
   }
-  // remove clip art container
-  const removeClipArt = () => {
-    const styleArray = [
-      "overflow-auto",
-      "max-h-full",
-      "bg-white",
-      "md:px-2",
-      "relative",
-    ]
-    styleArray.map((clas) => clipartRef.current.classList.remove(clas))
-    clipartRef.current.classList.add("hidden")
-  }
+
   // add gradient to objects
   const addGradient = () => {
     var gradient = new fabric.Gradient({
@@ -921,14 +930,16 @@ function MakeShirt() {
       drawingRef,
     ]
     let otherRef = menuRefs.filter((ref) => ref !== currentRef)
+    currentRef === drawingRef
+      ? (canvas.isDrawingMode = true)
+      : (canvas.isDrawingMode = false)
     otherRef.map((ref) => ref.current.classList.add("hidden"))
-
     currentRef.current.classList.remove("hidden")
+
     const showArr = [
       "md:h-128",
       "select-none",
       "max-w-rightBar",
-      "min-w-rightBar",
       "flex",
       "flex-col",
       "items-center",
@@ -941,13 +952,25 @@ function MakeShirt() {
       "md:px-2",
       "md:pt-2",
       "shadow-xl",
+      "transition-all",
+      "duration-700",
     ]
-    const hideArr = ["w-0", "h-0", "border-2", "overflow-hidden"]
+    const hideArr = ["max-w-0", "max-h-0", "border-2", "overflow-hidden"]
+
     showArr.map((clas) => optionsContainerRef.current.classList.add(clas))
     hideArr.map((clas) => optionsContainerRef.current.classList.remove(clas))
   }
+
+  // show free drawing options
   const showDrawingOptions = () => {
-    const showArray = ["flex", "flex-col", "items-center", "w-full"]
+    const showArray = [
+      "flex",
+      "flex-col",
+      "items-center",
+      "w-full",
+      "min-w-full",
+      "md:mx-2",
+    ]
     showArray.map((clas) => drawingRef.current.classList.add(clas))
     drawingRef.current.classList.remove("hidden")
   }
@@ -957,7 +980,7 @@ function MakeShirt() {
         id="controller"
         className="flex items-center md:ml-14 md:mr-12 mt-5 p-2   md:mb-2 "
       >
-        {/* add logo */}
+        {/* add design */}
         {!image && (
           <div className="flex flex-col  items-center flex-wrap bg-white px-2 py-1 border border-gray-400 rounded-md mx-2">
             <div className="inline-flex items-center md:mb-1">
@@ -969,6 +992,7 @@ function MakeShirt() {
 
             <input
               type="file"
+              accept="image/*"
               onChange={handleImageChange}
               className=" text-sm text-gray-400 file:mr-4 file:py-1 file:px-1 file:rounded-full file:border-0  file:text-sm file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 cursor-pointer"
             />
@@ -1053,14 +1077,13 @@ function MakeShirt() {
               <BiPhotoAlbum className="text-gray-600 text-3xl" />
             </div>
             {/* filtre */}
-
             <div className="flex flex-col  mb-2 bg-[#eee] md:p-2 mx-2 ">
               <p className="self-start font-semibold text-sm">
                 Matrice de couleurs
               </p>
               <div className="flex items-center flex-wrap  ">
                 {filterArray.map((filter) => (
-                  <div className="flex flex-col items-center">
+                  <div className="flex flex-col items-center" key={filter.name}>
                     <img
                       src={filter.img}
                       key={filter.name}
@@ -1073,6 +1096,30 @@ function MakeShirt() {
                     </p>
                   </div>
                 ))}
+                <div className="flex flex-col items-center relative">
+                  <div
+                    onMouseOver={() => {
+                      document
+                        .getElementById("removeFilters")
+                        .classList.remove("hidden")
+                    }}
+                    onMouseLeave={() => {
+                      document
+                        .getElementById("removeFilters")
+                        .classList.add("hidden")
+                    }}
+                    onClick={removeFilters}
+                    className=" flex items-center justify-center rounded-full md:w-7 md:h-7 relative cursor-pointer bg-white border-2 md:mt-1 hover:scale-150 transition-all duration-300"
+                  >
+                    <MdRemoveCircle className="md:text-2xl" />
+                  </div>
+                  <div className="hidden w-full" id="removeFilters">
+                    <ToolTip
+                      text={"Enlever les filtres"}
+                      style={{ right: 0, left: 0, width: "120px" }}
+                    />
+                  </div>
+                </div>
               </div>
               <div className="flex flex-col items-center  self-start  relative w-full ">
                 <p className="self-start font-semibold text-sm">filtres</p>
@@ -1098,7 +1145,10 @@ function MakeShirt() {
                     />{" "}
                     {/* tooltip */}
                     <div className="hidden" id="noise">
-                      <ToolTip text={"noise"} />
+                      <ToolTip
+                        text={"noise"}
+                        style={{ right: "5px", top: "-10px" }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -1127,7 +1177,10 @@ function MakeShirt() {
                   </div>
                   {/* tooltip */}
                   <div className="hidden" id="brightness">
-                    <ToolTip text={"luminosité"} />
+                    <ToolTip
+                      text={"luminosité"}
+                      style={{ right: "10px", top: "0px" }}
+                    />
                   </div>
                 </div>
 
@@ -1198,6 +1251,17 @@ function MakeShirt() {
             className="border-2  border-gray-400 border-dashed   "
           />
         </div>
+        <div className="mr-6 h-96">
+          <Canvas className=" h-96   cursor-move">
+            <OrbitControls enableZoom={false} />
+            <ambientLight intensity={0.5} />
+            <directionalLight position={[-2, 5, 2]} intensity={1} />
+            <Suspense fallback={null}>
+              <ModelDraco />
+            </Suspense>
+          </Canvas>
+        </div>
+
         {/*text input */}
         <div ref={textAreaContainer} className="hidden">
           <IoCloseSharp
@@ -1221,7 +1285,7 @@ function MakeShirt() {
         {/* options container */}
         <div
           ref={optionsContainerRef}
-          className="w-0 h-0 border-2 overflow-hidden transition-all duration-700"
+          className="max-w-0 max-h-0 border-2 overflow-hidden transition-all duration-700"
         >
           {/* custom emoji */}
           <div className="hidden overflow-hidden" ref={emojiRef}>
@@ -1675,16 +1739,12 @@ function MakeShirt() {
 
           {/* clip art container */}
           <div ref={clipartRef} className="hidden">
-            <IoCloseSharp
-              onClick={removeClipArt}
-              className="sticky ml-auto top-1 cursor-pointer z-20 text-2xl text-gray-400 hover:text-gray-600"
-            />
             {ClipArt.map((sectionImages) => (
               <div className="flex flex-col" key={sectionImages.groupeTitle}>
-                <p className="text-center font-semibold text-gray-400">
+                <p className="text-center font-semibold text-gray-700">
                   {sectionImages.groupeTitle}
                 </p>
-                <div className="flex justify-center items-center  flex-wrap bg-white m-2 md:max-w-sm">
+                <div className="flex justify-evenly items-center  flex-wrap bg-white">
                   {sectionImages.url.map((img) => (
                     <LazyLoadImage
                       src={img}
