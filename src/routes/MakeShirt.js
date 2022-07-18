@@ -975,13 +975,21 @@ function MakeShirt() {
   }
 
   return (
-    <div className="flex flex-col md:pt-20 bg-[#e3f6f5] font-[Arima]">
-      <div className="flex flex-col items-center mx-auto bg-[#1a1b1b] md:px-3 md:py-3">
-      <img src="/images/design.png" alt="" className="" />
-        <p className="text-[#8BDAD6] md:text-3xl font-semibold">
-          Section design personalisé
-        </p>
-        
+    <div className="flex flex-col md:pt-20 bg-[#e3f6f5] font-[Arima] select-none">
+      <div className="flex  items-center flex-wrap mx-auto bg-white md:px-3 md:py-3  rounded-2xl shadow-lg ">
+        <img src="/images/design.png" alt="" className="md:h-96" />
+        <div className="flex flex-col items-center md:ml-5 md:mx-2 md:px-2 md:py-1 self-start max-w-sm">
+          <p className="text-gray-700 md:text-5xl  font-semibold mb-2">
+            Design personalisé
+          </p>
+          <p className="md:text-lg">
+            Liberez votre créativité et faite un design original grace au outils
+            de shirty ajouter du texte , une image ou une simple forme
+            géometrique , rajouter des filtres et regler la taille de votre
+            design afin qu'il soit parfait pour vos prochain clients ou pour
+            vous méme .
+          </p>
+        </div>
       </div>
 
       {/* horizontal top menu */}
