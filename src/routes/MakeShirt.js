@@ -38,7 +38,6 @@ import MyPicker from "../components/MyPicker"
 import ToolTip from "../components/ToolTip"
 import NormalPicker from "../components/NormalPicker"
 import ModelDraco from "../components/ModelDraco"
-
 // import axios from "axios"
 
 var FontFaceObserver = require("fontfaceobserver")
@@ -264,7 +263,7 @@ function MakeShirt() {
       textAreaRef.current.value = ""
     }
   }
-  
+
   // make active object in front of other objects (text above images etc ...)
   canvas &&
     canvas.on("object:moving", function (event) {
@@ -835,25 +834,25 @@ function MakeShirt() {
   }
 
   // add gradient to objects
-  const addGradient = () => {
-    var gradient = new fabric.Gradient({
-      type: "linear",
-      gradientUnits: "percentage",
-      coords: { x1: 0, y1: 0, x2: 1, y2: 0 },
-      colorStops: [
-        { offset: 0, color: "red" },
-        { offset: 1, color: "blue" },
-      ],
-    })
-    if (canvas && canvas.getActiveObject()) {
-      canvas.getActiveObject().set("fill", gradient)
-    }
-    canvas.renderAll()
-  }
+  // const addGradient = () => {
+  //   var gradient = new fabric.Gradient({
+  //     type: "linear",
+  //     gradientUnits: "percentage",
+  //     coords: { x1: 0, y1: 0, x2: 1, y2: 0 },
+  //     colorStops: [
+  //       { offset: 0, color: "red" },
+  //       { offset: 1, color: "blue" },
+  //     ],
+  //   })
+  //   if (canvas && canvas.getActiveObject()) {
+  //     canvas.getActiveObject().set("fill", gradient)
+  //   }
+  //   canvas.renderAll()
+  // }
   //   show shapes container
   const showShapes = () => {
     const removeStyle = ["hidden"]
-    const addStyle = ["flex", "flex-col", "items-center", "relative"]
+    const addStyle = ["flex", "flex-col", "items-center", "relative", "h-full"]
     removeStyle.map((clas) => shapesRef.current.classList.remove(clas))
     addStyle.map((clas) => shapesRef.current.classList.add(clas))
   }
@@ -974,18 +973,28 @@ function MakeShirt() {
     showArray.map((clas) => drawingRef.current.classList.add(clas))
     drawingRef.current.classList.remove("hidden")
   }
+
   return (
-    <div className="flex flex-col md:pt-20 bg-[#fffaf1] ">
+    <div className="flex flex-col md:pt-20 bg-[#e3f6f5] font-[Arima]">
+      <div className="flex flex-col items-center mx-auto bg-[#1a1b1b] md:px-3 md:py-3">
+      <img src="/images/design.png" alt="" className="" />
+        <p className="text-[#8BDAD6] md:text-3xl font-semibold">
+          Section design personalisé
+        </p>
+        
+      </div>
+
+      {/* horizontal top menu */}
       <div
         id="controller"
-        className="flex items-center md:ml-14 md:mr-12 mt-5 p-2   md:mb-2 "
+        className={`flex items-center justify-evenly md:w-3/4 md:ml-14 md:mr-12 mt-5 p-2 md:mb-2 bg-white border shadow-lg  rounded-md `}
       >
         {/* add design */}
         {!image && (
-          <div className="flex flex-col  items-center flex-wrap bg-white px-2 py-1 border border-gray-400 rounded-md mx-2">
+          <div className="flex flex-col  items-center flex-wrap bg-gray-50 px-2 py-1 border border-gray-400 rounded-md mx-2">
             <div className="inline-flex items-center md:mb-1">
-              <BiPhotoAlbum className="text-gray-600 text-3xl" />
-              <p className="font-semibold text-gray-800">
+              <BiPhotoAlbum className="text-3xl text-[#596475]" />
+              <p className="font-semibold text-[#343633]">
                 Ajouter votre Design
               </p>{" "}
             </div>
@@ -994,7 +1003,7 @@ function MakeShirt() {
               type="file"
               accept="image/*"
               onChange={handleImageChange}
-              className=" text-sm text-gray-400 file:mr-4 file:py-1 file:px-1 file:rounded-full file:border-0  file:text-sm file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 cursor-pointer"
+              className=" text-sm text-gray-400 file:mr-4 file:py-1 file:px-1 file:rounded-full file:border-0  file:text-xs file:font-semibold file:bg-[#596475] file:text-white hover:file:bg-gray-400 cursor-pointer"
             />
           </div>
         )}
@@ -1005,71 +1014,73 @@ function MakeShirt() {
             onClick={() => {
               insertText()
             }}
-            className="mr-2 my-2 bg-white hover:shadow-md text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
+            className=" my-2 bg-gray-50  text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
           >
-            <BiText className="mx-auto text-3xl" />
-            <p className="font-semibold text-gray-800">Ajouter du texte </p>
+            <BiText className="mx-auto text-3xl text-[#596475]" />
+            <p className="font-semibold text-[#343633] text-sm">
+              Ajouter du texte{" "}
+            </p>
           </button>
         )}
 
-        <div className="flex items-center my-2 ">
-          <button
-            className="md:px-2 bg-white text-gray-700 border border-gray-400 py-1 px-2 rounded-md hover:shadow-md"
-            onClick={() => {
-              canvas.isDrawingMode = true
-              setIsDrawing(true)
-              showDrawingOptions()
-              toggleMenu(drawingRef)
-            }}
-          >
-            <BiPaint className="mx-auto text-3xl text-gray-500" />
-            <p className="font-semibold text-gray-800">Dessiner </p>
-          </button>
+        <button
+          className="md:px-2 bg-gray-50 text-gray-700 border border-gray-400 py-1 px-2 rounded-md hover:shadow-md"
+          onClick={() => {
+            canvas.isDrawingMode = true
+            setIsDrawing(true)
+            showDrawingOptions()
+            toggleMenu(drawingRef)
+          }}
+        >
+          <BiPaint className="mx-auto text-3xl text-[#596475]" />
+          <p className="font-semibold text-[#343633] text-sm">
+            Mode dessin libre{" "}
+          </p>
+        </button>
 
-          {/* add Emoji */}
-          <button
-            onClick={() => {
-              showEmoji()
-              toggleMenu(emojiRef)
-            }}
-            className="md:px-2 bg-white  text-gray-700 border border-gray-400 py-1 px-2 rounded-md hover:shadow-md md:ml-2"
-          >
-            <BiCool className="mx-auto text-3xl text-gray-500" />
-            <p className="font-semibold text-gray-800">Ajouter des emoji </p>
-          </button>
+        {/* add Emoji */}
+        <button
+          onClick={() => {
+            showEmoji()
+            toggleMenu(emojiRef)
+          }}
+          className="md:px-2 bg-gray-50  text-gray-700 border border-gray-400 py-1 px-2 rounded-md hover:shadow-md md:ml-2"
+        >
+          <BiCool className="mx-auto text-3xl text-[#596475]" />
+          <p className="font-semibold text-[#343633] text-sm">
+            Ajouter des emoji{" "}
+          </p>
+        </button>
 
-          {/* clip art */}
-          <button
-            onClick={() => {
-              addClipart()
-              toggleMenu(clipartRef)
-            }}
-            className="md:ml-2 my-2 bg-white hover:shadow-md text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
-          >
-            <BiTrim className="mx-auto text-3xl" />
-            <p className="font-semibold text-gray-800">Ajouter un clipArt </p>
-          </button>
-          {/* shapes */}
-          <button
-            onClick={() => {
-              showShapes()
-              toggleMenu(shapesRef)
-            }}
-            className="md:ml-2 my-2 bg-white hover:shadow-md text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
-          >
-            <BiShapeTriangle className="mx-auto text-3xl" />
-            <p className="font-semibold text-gray-800">Formes géométriques </p>
-          </button>
-          <button
-            onClick={addGradient}
-            className="md:ml-2 my-2 bg-white hover:shadow-md text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
-          >
-            appliquer gradient
-          </button>
-        </div>
+        {/* clip art */}
+        <button
+          onClick={() => {
+            addClipart()
+            toggleMenu(clipartRef)
+          }}
+          className="md:ml-2 my-2 bg-gray-50  text-[#596475] border border-gray-400 py-1 px-2 rounded-md"
+        >
+          <BiTrim className="mx-auto text-3xl" />
+          <p className="font-semibold text-[#343633] text-sm">
+            Ajouter un clipArt{" "}
+          </p>
+        </button>
+        {/* shapes */}
+        <button
+          onClick={() => {
+            showShapes()
+            toggleMenu(shapesRef)
+          }}
+          className="md:ml-2 my-2 bg-gray-50  text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
+        >
+          <BiShapeTriangle className="mx-auto text-3xl text-[#596475]" />
+          <p className="font-semibold text-[#343633] text-sm">
+            Formes géométriques{" "}
+          </p>
+        </button>
       </div>
+      {/* image controller */}
       <div className="flex items-center flex-wrap md:mb-10   md:max-h-128 md:pb-10 md:pt-3">
-        {/* image controller */}
         {hasUploadImage && (
           <div ref={imageRef} className="hidden">
             <div className="inline-flex md:mt-2 bg-[#eee] md:pb-1 md:px-2 md:py-1 self-start ml-2">
@@ -1533,7 +1544,7 @@ function MakeShirt() {
               </div>
             </div>
             {/* text transformations */}
-            <div className="flex flex-col items-center bg-[#eeee] md:p-2 mt-1 w-full ">
+            <div className="flex flex-col items-center bg-[#eee] md:p-2 mt-1 w-full ">
               <p className="text-sm font-semibold text-gray-700 self-start mb-2">
                 Transformations du texte
               </p>
@@ -1764,13 +1775,13 @@ function MakeShirt() {
               Formes géometrique basique
             </p>
 
-            <div className="flex flex-wrap  items-center justify-around overflow-auto h-120 bg-[#eee] md:px-2 md:max-w-sm">
+            <div className="flex flex-wrap  items-center justify-evenly overflow-auto h-120 bg-[#eee] md:h-full md:mb-2 md:px-2 md:max-w-sm">
               {Svgs.map((svg) => (
                 <div
                   onClick={() => {
                     addSvg(svg.svgSrc)
                   }}
-                  className="cursor-pointer bg-white md:p-2 mx-1 hover:scale-150 transition-all duration-500"
+                  className="cursor-pointer bg-white md:px-2 mx-1 hover:scale-150 transition-all duration-500"
                   key={svg.name}
                 >
                   <img
