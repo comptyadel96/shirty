@@ -19,7 +19,7 @@ function Navbar() {
 
   const navigate = useNavigate()
   return (
-    <div className=" lg:flex lg:items-center lg:justify-between bg-white  shadow-md p-1 absolute top-0  w-full  hidden z-50 transition-all duration-700">
+    <div className=" lg:flex lg:items-center lg:justify-between bg-white  shadow-md py-4 absolute top-0  w-full  hidden z-50 transition-all duration-700">
       {/* brand */}
       <div
         className="inline-flex items-center ml-3 cursor-pointer "
@@ -27,35 +27,38 @@ function Navbar() {
           navigate("/")
         }}
       >
-        <img alt="brand" src="/images/shirty-brand.png" className="md:h-6" />
-        <p className="md:ml-2 text-xl font-semibold text-gray-700">Shirty </p>
+        <img alt="brand" src="/images/logo2.png" className="md:h-10" />
+        <p className="md:ml-2 text-2xl font-bold text-gray-900">Shirty </p>
       </div>
 
       {/* nav elements */}
       <ul className="flex items-center p-0 justify-start  mr-5 relative  ">
-        <li  onClick={() => {
+        <li
+          onClick={() => {
             navigate("/getShirt")
-          }}className="mx-1 cursor-pointer text-xl text-gray-800 hover:text-rose-600 px-2 py-1">
+          }}
+          className="mx-1 cursor-pointer text-xl text-black hover:text-rose-600 px-2 py-1 font-semibold"
+        >
           Découvrez nos produits
         </li>
         <li
           onClick={() => {
             navigate("/makeShirt")
           }}
-          className="mx-1 cursor-pointer text-xl text-gray-800 hover:text-rose-600 px-2 py-1"
+          className="mx-1 cursor-pointer text-xl text-black hover:text-rose-600 px-2 py-1 font-semibold"
         >
           Commancez le design
         </li>
         {!user.currUser ? (
           <li
-            className="mx-1 cursor-pointer text-xl text-gray-800 hover:text-rose-600 px-2 py-1 "
+            className="mx-1 cursor-pointer text-xl text-black hover:text-rose-600 px-2 py-1 font-semibold "
             onClick={() => navigate("/login")}
           >
             Se connecter
           </li>
         ) : (
           <li
-            className="mx-1 cursor-pointer text-xl text-gray-800 hover:text-rose-600 px-2 py-1 "
+            className="mx-1 cursor-pointer text-xl text-black hover:text-rose-600 px-2 py-1 font-semibold "
             onClick={() => navigate("/profile")}
           >
             Profil
@@ -63,12 +66,12 @@ function Navbar() {
         )}
         <li
           onClick={() => navigate("/adminDashboard")}
-          className="mx-1 cursor-pointer text-xl text-gray-800 hover:text-rose-600 px-2 py-1"
+          className="mx-1 cursor-pointer text-xl text-black hover:text-rose-600 px-2 py-1 font-semibold"
         >
           Admin dashboard
         </li>
 
-        <MdShoppingCart className="text-xl text-gray-700 cursor-pointer mx-3 transition-all duration-700 hover:translate-x-3 hover:text-red-400 " />
+        <MdShoppingCart className="text-xl text-gray-700 cursor-pointer mx-3 transition-all duration-700 hover:translate-x-1 hover:text-red-400 " />
         <div
           className="relative"
           onMouseEnter={toggleLang}
