@@ -26,3 +26,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Astloch&family=Bungee+Hairline&family=Diplomata+SC&family=Faster+One&family=Flavors&family=Hanalei&family=Lacquer&family=Rock+3D&family=Snowburst+One&family=Yuji+Hentaigana+Akebono&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Arima:wght@200&display=swap');
+
+@layer utilities {
+    .animation-delay-2000 {
+        animation-delay: 2s;
+    }
+    .animation-delay-3000 {
+        animation-delay: 3s;
+    }
+
+    .animation-delay-4000 {
+        animation-delay: 4s;
+    }
+}

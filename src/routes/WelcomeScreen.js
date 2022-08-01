@@ -9,34 +9,15 @@ function WelcomeScreen() {
   // const ImageRef = useRef(null)
 
   return (
-    <div className="flex flex-col select-none h-full bg-white overflow-hidden box-border">
-      {/* <div className="pb-5 bg-[url('http://alciontechnologie.net/assets/img/shape/1.jpg')] relative w-screen box-border border ">
-        <div className="md:mx-40 md:mt-20 md:pb-6 rounded-2xl flex md:pt-5 justify-around flex-wrap  ">
-          <div className="flex flex-col items-center flex-wrap h-fit w-fit">
-            
-            <p className="select-none self-start md:mb-4    text-rose-600  md:text-4xl text-2xl md:max-w-md">
-              Créez et vendez des produits personnalisés en ligne
-            </p>
-            <div className=" flex items-center">
-              <p className="text-gray-800 select-none   md:text-2xl md:max-w-md">
-                Une solution simple pour créer et vendre des produits engageants
-                en quelques étapes seulement, laissez exprimer vos idées et vos
-                envies.
-              </p>
-            </div>
-            <button className="self-start mt-10 px-2 hover:px-5  md:py-1 md:text-xl shadow-lg shadow-rose-300 rounded-full bg-rose-500 hover:bg-rose-600 text-white  transition-all duration-500 hover:rounded-full">
-              Commancer le design
-            </button>
-          </div>
-          <img
-            src="/images/welcome-tof.png"
-            alt="welcome shirt illustration"
-            className="md:max-h-96  md:mr-12"
-          />
-        </div>
-      </div> */}
-
-      <div className="bg-white   md:mt-20 flex items-center">
+    <div className="flex flex-col select-none h-full bg-white overflow-hidden">
+      {/* section descriptive desktop */}
+      <div className="md:mt-20 lg:flex lg:items-center hidden border relative">
+        {/* bg bubles */}
+        
+          <div className="h-20 w-20 rounded-full bg-red-400 absolute mix-blend-multiply bottom-9 right-10 animate-chariot animation-delay-4000 blur-sm"></div>
+          <div className="h-20 w-20 rounded-full bg-blue-400 absolute mix-blend-multiply bottom-9 right-20 animate-chariot animation-delay-3000 blur-sm"></div>
+          <div className="h-20 w-20 rounded-full bg-yellow-400 absolute mix-blend-multiply bottom-9 right-32 animate-chariot animation-delay-2000 blur-sm"></div>
+        
         <div className="relative mx-auto  md:py-2">
           <img
             alt=""
@@ -59,15 +40,38 @@ function WelcomeScreen() {
                 envies.
               </p>
             </div>
-            <button className="self-start mt-10 px-2 hover:px-5  md:py-2 md:text-xl shadow-lg rounded-full bg-white text-gray-800  transition-all duration-500 hover:rounded-full">
+            <button className="self-start mt-10 px-2 hover:px-5  md:py-2 md:text-xl shadow-lg rounded-full bg-yellow-300 text-gray-800  transition-all duration-500 hover:rounded-full">
               Commancer le design
             </button>
           </div>
         </div>
       </div>
-
-      {/* section design descriptive */}
-      <div className="flex items-center  flex-wrap  md:my-10 shadow-lg self-start md:ml-7 border">
+      {/* section descriptive mobile */}
+      <div className="lg:hidden mx-auto mt-16 relative">
+        <img src="/images/ill1-mob.png" alt="" className="sm:max-h-full  " />
+        {/* texte */}
+        <div className="flex flex-col items-center flex-wrap h-fit w-fit absolute md:bottom-10 bottom-14 left-3">
+          <p className="self-start sm:mb-4  mb-5 text-white font-thin  sm:text-5xl  text-3xl  sm:max-w-lg max-w-xs sm:leading-snug ">
+            Créez et vender des {""}
+            <span className="sm:text-6xl text-gray-800 font-bold">
+              produits personnalisés
+            </span>{" "}
+            en ligne
+          </p>
+          <div className=" flex items-center sm:mt-6 px-3 sm:py-2 bg-white rounded-lg sm:skew-y-3">
+            <p className="text-gray-800 select-none   sm:text-2xl text-md sm:max-w-sm max-w-xs">
+              Une solution simple pour créer et vendre des produits engageants
+              en quelques étapes seulement, laissez exprimer vos idées et vos
+              envies.
+            </p>
+          </div>
+          <button className="self-start sm:mt-10 mt-5 px-2 hover:px-5  sm:py-2 py-1 sm:text-xl text-lg shadow-lg rounded-full bg-yellow-300 text-gray-800  transition-all duration-500 hover:rounded-full">
+            Commancer le design
+          </button>
+        </div>
+      </div>
+      {/* section design desktop */}
+      <div className="lg:flex lg:items-center  lg:flex-wrap  sm:my-10  self-start sm:ml-7  hidden">
         <div className="flex items-center  md:py-6   relative ">
           <img
             src="/images/baby3.png"
@@ -77,57 +81,42 @@ function WelcomeScreen() {
           <div className="flex flex-col items-center self-start  md:ml-10 md:mt-20">
             {/* title */}
             <p className="md:mb-4 text-gray-800 font-semibold  md:text-5xl text-2xl  md:max-w-xs md:leading-relaxed">
-              Tous est question de <span className="bg-[#50d6d7] md:px-2 ">créativité </span> 
+              Tous est question de{" "}
+              <span className="bg-[#50d6d7] md:px-2 ">créativité </span>
             </p>
-            <p className="md:text-2xl text-gray-800 md:max-w-md  absolute bottom-40 right-9 ">
-            Liberez votre créativité et faite un design original grace au outils
-            de shirty ajouter du texte , une image ou une simple forme
-            géometrique , rajouter des filtres et regler la taille de votre
-            design afin qu'il soit parfait pour vos prochain clients ou pour
-            vous méme .
-          </p>
+            <p className="lg:text-2xl text-gray-800 lg:max-w-xs  absolute bottom-16 right-24 ">
+              Liberez votre créativité et faite un design original grace au
+              outils de shirty ajouter du texte, une image ou une simple forme
+              géometrique , rajouter des filtres et regler la taille de votre
+              design afin qu'il soit parfait pour vos prochain clients ou pour
+              vous méme
+            </p>
           </div>
-          
         </div>
       </div>
-
-      {/* section pour découvir  */}
+      {/* section design mobile */}
+      <div className="lg:hidden flex flex-col items-center sm:flex-row mt-10 mx-4">
+        <img src="/images/ill2-mob.png" alt="" className="max-w-sm" />
+        <div className="flex flex-col items-center   md:ml-10 md:mt-20">
+          {/* title */}
+          <p className="md:mb-4 text-gray-800 font-semibold   text-2xl  max-w-xs leading-relaxed">
+            Tous est question de{" "}
+            <span className="bg-[#50d6d7] md:px-2 ">créativité </span>
+          </p>
+          <p className="text-lg text-gray-800 max-w-xs   ">
+            Liberez votre créativité et faite un design original grace au outils
+            de shirty ajouter du texte, une image ou une simple forme
+            géometrique , rajouter des filtres et regler la taille de votre
+            design afin qu'il soit parfait pour vos prochain clients ou pour
+            vous méme
+          </p>
+        </div>
+      </div>
+      {/* shop desktop  */}
       <div className=" md:mx-auto  md:py-10 flex flex-col md:flex-row items-center justify-evenly   md:w-11/12 my-5  h-fit relative">
         <div className="flex flex-col items-center md:p-5 ">
           <p className="md:text-3xl font-semibold text-gray-700 md:mb-2">
             Tous ce dont vous avez révez de porter
-          </p>
-          <p className="md:text-2xl text-center    text-gray-400 md:my-1 md:max-w-2xl md:text-center">
-            Venez découvrir des produits exclusifs , pour tous les gouts et les
-            couleurs ! découvrez aussi la nouvelle collection "Shirtsy"
-          </p>
-          <button className="bg-rose-500 md:my-3 text-xl z-40 text-white px-4 py-1  hover:bg-rose-600 rounded-full">
-            Découvrir
-          </button>
-        </div>
-        <div className="flex flex-wrap items-center justify-evenly md:w-1/2 ">
-          <img
-            src="/images/shirt1.jpg"
-            alt="shirt"
-            className="md:max-h-52 mx-2"
-          />
-          <img
-            src="/images/shirt2.jpg"
-            alt="shirt"
-            className="md:max-h-52 mx-2"
-          />
-          <img
-            src="/images/shirt3.jpg"
-            alt="shirt"
-            className="md:max-h-52 mx-2"
-          />
-        </div>
-      </div>
-      {/* lancez vos oeuvres */}
-      <div className="md:py-1 flex flex-col md:flex-row items-center justify-evenly flex-wrap w-full my-5 h-fit ">
-        <div className="flex flex-col items-center  md:p-5">
-          <p className="md:text-3xl font-semibold text-gray-700 md:mb-4">
-            On mise tous sur le désign
           </p>
           <p className="md:text-2xl md:text-center text-gray-400 md:max-w-2xl">
             Que vous soyez un designer professionelle , un débutant ou que vous
@@ -135,16 +124,10 @@ function WelcomeScreen() {
             large sélection de produits que vous pouvez modifier à vos goûts et
             envie.
           </p>
-          <button className="md:mt-4 bg-rose-500 text-white text-xl px-4 py-2 hover:bg-rose-600 rounded-full">
-            Lancez vos oeuvres
+          <button className="bg-rose-500 md:my-3 text-xl z-40 text-white px-4 py-1  hover:bg-rose-600 rounded-full">
+            Découvrir
           </button>
         </div>
-
-        <img
-          src="/images/workHard.jpg"
-          alt="shirt no:2"
-          className="md:max-h-80"
-        />
       </div>
 
       {/* section produits à la une */}

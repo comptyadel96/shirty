@@ -4,7 +4,8 @@ module.exports = {
   darkMode: "media", // or 'class'
   theme: {
     screens: {
-      sm: "640px",
+      xs: "347px",
+      sm: "580px",
       md: "768px",
       lg: "1024px",
       xl: "1280px",
@@ -116,6 +117,8 @@ module.exports = {
       ping: "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite",
       pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       bounce: "bounce 1s infinite",
+      blob: "blob 10s infinite",
+      chariot:"chariot 4s infinite"
     },
     aspectRatio: {
       auto: "auto",
@@ -601,6 +604,20 @@ module.exports = {
       full: "100%",
     }),
     keyframes: {
+      blob: {
+        "0%": {
+          transform: "scale(1) translate(0px,0px) ",
+        },
+        "33%": {
+          transform: "scale(1.2) translate(15px,-50px) ",
+        },
+        "66%": {
+          transform: "scale(0.8) translate(30px,-20px) ",
+        },
+        "100%": {
+          transform: "scale(1) translate(0px,0px)",
+        },
+      },
       spin: {
         to: {
           transform: "rotate(360deg)",
@@ -626,6 +643,12 @@ module.exports = {
           transform: "none",
           animationTimingFunction: "cubic-bezier(0,0,0.2,1)",
         },
+      },
+      chariot: {
+        "50%": {
+          transform: "translateX(20%)",
+        },
+
       },
     },
     letterSpacing: {
