@@ -114,11 +114,13 @@ module.exports = {
     animation: {
       none: "none",
       spin: "spin 1s linear infinite",
+      spinSlow: "spin 8s linear infinite",
       ping: "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite",
       pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       bounce: "bounce 1s infinite",
+      bounceSlow: "bounce 2s infinite",
       blob: "blob 10s infinite",
-      chariot:"chariot 4s infinite"
+      chariot: "chariot 18s infinite",
     },
     aspectRatio: {
       auto: "auto",
@@ -645,11 +647,17 @@ module.exports = {
         },
       },
       chariot: {
-        "50%": {
-          transform: "translateX(20%)",
+        "0%": {
+          transform: "translateX(0%)",
         },
-
+        "50%": {
+          transform: "translateX(-5%)",
+        },
+        "100%": {
+          transform: "translateX(0%)",
+        },
       },
+     
     },
     letterSpacing: {
       tighter: "-0.05em",

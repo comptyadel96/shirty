@@ -11,7 +11,7 @@ function Footer() {
     <div className="flex flex-col select-none   items-center flex-wrap bg-gray-900 max-w-full mt-auto md:p-4">
       <div className="flex flex-row w-full flex-wrap justify-evenly">
         <div className="flex flex-col mx-3 ">
-          <p className="text-pink-800 md:text-xl">Shirty</p>
+          <p className="text-[#50d6d7] md:text-xl">Shirty</p>
           <p className="text-white cursor-pointer hover:text-yellow-500 my-1">
             à propos
           </p>
@@ -36,7 +36,7 @@ function Footer() {
         </div>
         {/* 2 */}
         <div className="flex flex-col mx-3 ">
-          <p className="text-pink-800 md:text-xl">Aide</p>
+          <p className="text-[#50d6d7] md:text-xl">Aide</p>
           <p className="text-white cursor-pointer hover:text-yellow-500 my-1">
             Livraison
           </p>
@@ -58,7 +58,7 @@ function Footer() {
         </div>
         {/* 3 */}
         <div className="flex flex-col items-center">
-          <p className="text-pink-700 md:text-xl">Réseaux sociaux</p>
+          <p className="text-[#50d6d7] md:text-xl">Réseaux sociaux</p>
           <div className="flex items-start mt-2 flex-col">
             <p className="text-white flex my-1 cursor-pointer hover:text-blue-400">
               <FaFacebook className=" mx-1  text-2xl " /> facebook
