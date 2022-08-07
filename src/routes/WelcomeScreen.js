@@ -3,7 +3,7 @@ import Faq from "../components/Faq"
 import HorizontalScroll from "../components/HorizontalScroll"
 import ScrollDesigners from "../components/ScrollDesigners"
 import AuthContext from "../utils/AuthContext"
-import Joyride from "react-joyride"
+
 
 function WelcomeScreen() {
   const currUser = useContext(AuthContext)
