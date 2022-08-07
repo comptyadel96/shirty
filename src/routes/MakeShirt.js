@@ -39,9 +39,56 @@ import ToolTip from "../components/ToolTip"
 import NormalPicker from "../components/NormalPicker"
 import ModelDraco from "../components/ModelDraco"
 // import axios from "axios"
+import Joyride from "react-joyride"
 
 var FontFaceObserver = require("fontfaceobserver")
 function MakeShirt() {
+  // steps for first time
+  const steps = [
+    {
+      target:"blank",
+      title:"",
+      content:""
+    },
+    {
+      target: ".canva",
+      title: "commançons",
+      content: "c'est ici que la magie oppére, vous étes l'artiste",
+    },
+    {
+      target: ".design",
+      title: "Design",
+      content:
+        "Ajouter une image ou une illustration depuis votre ordinateur ou telephone portable",
+      offset: 10,
+    },
+    {
+      target: ".texte",
+      title: "inspiration",
+      content: "Donner a votre t-shirt une marque, un nom ou un joli poéme 💟",
+    },
+    {
+      target: ".dessin",
+      title: "un freestyle ?",
+      content: "vous devez surement étre doué au dessin... non ?",
+    },
+    {
+      target: ".emoji",
+      title: "Emotions....Emotions",
+      content:
+        "içi vous trouverez surement votre humeur , un objet et aussi un drapeau",
+    },
+    {
+      target: ".clipart",
+      title: "un peu d'inspiration ?",
+      content: "ici il ya .... presque tous  ",
+    },
+    {
+      target: ".shapes",
+      title: "la simplicité est la beautée",
+      content: "quelques formes géometriques dont vous ferait bon usage",
+    },
+  ]
   const canvasRef = useRef(null)
   const imageRef = useRef(null)
   const textAreaRef = useRef(null)
@@ -976,14 +1023,39 @@ function MakeShirt() {
 
   return (
     <div className="flex flex-col md:pt-20 bg-white font-[Arima] select-none">
+      <Joyride
+        styles={{
+          options: {
+            arrowColor: "#ffff",
+            backgroundColor: "#ffff",
+            overlayColor: "rgba(0, 0, 0, 0.6)",
+            primaryColor: "#50d6d7",
+            textColor: "#424242",
+            beaconSize: 36,
+          },
+        }}
+        steps={steps}
+        locale={{
+          back: "Retour",
+          close: "Fermer",
+          last: "Terminer",
+          next: "Suivant",
+          open: "Ouvrir la boite de dialogue",
+          skip: "Ignorer",
+        }}
+        continuous
+        // showProgress
+        scrollToFirstStep
+        hideCloseButton
+      />
       {/* horizontal top menu */}
       <div
         id="controller"
-        className={`flex items-center justify-evenly md:w-3/4 md:ml-14 md:mr-12 mt-5 p-2 md:mb-2 bg-white border shadow-lg  rounded-md `}
+        className={`flex items-center justify-evenly  md:w-3/4 md:ml-14 md:mr-12 mt-5 p-2 md:mb-2 bg-white border shadow-lg  rounded-md `}
       >
         {/* add design */}
         {!image && (
-          <div className="flex flex-col  items-center flex-wrap bg-gray-50 px-2 py-1 border border-gray-400 rounded-md mx-2">
+          <div className="flex flex-col  design items-center flex-wrap bg-gray-50 px-2 py-1 border border-gray-400 rounded-md mx-2">
             <div className="inline-flex items-center md:mb-1">
               <BiPhotoAlbum className="text-3xl text-[#596475]" />
               <p className="font-semibold text-[#343633]">
@@ -1006,7 +1078,7 @@ function MakeShirt() {
             onClick={() => {
               insertText()
             }}
-            className=" my-2 bg-gray-50  text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
+            className=" my-2 bg-gray-50 texte text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
           >
             <BiText className="mx-auto text-3xl text-[#596475]" />
             <p className="font-semibold text-[#343633] text-sm">
@@ -1016,7 +1088,7 @@ function MakeShirt() {
         )}
 
         <button
-          className="md:px-2 bg-gray-50 text-gray-700 border border-gray-400 py-1 px-2 rounded-md hover:shadow-md"
+          className="md:px-2 bg-gray-50 dessin text-gray-700 border border-gray-400 py-1 px-2 rounded-md hover:shadow-md"
           onClick={() => {
             canvas.isDrawingMode = true
             setIsDrawing(true)
@@ -1036,7 +1108,7 @@ function MakeShirt() {
             showEmoji()
             toggleMenu(emojiRef)
           }}
-          className="md:px-2 bg-gray-50  text-gray-700 border border-gray-400 py-1 px-2 rounded-md hover:shadow-md md:ml-2"
+          className="md:px-2 bg-gray-50 emoji text-gray-700 border border-gray-400 py-1 px-2 rounded-md hover:shadow-md md:ml-2"
         >
           <BiCool className="mx-auto text-3xl text-[#596475]" />
           <p className="font-semibold text-[#343633] text-sm">
@@ -1050,7 +1122,7 @@ function MakeShirt() {
             addClipart()
             toggleMenu(clipartRef)
           }}
-          className="md:ml-2 my-2 bg-gray-50  text-[#596475] border border-gray-400 py-1 px-2 rounded-md"
+          className="md:ml-2 my-2 clipart bg-gray-50  text-[#596475] border border-gray-400 py-1 px-2 rounded-md"
         >
           <BiTrim className="mx-auto text-3xl" />
           <p className="font-semibold text-[#343633] text-sm">
@@ -1063,7 +1135,7 @@ function MakeShirt() {
             showShapes()
             toggleMenu(shapesRef)
           }}
-          className="md:ml-2 my-2 bg-gray-50  text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
+          className="md:ml-2 my-2 shapes bg-gray-50  text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
         >
           <BiShapeTriangle className="mx-auto text-3xl text-[#596475]" />
           <p className="font-semibold text-[#343633] text-sm">
@@ -1251,7 +1323,7 @@ function MakeShirt() {
             ref={canvasRef}
             height="500px"
             width="500px"
-            className="border-2  border-gray-400 border-dashed   "
+            className="border-2 canva border-gray-400 border-dashed   "
           />
         </div>
         <div className="mr-6 h-96">

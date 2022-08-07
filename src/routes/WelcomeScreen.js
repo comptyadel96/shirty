@@ -3,6 +3,7 @@ import Faq from "../components/Faq"
 import HorizontalScroll from "../components/HorizontalScroll"
 import ScrollDesigners from "../components/ScrollDesigners"
 import AuthContext from "../utils/AuthContext"
+import Joyride from "react-joyride"
 
 function WelcomeScreen() {
   const currUser = useContext(AuthContext)
@@ -10,13 +11,14 @@ function WelcomeScreen() {
 
   return (
     <div className="flex flex-col select-text h-full bg-white overflow-hidden">
+   
       {/* section descriptive desktop */}
-      <div className="md:mt-20 lg:flex lg:items-center hidden relative">
+      <div className="md:mt-20 lg:mb-10 lg:flex lg:items-center hidden relative">
         <div className="relative mx-auto  md:py-2">
           <img
             alt=""
             src="/images/baby2.png"
-            className=" max-h-[45rem] object-cover"
+            className=" max-h-[45rem] object-cover "
           />
           {/* texte */}
           <div className="flex flex-col items-center flex-wrap h-fit w-fit absolute top-10 md:left-5">
@@ -34,7 +36,7 @@ function WelcomeScreen() {
                 envies.
               </p>
             </div>
-            <button className=" animate-bounceSlow hover:animate-none  self-start mt-10 px-2 hover:px-5  md:py-2 md:text-xl shadow-lg rounded-full bg-gray-800 text-white  transition-all duration-500 hover:rounded-full">
+            <button className="animate-bounceSlow hover:animate-none  self-start mt-10 px-2 hover:px-5  md:py-2 md:text-xl shadow-lg rounded-full bg-gray-800 text-white  transition-all duration-500 hover:rounded-full">
               Commancer le design
             </button>
           </div>
@@ -65,7 +67,7 @@ function WelcomeScreen() {
         </div>
       </div>
 
-      <p className="md:mt-10 mt-5 mb-3 ml-4 md:text-4xl text-2xl font-semibold">
+      <p className="md:mt-10 mt-5 mb-1 underline underline-offset-8 decoration-2 decoration-wavy ml-4 md:text-4xl text-2xl font-semibold">
         Pourquoi choisir Shirty ?{" "}
       </p>
       {/* aventages */}
@@ -120,12 +122,12 @@ function WelcomeScreen() {
       </div>
 
       {/* section design desktop */}
-      <div className="lg:flex lg:items-center  lg:flex-wrap  sm:my-10 sm:mx-7  w-fit  relative hidden">
+      <div className="lg:flex lg:items-center  lg:flex-wrap  sm:my-10 sm:mx-7   w-fit  relative hidden">
         <div className="flex items-center  md:py-6   relative ">
           <img
             src="/images/baby3.png"
             alt=""
-            className="max-h-[45rem] object-cover "
+            className="xl:max-h-[45rem] lg:max-h-[40rem] object-cover "
           />
           <div className="flex flex-col items-center self-start  md:ml-10 md:mt-20">
             {/* title */}
@@ -138,7 +140,7 @@ function WelcomeScreen() {
             <p className="lg:text-3xl text-gray-800 lg:max-w-2xl  p-3 rounded-lg">
               Libérez votre créativité et faite un design original grâce au
               outils de shirty ajouter du texte, une image ou une simple forme
-              géometrique , rajouter des filtres et régler la taille de votre
+              géometrique, rajouter des filtres et régler la taille de votre
               design afin qu'il soit parfait pour vos prochains clients ou pour
               vous même
             </p>
@@ -164,7 +166,7 @@ function WelcomeScreen() {
         </div>
       </div>
       {/* shop desktop  */}
-      <div className="lg:flex w-full mx-10 relative hidden">
+      <div className="lg:flex w-full mx-10 lg:mt-16 relative hidden">
         <div className="flex flex-col bg-amber-100  lg:w-[30%] overflow-visible ">
           <p className="xl:text-5xl xl:min-w-[36rem] lg:max-w-md lg:min-w-[28rem] text-4xl font-semibold text-white bg-gray-800 xl:px-2 px-1 pb-2 xl:mb-14 xl:mt-10 mb-5">
             Ce que vous aimer porter
@@ -172,8 +174,8 @@ function WelcomeScreen() {
           <p className="xl:text-4xl text-2xl xl:ml-[6rem] lg:ml-[3rem] bg-white drop-shadow-lg rounded-xl xl:max-w-xl xl:min-w-[36rem] lg:max-w-sm lg:min-w-[24rem] xl:p-4 lg:p-2">
             Que vous soyez un designer professionelle, un débutant ou que vous
             voulez juste faire plaisir à un proche, nous vous proposons une
-            large sélection de produits que vous pouvez modifier à vos goûts et vos
-            envies
+            large sélection de produits que vous pouvez modifier à vos goûts et
+            vos envies
           </p>
           <button className="bg-gray-800 xl:mt-20 lg:mt-10 xl:mr-10   max-w-fit self-end  text-xl z-40 text-white px-4 py-1 rounded-full">
             Découvrir
@@ -205,8 +207,10 @@ function WelcomeScreen() {
             alt=""
             className="md:max-h-20 max-h-20"
           />
-          <p className="md:text-lg font-semibold text-amber-200">Gagner du temps</p>
-          <p className=" xl:max-w-[260px] md:max-w-[160px] max-w-[160px]   md:text-base text-sm text-white text-center ">
+          <p className="md:text-lg font-semibold text-amber-200">
+            Gagner du temps
+          </p>
+          <p className=" xl:max-w-[220px] lg:max-w-[190px] md:max-w-[160px] max-w-[160px]   md:text-base text-sm text-white text-center ">
             Vous n'aurez plus a attendre des jours pour recevoir votre produit
           </p>
         </div>
@@ -217,8 +221,10 @@ function WelcomeScreen() {
             alt=""
             className="md:max-h-20 max-h-20"
           />
-          <p className="md:text-lg font-semibold text-amber-200">ça a du style</p>
-          <p className=" xl:max-w-[260px] md:max-w-[160px] max-w-[160px]   md:text-base text-sm text-white text-center ">
+          <p className="md:text-lg font-semibold text-amber-200">
+            ça a du style
+          </p>
+          <p className=" xl:max-w-[220px] lg:max-w-[190px] md:max-w-[160px] max-w-[160px]   md:text-base text-sm text-white text-center ">
             Une impression qui vous garantira la réussite de votre produit
           </p>
         </div>
@@ -228,8 +234,10 @@ function WelcomeScreen() {
             alt=""
             className="md:max-h-20 max-h-20"
           />
-          <p className="md:text-lg font-semibold text-amber-200">Aucun risque</p>
-          <p className=" xl:max-w-[260px] md:max-w-[160px] max-w-[160px]   md:text-base text-sm text-white text-center ">
+          <p className="md:text-lg font-semibold text-amber-200">
+            Aucun risque
+          </p>
+          <p className=" xl:max-w-[220px] lg:max-w-[190px] md:max-w-[160px] max-w-[160px]   md:text-base text-sm text-white text-center ">
             Payer une fois que votre commande vous sera livrer
           </p>
         </div>
@@ -239,16 +247,20 @@ function WelcomeScreen() {
             alt=""
             className="md:max-h-20 max-h-20"
           />
-          <p className="md:text-lg font-semibold text-amber-200">C'est costaud</p>
-          <p className=" xl:max-w-[260px] md:max-w-[160px] max-w-[160px]   md:text-base text-sm text-white text-center ">
+          <p className="md:text-lg font-semibold text-amber-200">
+            C'est costaud
+          </p>
+          <p className=" xl:max-w-[220px] lg:max-w-[190px] md:max-w-[160px] max-w-[160px]   md:text-base text-sm text-white text-center ">
             Livraison sûr, votre produit vous sera livrer intacte
           </p>
         </div>
 
         <div className="md:my-2 my-1  flex md:mx-1  flex-col items-center  px-2 py-1 rounded-lg md:py-2 drop-shadow-lg">
           <img src="/icons/shop.png" alt="" className="md:max-h-20 max-h-20" />
-          <p className="md:text-lg font-semibold text-amber-200">Vous avez le choix</p>
-          <p className=" xl:max-w-[260px] md:max-w-[160px] max-w-[160px]   md:text-base text-sm text-white text-center ">
+          <p className="md:text-lg font-semibold text-amber-200">
+            Vous avez le choix
+          </p>
+          <p className=" xl:max-w-[220px] lg:max-w-[190px] md:max-w-[160px] max-w-[160px]   md:text-base text-sm text-white text-center ">
             Large sélection de produits pour votre plus grand plaisir
           </p>
         </div>

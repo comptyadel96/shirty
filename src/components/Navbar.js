@@ -32,12 +32,12 @@ function Navbar() {
       </div>
 
       {/* nav elements */}
-      <ul className="flex items-center p-0 justify-start  mr-5 relative  ">
+      <ul className="flex items-center p-0 justify-start  mr-5 relative h-full ">
         <li
           onClick={() => {
             navigate("/getShirt")
           }}
-          className="mx-1 cursor-pointer text-xl text-black hover:text-rose-600 px-2 py-1 font-semibold"
+          className="mx-1 cursor-pointer text-xl text-black hover:text-cyan-600 px-2 py-1 font-semibold "
         >
           Découvrez nos produits
         </li>
@@ -45,20 +45,20 @@ function Navbar() {
           onClick={() => {
             navigate("/makeShirt")
           }}
-          className="mx-1 cursor-pointer text-xl text-black hover:text-rose-600 px-2 py-1 font-semibold"
+          className="mx-1 cursor-pointer text-xl text-black hover:text-cyan-600 px-2 py-1 font-semibold"
         >
           Commancez le design
         </li>
         {!user.currUser ? (
           <li
-            className="mx-1 cursor-pointer text-xl text-black hover:text-rose-600 px-2 py-1 font-semibold "
+            className="mx-1 cursor-pointer text-xl text-black hover:text-cyan-600 px-2 py-1 font-semibold"
             onClick={() => navigate("/login")}
           >
             Se connecter
           </li>
         ) : (
           <li
-            className="mx-1 cursor-pointer text-xl text-black hover:text-rose-600 px-2 py-1 font-semibold "
+            className="mx-1 cursor-pointer text-xl text-black hover:text-cyan-600 px-2 py-1 font-semibold"
             onClick={() => navigate("/profile")}
           >
             Profil
@@ -66,7 +66,7 @@ function Navbar() {
         )}
         <li
           onClick={() => navigate("/adminDashboard")}
-          className="mx-1 cursor-pointer text-xl text-black hover:text-rose-600 px-2 py-1 font-semibold"
+          className="mx-1 cursor-pointer text-xl text-black hover:text-cyan-600 px-2 py-1 font-semibold"
         >
           Admin dashboard
         </li>
