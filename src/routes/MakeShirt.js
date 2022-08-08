@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState, Suspense } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { fabric } from "fabric"
 import shirtsArray from "../components/Shirts"
 import ClipArt from "./ClipArt"
-import { Canvas } from "@react-three/fiber"
-import { OrbitControls } from "@react-three/drei"
+// import { Canvas } from "@react-three/fiber"
+// import { OrbitControls } from "@react-three/drei"
 import {
   BiText,
   BiPhotoAlbum,
@@ -37,7 +37,7 @@ import MySlider from "../components/MySlider"
 import MyPicker from "../components/MyPicker"
 import ToolTip from "../components/ToolTip"
 import NormalPicker from "../components/NormalPicker"
-import ModelDraco from "../components/ModelDraco"
+// import ModelDraco from "../components/ModelDraco"
 // import axios from "axios"
 import Joyride from "react-joyride"
 
@@ -46,9 +46,9 @@ function MakeShirt() {
   // steps for first time
   const steps = [
     {
-      target:"blank",
-      title:"",
-      content:""
+      target: "blank",
+      title: "",
+      content: "",
     },
     {
       target: ".canva",
@@ -86,7 +86,8 @@ function MakeShirt() {
     {
       target: ".shapes",
       title: "la simplicité est la beautée",
-      content: "quelques formes géometriques dont vous ferait bon usage",
+      content:
+        "quelques formes géometriques dont vous ferait surement bon usage",
     },
   ]
   const canvasRef = useRef(null)
@@ -108,7 +109,9 @@ function MakeShirt() {
   const [hasRoundImage, setHasRoundImage] = useState(false)
   const [strokeVal, setStrokeVal] = useState(0)
   const [isDrawing, setIsDrawing] = useState(false)
-
+  const [hasVisitedPage, setVisitedPage] = useState(
+    JSON.parse(localStorage.getItem("saw-tuto")) || false
+  )
   // initialize canvas and image objects on mount
   useEffect(() => {
     const canvas = new fabric.Canvas(canvasRef.current, {
@@ -119,10 +122,14 @@ function MakeShirt() {
     // canvas.freeDrawingBrush.color = "black"
     // canvas.freeDrawingBrush.strokeLineCap = "round"
     // canvas.freeDrawingBrush.width = 2
-
+    // if the user has visited this page for the first time we show him the onboard tuto
+    if (!hasVisitedPage) {
+      setVisitedPage(true)
+      localStorage.setItem("saw-tuto", true)
+    }
     setCanvas(canvas)
     canvas.renderAll()
-  }, [])
+  }, [hasVisitedPage])
 
   // load image on mount and set image object on state change (for re-render)
 
@@ -1022,32 +1029,34 @@ function MakeShirt() {
   }
 
   return (
-    <div className="flex flex-col md:pt-20 bg-white font-[Arima] select-none">
-      <Joyride
-        styles={{
-          options: {
-            arrowColor: "#ffff",
-            backgroundColor: "#ffff",
-            overlayColor: "rgba(0, 0, 0, 0.6)",
-            primaryColor: "#50d6d7",
-            textColor: "#424242",
-            beaconSize: 36,
-          },
-        }}
-        steps={steps}
-        locale={{
-          back: "Retour",
-          close: "Fermer",
-          last: "Terminer",
-          next: "Suivant",
-          open: "Ouvrir la boite de dialogue",
-          skip: "Ignorer",
-        }}
-        continuous
-        // showProgress
-        scrollToFirstStep
-        hideCloseButton
-      />
+    <div className="flex flex-col md:pt-20 bg-white  select-none">
+      {!hasVisitedPage && (
+        <Joyride
+          styles={{
+            options: {
+              arrowColor: "#ffff",
+              backgroundColor: "#ffff",
+              overlayColor: "rgba(0, 0, 0, 0.6)",
+              primaryColor: "#50d6d7",
+              textColor: "#424242",
+              beaconSize: 36,
+            },
+          }}
+          steps={steps}
+          locale={{
+            back: "Retour",
+            close: "Fermer",
+            last: "Terminer",
+            next: "Suivant",
+            open: "Ouvrir la boite de dialogue",
+            skip: "Ignorer",
+          }}
+          continuous
+          // showProgress
+          scrollToFirstStep
+          hideCloseButton
+        />
+      )}
       {/* horizontal top menu */}
       <div
         id="controller"
@@ -1326,7 +1335,7 @@ function MakeShirt() {
             className="border-2 canva border-gray-400 border-dashed   "
           />
         </div>
-        <div className="mr-6 h-96">
+        {/* <div className="mr-6 h-96">
           <Canvas className=" h-96   cursor-move">
             <OrbitControls enableZoom={false} />
             <ambientLight intensity={0.5} />
@@ -1335,7 +1344,7 @@ function MakeShirt() {
               <ModelDraco />
             </Suspense>
           </Canvas>
-        </div>
+        </div> */}
 
         {/*text input */}
         <div ref={textAreaContainer} className="hidden">
