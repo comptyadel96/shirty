@@ -31,7 +31,7 @@ import {
 import { ImBold, ImItalic, ImTextWidth, ImTextHeight } from "react-icons/im"
 import { GoTextSize } from "react-icons/go"
 import Picker from "emoji-picker-react"
-import { LazyLoadImage } from "react-lazy-load-image-component"
+// import { LazyLoadImage } from "react-lazy-load-image-component"
 import Svgs from "../components/Svgs"
 import MySlider from "../components/MySlider"
 import MyPicker from "../components/MyPicker"
@@ -119,38 +119,38 @@ function MakeShirt() {
       selectionLineWidth: 3,
       preserveObjectStacking: true,
     })
-    // canvas.freeDrawingBrush.color = "black"
-    // canvas.freeDrawingBrush.strokeLineCap = "round"
-    // canvas.freeDrawingBrush.width = 2
+
     // if the user has visited this page for the first time we show him the onboard tuto
     if (!hasVisitedPage) {
       setVisitedPage(true)
       localStorage.setItem("saw-tuto", true)
     }
+    canvas.setBackgroundImage("/images/shirt-purple.png")
     setCanvas(canvas)
+
     canvas.renderAll()
   }, [hasVisitedPage])
 
   // load image on mount and set image object on state change (for re-render)
 
-  useEffect(() => {
-    canvas && canvas.clear()
-    if (canvas && shirtId) {
-      let tshirt = new fabric.Image(shirtId, {
-        selectable: false,
-        hasControls: false,
-        excludeFromExport: true,
-        hoverCursor: "default",
-        absolutePositioned: true,
-      })
-      tshirt.scaleToWidth(canvas.width)
-      tshirt.scaleToHeight(canvas.height)
-      canvas.centerObject(tshirt)
-      // setShirt(tshirt)
-      canvas.add(tshirt)
-      canvas.renderAll()
-    }
-  }, [canvas, shirtId])
+  // useEffect(() => {
+  //   canvas && canvas.clear()
+  //   if (canvas && shirtId) {
+  //     let tshirt = new fabric.Image(shirtId, {
+  //       selectable: false,
+  //       hasControls: false,
+  //       excludeFromExport: true,
+  //       hoverCursor: "default",
+  //       absolutePositioned: true,
+  //     })
+  //     tshirt.scaleToWidth(canvas.width * 2)
+  //     tshirt.scaleToHeight(canvas.height * 2)
+  //     canvas.centerObject(tshirt)
+  //     // setShirt(tshirt)
+  //     canvas.add(tshirt)
+  //     canvas.renderAll()
+  //   }
+  // }, [canvas, shirtId])
   // custom delete icon on objects
   function deleteshape(eventData, transform) {
     var target = transform.target
@@ -1327,13 +1327,19 @@ function MakeShirt() {
             </div>
           </div>
         )}
-        <div className="px-4 m-5 mx-auto">
-          <canvas
-            ref={canvasRef}
-            height="500px"
-            width="500px"
-            className="border-2 canva border-gray-400 border-dashed   "
-          />
+        <div className="px-4 m-5 mx-auto  relative w-[500px] h-[500px] overflow-visible border-2">
+          <div className="absolute  top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%] z-20 ">
+            <canvas
+              ref={canvasRef}
+              height="300px"
+              width="210px"
+              className=" canva border-yellow-400 border-dashed border-2 "
+            />
+          </div>
+
+          <div className="absolute left-1/2 -translate-x-[50%] z-10 top-0 h-[500px] w-[500px]">
+            <img src={shirtId} alt="" className="h-[500px] w-[500px] " />
+          </div>
         </div>
         {/* <div className="mr-6 h-96">
           <Canvas className=" h-96   cursor-move">
@@ -1830,11 +1836,12 @@ function MakeShirt() {
                 </p>
                 <div className="flex justify-evenly items-center  flex-wrap bg-white">
                   {sectionImages.url.map((img) => (
-                    <LazyLoadImage
+                    <img
                       src={img}
                       className=" md:h-14 m-2 cursor-pointer  hover:scale-150 transition-all duration-700"
                       onClick={() => addClipImg(img)}
                       key={img}
+                      alt=""
                     />
                   ))}
                 </div>
@@ -2000,6 +2007,7 @@ function MakeShirt() {
               margin: "10px 20px",
             }}
             onClick={() => {
+              canvas && canvas.clear()
               setShirtId(shirt)
               setImage(null)
               setText(null)
