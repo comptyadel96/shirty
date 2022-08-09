@@ -112,12 +112,14 @@ function MakeShirt() {
   const [hasVisitedPage, setVisitedPage] = useState(
     JSON.parse(localStorage.getItem("saw-tuto")) || false
   )
+  const [depass, setDepass] = useState(false)
   // initialize canvas and image objects on mount
   useEffect(() => {
     const canvas = new fabric.Canvas(canvasRef.current, {
       selectionColor: "rgba(0,0,0,.5)",
       selectionLineWidth: 3,
       preserveObjectStacking: true,
+      selection: false,
     })
 
     // if the user has visited this page for the first time we show him the onboard tuto
@@ -125,9 +127,14 @@ function MakeShirt() {
       setVisitedPage(true)
       localStorage.setItem("saw-tuto", true)
     }
-    canvas.setBackgroundImage("/images/shirt-purple.png")
-    setCanvas(canvas)
+    fabric.Object.prototype.cornerColor = "#50d6d7"
+    fabric.Object.prototype.cornerStyle = "circle"
+    fabric.Object.prototype.transparentCorners = false
+    fabric.Object.prototype.borderColor = "#f3cb65"
+    fabric.Object.prototype.borderScaleFactor = 3
+    fabric.Object.prototype.padding = 4
 
+    setCanvas(canvas)
     canvas.renderAll()
   }, [hasVisitedPage])
 
@@ -318,10 +325,25 @@ function MakeShirt() {
     }
   }
 
-  // make active object in front of other objects (text above images etc ...)
+  // make active object in front of other objects (text above images etc ...) and check if the object isn't out of the canvas
   canvas &&
-    canvas.on("object:moving", function (event) {
-      event.target.bringToFront()
+    canvas.on("object:moving", function (e) {
+      e.target.bringToFront()
+      var obj = e.target
+      var rect = obj.getBoundingRect()
+      if (
+        rect.left < 0 ||
+        rect.top < 0 ||
+        rect.left + rect.width > canvas.getWidth() ||
+        rect.top + rect.height > canvas.getHeight()
+      ) {
+        obj.set("backgroundColor", "red")
+        setDepass(true)
+      } else {
+        setDepass(false)
+        obj.set("backgroundColor", "transparent")
+      }
+
       canvas.renderAll()
     })
 
@@ -948,8 +970,7 @@ function MakeShirt() {
       ]
 
       const target = e.target.type
-
-      if (e.target && (target === "path" || target === "polygon")) {
+      if (e.target !== null && (target === "path" || target === "polygon")) {
         showArray.map((clas) => shapeControllerRef.current.classList.add(clas))
         shapeControllerRef.current.classList.remove("hidden")
       } else {
@@ -1152,8 +1173,9 @@ function MakeShirt() {
           </p>
         </button>
       </div>
-      {/* image controller */}
+
       <div className="flex items-center flex-wrap md:mb-10   md:max-h-128 md:pb-10 md:pt-3">
+        {/* image controller */}
         {hasUploadImage && (
           <div ref={imageRef} className="hidden">
             <div className="inline-flex md:mt-2 bg-[#eee] md:pb-1 md:px-2 md:py-1 self-start ml-2">
@@ -1328,7 +1350,16 @@ function MakeShirt() {
           </div>
         )}
         <div className="px-4 m-5 mx-auto  relative w-[500px] h-[500px] overflow-visible border-2">
-          <div className="absolute  top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%] z-20 ">
+          {depass && (
+            <p className="animate-pulse bg-red-200 px-3 py-2 text-gray-800 font-semibold  absolute left-1/2 -translate-x-[50%] top-0 z-40">
+              votre element ne sera pas totalement visible, veuillez le
+              repositionner{" "}
+            </p>
+          )}
+          <div className="absolute left-1/2 -translate-x-[50%]  top-0 h-[500px] w-[500px]">
+            <img src={shirtId} alt="" className="h-[500px] w-[500px] " />
+          </div>
+          <div className="absolute  top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%]  ">
             <canvas
               ref={canvasRef}
               height="300px"
@@ -1336,11 +1367,8 @@ function MakeShirt() {
               className=" canva border-yellow-400 border-dashed border-2 "
             />
           </div>
-
-          <div className="absolute left-1/2 -translate-x-[50%] z-10 top-0 h-[500px] w-[500px]">
-            <img src={shirtId} alt="" className="h-[500px] w-[500px] " />
-          </div>
         </div>
+
         {/* <div className="mr-6 h-96">
           <Canvas className=" h-96   cursor-move">
             <OrbitControls enableZoom={false} />
@@ -2036,6 +2064,7 @@ function MakeShirt() {
       >
         envoyer le canvas au serveur
       </button>
+      {depass && <p>votre element ne sera pas totalment visible</p>}
     </div>
   )
 }
