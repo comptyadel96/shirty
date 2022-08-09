@@ -4,7 +4,7 @@ import shirtsArray from "../components/Shirts"
 import ClipArt from "./ClipArt"
 // import { Canvas } from "@react-three/fiber"
 // import { OrbitControls } from "@react-three/drei"
-import { HexColorPicker } from "react-colorful"
+
 import {
   BiText,
   BiPhotoAlbum,
