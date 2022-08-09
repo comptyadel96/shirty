@@ -120,12 +120,15 @@ function MakeShirt() {
       selectionLineWidth: 3,
       preserveObjectStacking: true,
       selection: false,
+      allowTouchScrolling: true,
     })
-
+    console.log(hasVisitedPage)
     // if the user has visited this page for the first time we show him the onboard tuto
-    if (!hasVisitedPage) {
-      setVisitedPage(true)
+    if (hasVisitedPage === false) {
       localStorage.setItem("saw-tuto", true)
+      setVisitedPage(false)
+    } else {
+      setVisitedPage(true)
     }
     fabric.Object.prototype.cornerColor = "#50d6d7"
     fabric.Object.prototype.cornerStyle = "circle"
@@ -159,6 +162,7 @@ function MakeShirt() {
   //   }
   // }, [canvas, shirtId])
   // custom delete icon on objects
+
   function deleteshape(eventData, transform) {
     var target = transform.target
     var canvas = target.canvas
@@ -2064,7 +2068,6 @@ function MakeShirt() {
       >
         envoyer le canvas au serveur
       </button>
-      {depass && <p>votre element ne sera pas totalment visible</p>}
     </div>
   )
 }

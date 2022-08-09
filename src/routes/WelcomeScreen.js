@@ -1,17 +1,32 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import Faq from "../components/Faq"
 import HorizontalScroll from "../components/HorizontalScroll"
 import ScrollDesigners from "../components/ScrollDesigners"
 import AuthContext from "../utils/AuthContext"
-
-
+import { EyeDropper } from "react-eyedrop"
+import { ImEyedropper } from "react-icons/im"
 function WelcomeScreen() {
   const currUser = useContext(AuthContext)
-  // const ImageRef = useRef(null)
-
+  const [hasClickedDropper, setHasClickedDropper] = useState(false)
+  const CustomButton = ({ onClick }) => (
+    <button
+      className="flex flex-col items-center mx-auto"
+      onClick={() => {
+        onClick()
+        setHasClickedDropper(!hasClickedDropper)
+      }}
+    >
+      <div
+        className={` rounded-full p-2 ${
+          hasClickedDropper ? "bg-gray-300" : "bg-white"
+        }`}
+      >
+        <ImEyedropper className="text-xl text-gray-600" />
+      </div>
+    </button>
+  )
   return (
     <div className="flex flex-col select-text h-full bg-white overflow-hidden">
-   
       {/* section descriptive desktop */}
       <div className="md:mt-20 lg:mb-10 lg:flex lg:items-center hidden relative">
         <div className="relative mx-auto  md:py-2">
@@ -42,6 +57,24 @@ function WelcomeScreen() {
           </div>
         </div>
       </div>
+      <EyeDropper
+        // once={!hasClickedDropper}
+        wrapperClasses="p-0"
+        customComponent={CustomButton}
+        onChange={({ rgb, hex }) => {
+          console.log(hex, rgb)
+        }}
+        onPickEnd={() => {
+          console.log("picked")
+          setHasClickedDropper(!hasClickedDropper)
+        }}
+      />
+      <button
+        onClick={() => localStorage.setItem("saw-tuto", false)}
+        className="max-h-fit px-2 bg-amber-400"
+      >
+        supprimer local storage
+      </button>
       {/* section descriptive mobile */}
       <div className="lg:hidden mx-auto mt-16 relative">
         <img src="/images/ill1-mob.png" alt="" className="sm:max-h-full  " />
