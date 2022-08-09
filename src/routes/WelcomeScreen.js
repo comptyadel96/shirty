@@ -71,7 +71,7 @@ function WelcomeScreen() {
       />
       <button
         onClick={() => localStorage.setItem("saw-tuto", false)}
-        className="max-h-fit px-2 bg-amber-400"
+        className="max-w-fit px-2 bg-amber-400"
       >
         supprimer local storage
       </button>

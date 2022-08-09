@@ -71,7 +71,7 @@ function MyPicker({ onItemClick }) {
 
   return (
     <div
-      className="bg-white z-50 md:px-2 md:py-1 relative md:w-28 cursor-pointer border shadow-lg rounded-md "
+      className="bg-white z-40 md:px-2 md:py-1 relative md:w-28 cursor-pointer border shadow-lg rounded-md "
       onClick={toggleFonts}
     >
       {currentVal ? (

@@ -4,6 +4,7 @@ import shirtsArray from "../components/Shirts"
 import ClipArt from "./ClipArt"
 // import { Canvas } from "@react-three/fiber"
 // import { OrbitControls } from "@react-three/drei"
+import { HexColorPicker } from "react-colorful"
 import {
   BiText,
   BiPhotoAlbum,
@@ -40,6 +41,7 @@ import NormalPicker from "../components/NormalPicker"
 // import ModelDraco from "../components/ModelDraco"
 // import axios from "axios"
 import Joyride from "react-joyride"
+import { PopoverPicker } from "../components/PopoverPicker"
 
 var FontFaceObserver = require("fontfaceobserver")
 function MakeShirt() {
@@ -119,10 +121,11 @@ function MakeShirt() {
       selectionColor: "rgba(0,0,0,.5)",
       selectionLineWidth: 3,
       preserveObjectStacking: true,
-      selection: false,
+      // selection: false,
       allowTouchScrolling: true,
+      enableRetinaScaling: true,
     })
-    console.log(hasVisitedPage)
+
     // if the user has visited this page for the first time we show him the onboard tuto
     if (hasVisitedPage === false) {
       localStorage.setItem("saw-tuto", true)
@@ -137,6 +140,8 @@ function MakeShirt() {
     fabric.Object.prototype.borderScaleFactor = 3
     fabric.Object.prototype.padding = 4
 
+    canvas.freeDrawingBrush.color = "black"
+    canvas.freeDrawingBrush.width = 4
     setCanvas(canvas)
     canvas.renderAll()
   }, [hasVisitedPage])
@@ -543,7 +548,7 @@ function MakeShirt() {
   // change text style color
   const textColorHandler = (e) => {
     if (canvas && canvas.getActiveObject()) {
-      canvas.getActiveObject().set("fill", e.target.value)
+      canvas.getActiveObject().set("fill", e)
     }
     canvas.renderAll()
   }
@@ -644,7 +649,7 @@ function MakeShirt() {
   // change text stroke color
   const textStrokeColorHandler = (e) => {
     if (canvas && canvas.getActiveObject()) {
-      canvas.getActiveObject().set("stroke", e.target.value)
+      canvas.getActiveObject().set("stroke", e)
       //
     }
     canvas.renderAll()
@@ -699,8 +704,10 @@ function MakeShirt() {
   // if the user click on the shirt we hide the text options
   canvas &&
     canvas.on("mouse:up", function (e) {
-      if (e.target.type !== "i-text") {
-        document.querySelector("#text-options").className += " hidden"
+      if (e.target !== null) {
+        if (e.target.type !== "i-text") {
+          document.querySelector("#text-options").className += " hidden"
+        }
       }
     })
 
@@ -745,7 +752,7 @@ function MakeShirt() {
     image.filters = []
     image.filters.push(
       new fabric.Image.filters.BlendColor({
-        color: e.target.value,
+        color: e,
         mode: "multiply",
       })
     )
@@ -876,7 +883,7 @@ function MakeShirt() {
 
   const drawingColorHandler = (e) => {
     if (canvas) {
-      canvas.freeDrawingBrush.color = e.target.value
+      canvas.freeDrawingBrush.color = e
     }
   }
   const drawingWidthHandler = (value) => {
@@ -958,31 +965,35 @@ function MakeShirt() {
   // toggle shapes controller
   canvas &&
     canvas.on("mouse:down", function (e) {
-      const showArray = [
-        "flex",
-        "flex-col",
-        "items-center",
-        "bg-white",
-        "shadow-lg",
-        "border",
-        "md:p-2",
-        "md:mb-4",
-        "absolute",
-        "top-8",
-        "-left-80",
-        "max-w-rightBar",
-      ]
+      if (e.target !== null) {
+        const showArray = [
+          "flex",
+          "flex-col",
+          "items-center",
+          "bg-white",
+          "shadow-lg",
+          "border",
+          "md:p-2",
+          "md:mb-4",
+          "absolute",
+          "top-8",
+          "-left-80",
+          "max-w-rightBar",
+        ]
 
-      const target = e.target.type
-      if (e.target !== null && (target === "path" || target === "polygon")) {
-        showArray.map((clas) => shapeControllerRef.current.classList.add(clas))
-        shapeControllerRef.current.classList.remove("hidden")
-      } else {
-        showArray.map((clas) =>
-          shapeControllerRef.current.classList.remove(clas)
-        )
+        const target = e.target.type
+        if (e.target !== null && (target === "path" || target === "polygon")) {
+          showArray.map((clas) =>
+            shapeControllerRef.current.classList.add(clas)
+          )
+          shapeControllerRef.current.classList.remove("hidden")
+        } else {
+          showArray.map((clas) =>
+            shapeControllerRef.current.classList.remove(clas)
+          )
 
-        shapeControllerRef.current.classList.add("hidden")
+          shapeControllerRef.current.classList.add("hidden")
+        }
       }
     })
   //  add svg shape
@@ -1327,13 +1338,7 @@ function MakeShirt() {
               <div className="flex items-center my-2 relative">
                 <MdPhotoFilter className="text-xl" />
                 <p className="text-sm mx-1">Filtre couleur</p>
-                <div className="rounded-full overflow-hidden  w-5 h-5">
-                  <input
-                    type="color"
-                    onChange={filterColorHandler}
-                    className="cursor-pointer"
-                  />
-                </div>
+                <PopoverPicker onChange={filterColorHandler} />
               </div>
               {!hasRoundImage ? (
                 <button
@@ -1353,14 +1358,14 @@ function MakeShirt() {
             </div>
           </div>
         )}
-        <div className="px-4 m-5 mx-auto  relative w-[500px] h-[500px] overflow-visible border-2">
+        <div className="px-4 m-5 mx-auto  relative w-[500px] h-[500px]  border-2">
           {depass && (
-            <p className="animate-pulse bg-red-200 px-3 py-2 text-gray-800 font-semibold  absolute left-1/2 -translate-x-[50%] top-0 z-40">
+            <p className="animate-pulse bg-red-500 px-3 py-2 text-gray-800 font-semibold  absolute left-1/2 -translate-x-[50%] top-0 z-40">
               votre element ne sera pas totalement visible, veuillez le
               repositionner{" "}
             </p>
           )}
-          <div className="absolute left-1/2 -translate-x-[50%]  top-0 h-[500px] w-[500px]">
+          <div className="absolute left-1/2 -translate-x-[50%]  top-0 h-[500px] w-[500px] select-none">
             <img src={shirtId} alt="" className="h-[500px] w-[500px] " />
           </div>
           <div className="absolute  top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%]  ">
@@ -1372,7 +1377,7 @@ function MakeShirt() {
             />
           </div>
         </div>
-
+    
         {/* <div className="mr-6 h-96">
           <Canvas className=" h-96   cursor-move">
             <OrbitControls enableZoom={false} />
@@ -1437,17 +1442,12 @@ function MakeShirt() {
             </div>
             {/* color */}
             <div className="flex items-center justify-between self-start w-full bg-[#eee]">
-              <div className="flex flex-col items-center  md:ml-2">
+              <div className="flex  items-center  md:ml-2">
                 <p className="text-gray-800 mr-1 font-semibold text-sm  ">
-                  Couleur du texte
+                  Couleur texte
                 </p>
-                <div className="rounded-full w-5 h-5 overflow-hidden self-start mt-1 bg-white border-2 border-black">
-                  <input
-                    className="cursor-pointer"
-                    type="color"
-                    onChange={textColorHandler}
-                  />
-                </div>
+
+                <PopoverPicker onChange={textColorHandler} />
               </div>
               {/* opacity */}
               <div className="inline-flex items-center">
@@ -1468,13 +1468,7 @@ function MakeShirt() {
 
             {/* text stroke color */}
             <div className=" flex items-center self-start  md:mt-1  w-full bg-[#eee] md:py-2">
-              <div className="rounded-full w-5 h-5 ml-2 overflow-hidden self-end mb-1 shadow-lg border-2 border-black">
-                <input
-                  type="color"
-                  className="cursor-pointer "
-                  onChange={textStrokeColorHandler}
-                />
-              </div>
+              <PopoverPicker onChange={textStrokeColorHandler} />
               <div className="flex flex-col items-center md:ml-2  w-3/4 mx-2">
                 <p className="text-gray-800 mr-1 font-semibold  text-sm self-start">
                   Taille du contour
@@ -1984,13 +1978,7 @@ function MakeShirt() {
               {/* couleur */}
               <div className="inline-flex my-1">
                 <p className="mr-1 font-semibold ">Couleur</p>
-                <div className="rounded-full w-5 h-5 overflow-hidden border-2 border-black">
-                  <input
-                    className="cursor-pointer"
-                    type="color"
-                    onChange={drawingColorHandler}
-                  />
-                </div>
+                <PopoverPicker onChange={drawingColorHandler} />
               </div>
               {/* taille */}
               <div className="inline-flex my-1 items-center">
