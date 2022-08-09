@@ -946,11 +946,11 @@ function MakeShirt() {
 
   // shapes options :
   const shapesColor = (e) => {
-    canvas.getActiveObject().set("fill", e.target.value)
+    canvas.getActiveObject().set("fill", e)
     canvas.renderAll()
   }
   const shapesCornerColor = (e) => {
-    canvas.getActiveObject().set("stroke", e.target.value)
+    canvas.getActiveObject().set("stroke", e)
     canvas.renderAll()
   }
   const shapesCornerWidth = (value) => {
@@ -958,7 +958,7 @@ function MakeShirt() {
     canvas.renderAll()
   }
   const shapesOpacity = (value) => {
-    canvas.getActiveObject().set("opacity", value / 10)
+    canvas.getActiveObject().set("opacity", Math.floor(value) / 100)
     canvas.renderAll()
   }
 
@@ -982,7 +982,11 @@ function MakeShirt() {
         ]
 
         const target = e.target.type
-        if (e.target !== null && (target === "path" || target === "polygon")) {
+        console.log(target)
+        if (
+          e.target !== null &&
+          (target === "path" || target === "polygon" || target === "circle")
+        ) {
           showArray.map((clas) =>
             shapeControllerRef.current.classList.add(clas)
           )
@@ -1377,7 +1381,7 @@ function MakeShirt() {
             />
           </div>
         </div>
-    
+
         {/* <div className="mr-6 h-96">
           <Canvas className=" h-96   cursor-move">
             <OrbitControls enableZoom={false} />
@@ -1909,15 +1913,8 @@ function MakeShirt() {
               <div className="flex flex-col bg-[#eee] md:p-1 w-full text-xs font-semibold">
                 <div className="inline-flex items-center my-1">
                   <p className="mr-2">Couleur</p>
-                  <div className="rounded-full w-5 h-5 overflow-hidden">
-                    <div className="rounded-full w-5 h-5 overflow-hidden">
-                      <input
-                        type="color"
-                        onChange={shapesColor}
-                        className="mb-1 cursor-pointer"
-                      />
-                    </div>
-                  </div>
+
+                  <PopoverPicker onChange={shapesColor} />
                 </div>
 
                 <div className="inline-flex items-center my-1 w-full">
@@ -1933,13 +1930,7 @@ function MakeShirt() {
 
                 <div className="inline-flex items-center my-1 w-full">
                   <p className="mr-1">Couleur de la bordure</p>
-                  <div className="rounded-full overflow-hidden h-5 w-5">
-                    <input
-                      type="color"
-                      onChange={shapesCornerColor}
-                      className="cursor-pointer"
-                    />
-                  </div>
+                  <PopoverPicker onChange={shapesCornerColor} />
                 </div>
 
                 <div className="inline-flex items-center my-1 w-full">

@@ -11,16 +11,16 @@ export const PopoverPicker = ({ onChange }) => {
   useClickOutside(popover, close)
 
   return (
-    <div className="relative z-50 shadow-xl">
+    <div className="relative  shadow-xl">
       <div
-        className="w-7 h-7 rounded-md  border-[3px] border-white cursor-pointer z-50"
+        className="w-7 h-7 rounded-md  border-[3px] border-white cursor-pointer z-0"
         style={{ backgroundColor: color }}
         onClick={() => toggle(true)}
       />
 
       {isOpen && (
         <div
-          className="absolute top-[calc(100% + 20px)] left-0 rounded-lg"
+          className="absolute left-0 rounded-lg z-50"
           ref={popover}
         >
           <HexColorPicker
@@ -32,9 +32,11 @@ export const PopoverPicker = ({ onChange }) => {
           />
           <HexColorInput
             placeholder="#fffff"
-            
             color={color}
-            onChange={(e) => setColor(e)}
+            onChange={(e) => {
+              setColor(e)
+              onChange(e)
+            }}
             className="uppercase px-3 py-1 w-[60%] font-semibold bg-white text-gray-700 mt-3 border placeholder:text-cyan-400 outline-none rounded-lg focus:border-red-500"
           />
         </div>
