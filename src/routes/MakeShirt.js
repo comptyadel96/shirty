@@ -109,7 +109,7 @@ function MakeShirt() {
   const [shirtId, setShirtId] = useState(shirtsArray[0])
   const [text, setText] = useState("")
   const [hasRoundImage, setHasRoundImage] = useState(false)
-  const [strokeVal, setStrokeVal] = useState(0)
+
   const [isDrawing, setIsDrawing] = useState(false)
   const [hasVisitedPage, setVisitedPage] = useState(
     JSON.parse(localStorage.getItem("saw-tuto")) || false
@@ -658,7 +658,6 @@ function MakeShirt() {
   const textStrokeWidth = (val) => {
     if (canvas && canvas.getActiveObject()) {
       canvas.getActiveObject().set("strokeWidth", val / 40)
-      setStrokeVal(val)
     }
     canvas.renderAll()
   }
@@ -982,7 +981,6 @@ function MakeShirt() {
         ]
 
         const target = e.target.type
-        console.log(target)
         if (
           e.target !== null &&
           (target === "path" || target === "polygon" || target === "circle")
@@ -1067,7 +1065,7 @@ function MakeShirt() {
     showArray.map((clas) => drawingRef.current.classList.add(clas))
     drawingRef.current.classList.remove("hidden")
   }
-
+ 
   return (
     <div className="flex flex-col md:pt-20 bg-white  select-none">
       {!hasVisitedPage && (
@@ -1272,7 +1270,7 @@ function MakeShirt() {
                     <div className="hidden" id="noise">
                       <ToolTip
                         text={"noise"}
-                        style={{ right: "5px", top: "-10px" }}
+                        style={{ right: "26px", top: "-22px" }}
                       />
                     </div>
                   </div>
@@ -1304,7 +1302,7 @@ function MakeShirt() {
                   <div className="hidden" id="brightness">
                     <ToolTip
                       text={"luminosité"}
-                      style={{ right: "10px", top: "0px" }}
+                      style={{ right: "20px", top: "-22px" }}
                     />
                   </div>
                 </div>
@@ -1333,7 +1331,10 @@ function MakeShirt() {
                     />
                     {/* tooltip */}
                     <div className="hidden" id="saturation">
-                      <ToolTip text={"saturation"} />
+                      <ToolTip
+                        text={"saturation"}
+                        style={{ right: "10px", top: "-22px" }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -1483,10 +1484,6 @@ function MakeShirt() {
                   }}
                 />
               </div>
-              <p className="text-gray-500 font-semibold text-sm md:mr-6">
-                {" "}
-                {strokeVal}%{" "}
-              </p>
             </div>
 
             {/* font size */}

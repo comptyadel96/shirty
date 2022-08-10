@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import ReactSlider from "react-slider"
 function MySlider({ step = 1, min, max, onChange, defaultValue = 1 }) {
-  const [currentValue, setCurrentValue] = useState()
+  const [currentValue, setCurrentValue] = useState(0)
   return (
-    <>
+    <div className="w-full flex items-center">
       {" "}
       <ReactSlider
-        className="w-3/4 self-start mb-2"
+        className="w-3/4 mb-2"
         thumbClassName="w-3 h-3 rounded-full border border-black bg-red-400 cursor-pointer "
         trackClassName=" h-3 bg-white rounded-full border border-gray-400"
         marks={5}
@@ -17,8 +17,8 @@ function MySlider({ step = 1, min, max, onChange, defaultValue = 1 }) {
         }}
         defaultValue={defaultValue}
       />
-      <p>{currentValue} </p>
-    </>
+      <p className="text-gray-500 font-semibold text-sm ml-3">{currentValue}% </p>
+    </div>
   )
 }
 
