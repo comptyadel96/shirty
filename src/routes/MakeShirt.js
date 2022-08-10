@@ -209,10 +209,7 @@ function MakeShirt() {
     styleAdd.map((style) => emojiRef.current.classList.add(style))
   }
   const onEmojiClick = (event, emojiObject) => {
-    let myEmoji = new fabric.Text(emojiObject.emoji, {
-      scaleX: 4,
-      scaleY: 4,
-    })
+    let myEmoji = new fabric.Text(emojiObject.emoji)
     canvas.centerObject(myEmoji)
     canvas.add(myEmoji)
     canvas.renderAll()
@@ -698,17 +695,19 @@ function MakeShirt() {
         document.querySelector("#text-options").className =
           " relative  flex flex-col   items-center flex-wrap  rounded-lg w-full  "
         toggleMenu(textOptionsRef)
+      } else {
+        // document.querySelector("#text-options").className += " hidden"
+        !canvas.isDrawingMode && hideMenu()
       }
     })
   // if the user click on the shirt we hide the text options
-  canvas &&
-    canvas.on("mouse:up", function (e) {
-      if (e.target !== null) {
-        if (e.target.type !== "i-text") {
-          document.querySelector("#text-options").className += " hidden"
-        }
-      }
-    })
+  // canvas &&
+  //   canvas.on("mouse:up", function (e) {
+  //     if (e.target && e.target.type !== "i-text") {
+
+  //       document.querySelector("#text-options").className += " hidden"
+  //     }
+  //   })
 
   if (image !== null && imageRef.current) {
     const showArray = [
@@ -1028,7 +1027,8 @@ function MakeShirt() {
     currentRef.current.classList.remove("hidden")
 
     const showArr = [
-      "md:h-128",
+      "md:max-h-128",
+      "md:min-h-[600px]",
       "select-none",
       "max-w-rightBar",
       "flex",
@@ -1038,20 +1038,50 @@ function MakeShirt() {
       "z-50",
       "overflow-visible",
       "border-2",
-      "ml-auto",
+      "bg-white",
       "mr-2",
       "md:px-2",
       "md:pt-2",
       "shadow-xl",
-      "transition-all",
-      "duration-700",
+      // "transition-all",
+      // "duration-700",
     ]
-    const hideArr = ["max-w-0", "max-h-0", "border-2", "overflow-hidden"]
+    const hideArr = ["max-w-0", "md:max-h-0", "border-2", "overflow-hidden"]
 
     showArr.map((clas) => optionsContainerRef.current.classList.add(clas))
     hideArr.map((clas) => optionsContainerRef.current.classList.remove(clas))
   }
+  const hideMenu = () => {
+    const showArr = [
+      "md:max-h-128",
+      "select-none",
+      "max-w-rightBar",
+      "flex",
+      "flex-col",
+      "items-center",
+      "bg-white",
+      "z-50",
+      "overflow-visible",
+      "border-2",
 
+      "mr-2",
+      "md:px-2",
+      "md:pt-2",
+      "shadow-xl",
+      // "transition-all",
+      // "duration-700",
+    ]
+    const hideArr = [
+      "max-w-0",
+      "md:max-h-0",
+      "border-2",
+      "overflow-hidden",
+      "md:px-2",
+      "md:pt-2",
+    ]
+    hideArr.map((clas) => optionsContainerRef.current.classList.add(clas))
+    showArr.map((clas) => optionsContainerRef.current.classList.remove(clas))
+  }
   // show free drawing options
   const showDrawingOptions = () => {
     const showArray = [
@@ -1065,7 +1095,7 @@ function MakeShirt() {
     showArray.map((clas) => drawingRef.current.classList.add(clas))
     drawingRef.current.classList.remove("hidden")
   }
- 
+
   return (
     <div className="flex flex-col md:pt-20 bg-white  select-none">
       {!hasVisitedPage && (
@@ -1417,7 +1447,7 @@ function MakeShirt() {
         {/* options container */}
         <div
           ref={optionsContainerRef}
-          className="max-w-0 max-h-0 border-2 overflow-hidden transition-all duration-700"
+          className="max-w-0 md:max-h-0 border-2 overflow-hidden absolute right-0 transition-all duration-700"
         >
           {/* custom emoji */}
           <div className="hidden overflow-hidden" ref={emojiRef}>
