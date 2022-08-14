@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext } from "react"
 import Faq from "../components/Faq"
 import HorizontalScroll from "../components/HorizontalScroll"
 import ScrollDesigners from "../components/ScrollDesigners"
