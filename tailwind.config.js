@@ -120,7 +120,8 @@ module.exports = {
       bounce: "bounce 1s infinite",
       bounceSlow: "bounce 2s infinite",
       blob: "blob 10s infinite",
-      chariot: "chariot 18s infinite",
+      chariot: "chariot 16s infinite",
+      chariotX: "chariotX 16s infinite",
     },
     aspectRatio: {
       auto: "auto",
@@ -298,6 +299,10 @@ module.exports = {
       xl: ["0 20px 13px rgb(0 0 0 / 0.03)", "0 8px 5px rgb(0 0 0 / 0.08)"],
       "2xl": "0 25px 25px rgb(0 0 0 / 0.15)",
       none: "0 0 #0000",
+      myShadow: [
+        "-1px 1px 6px rgb( 174, 174, 174 )",
+        
+      ],
     },
     fill: ({ theme }) => theme("colors"),
     grayscale: {
@@ -648,16 +653,26 @@ module.exports = {
       },
       chariot: {
         "0%": {
-          transform: "translateX(0%)",
+          transform: "translateX(50%)",
         },
         "50%": {
-          transform: "translateX(-5%)",
+          transform: "translateX(-50%)",
         },
         "100%": {
-          transform: "translateX(0%)",
+          transform: "translateX(50%)",
         },
       },
-     
+      chariotX: {
+        "0%": {
+          transform: "translateX(-50%)",
+        },
+        "50%": {
+          transform: "translateX(50%)",
+        },
+        "100%": {
+          transform: "translateX(-50%)",
+        },
+      },
     },
     letterSpacing: {
       tighter: "-0.05em",
