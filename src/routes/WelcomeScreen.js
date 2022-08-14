@@ -106,9 +106,9 @@ function WelcomeScreen() {
           <img
             src="/images/baby3.png"
             alt=""
-            className="xl:max-h-[43rem] lg:max-h-[40rem] object-cover "
+            className="xl:max-h-[43rem] lg:max-h-[40rem] object-cover border-r-4 border-gray-800 pr-2 border-dotted "
           />
-          <div className="flex flex-col self-start md:mt-20 ml-2 border-l-4 border-gray-800 pl-2 border-dotted">
+          <div className="flex flex-col self-start md:mt-20 ml-2">
             {/* title */}
             <p className="md:mb-4 text-gray-800 font-semibold  text-5xl   max-w-md leading-relaxed border-b-4 border-gray-800">
               Tous est question de{" "}
@@ -127,7 +127,7 @@ function WelcomeScreen() {
         </div>
       </div>
       {/* deparator1 */}
-      <div className="hidden  lg:w-full lg:flex mb-10 bg-neutral-200 py-16 mt-10 items-center justify-evenly  overflow-visible">
+      <div className="hidden  lg:w-full lg:flex  bg-gray-800 h-20 py-16 my-20 items-center justify-evenly  overflow-visible">
         <div className="flex items-center -skew-x-12 bg-white shadow-lg pb-8 px-2 py-1 h-56  border-l-4 border-black border-dotted rounded-3xl">
           <p className="text-5xl font-semibold border-r-[4px] border-t-[4px] border-r-cyan-400 border-t-cyan-400 pr-1">
             1

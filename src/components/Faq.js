@@ -40,7 +40,7 @@ function Faq() {
           ref={faq1}
           className="max-h-0 overflow-hidden transition-all duration-700 text-center"
         >
-          <p className="text-gray-600  md:py-1">
+          <p className="text-gray-600  md:py-1 max-w-[20rem]">
             Non, quelqu'un a essayer de draguer une fille en lui disant "you are
             like sugar" , elle a tous de suite lever les vitre de sa voiture et
             elle s'est barrer
@@ -68,7 +68,7 @@ function Faq() {
           className="max-h-0 overflow-hidden transition-all duration-700 text-center "
           ref={faq2}
         >
-          <p className="text-gray-600  md:py-1">
+          <p className="text-gray-600  md:py-1 max-w-[16rem]">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit.
             Repudiandae ea ratione unde minus
           </p>
