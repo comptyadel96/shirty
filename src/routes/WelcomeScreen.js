@@ -101,10 +101,10 @@ function WelcomeScreen() {
       </div>
 
       {/* section design desktop */}
-      <div className="lg:flex lg:items-center bg-white  lg:flex-wrap  sm:mb-10 mt-20 relative hidden w-full">
+      <div className="lg:flex lg:items-center  bg-white  lg:flex-wrap  sm:mb-10 mt-20 relative hidden w-full">
         <div className="flex items-center justify-around  w-full md:py-3 relative">
           <img
-            src="/images/baby3.png"
+            src="/images/design-desktop.png"
             alt=""
             className="xl:max-h-[43rem] lg:max-h-[40rem] object-cover border-r-4 border-gray-800 pr-2 border-dotted "
           />
@@ -116,7 +116,7 @@ function WelcomeScreen() {
                 créativité{" "}
               </span>
             </p>
-            <p className="lg:text-3xl text-gray-800 lg:max-w-2xl p-3 rounded-md xl:mt-20 bg-white">
+            <p className="lg:text-3xl text-gray-800 lg:max-w-2xl p-3 rounded-md  bg-white">
               Libérez votre créativité et faite un design original grâce au
               outils de shirty ajouter du texte, une image ou une simple forme
               géometrique, rajouter des filtres et régler la taille de votre
@@ -127,68 +127,53 @@ function WelcomeScreen() {
         </div>
       </div>
       {/* deparator1 */}
-      <div className="hidden  lg:w-full lg:flex  bg-gray-800 h-20 py-16 my-20 items-center justify-evenly  overflow-visible">
-        <div className="flex items-center -skew-x-12 bg-white shadow-lg pb-8 px-2 py-1 h-56  border-l-4 border-black border-dotted rounded-3xl">
-          <p className="text-5xl font-semibold border-r-[4px] border-t-[4px] border-r-cyan-400 border-t-cyan-400 pr-1">
-            1
-          </p>
+      <div className="hidden  lg:w-full lg:flex flex-wrap  bg-gray-800 text-white  py-3 my-5 items-center justify-evenly  overflow-visible">
+        <div className="flex items-center my-2 mx-1">
           <div className="flex flex-col max-w-fit">
-            <img src="/icons/no-download.png" alt="" className="max-w-[100px] mx-auto skew-x-12" />
+            <img
+              src="/icons/no-download.png"
+              alt=""
+              className="max-w-[100px] mx-auto"
+            />
             <p className="ml-2 font-semibold text-md">
               Pas besoin de télécharger quoi que ce soit
             </p>
-            <p className="text-xs max-w-xs ml-2">
+            <p className="text-sm max-w-xs ml-2">
               Le design ce fait en ligne et en quelques minutes avec les outils
               de personalisation shirty{" "}
             </p>
           </div>
-          <div className="flex flex-col absolute bottom-5 left-1/2 -translate-x-[50%] w-full">
-            <div className="h-1 w-40 bg-gray-800 mb-1 mx-auto animate-chariotX "></div>
-            <div className="h-1 w-40 bg-gray-800 ml-[30%] animate-chariot"></div>
-          </div>
-          <div className="absolute top-3 right-3 border-2 border-gray-800 h-10 w-10 " />
-          <div className="absolute top-8 right-9 border-2 border-gray-800 h-7 w-7 animate-spinSlow bg-cyan-400" />
         </div>
-        <div className="flex items-center -skew-x-12 bg-white shadow-lg pb-8 px-2 py-1 h-56  border-l-4 border-black border-dotted rounded-3xl">
-          <p className="text-5xl font-semibold border-r-[4px] border-t-[4px] border-r-amber-400 border-t-amber-400 pr-1">
-            2
-          </p>
+        <div className="flex items-center my-2 mx-1">
           <div className="flex flex-col max-w-fit">
-            <img src="/icons/pre-design.png" alt="" className="max-w-[140px] mx-auto skew-x-12" />
+            <img
+              src="/icons/pre-design.png"
+              alt=""
+              className="max-w-[140px] mx-auto"
+            />
             <p className="ml-2 font-semibold text-md">
               Des designs déja préts pour vos modifications
             </p>
-            <p className="text-xs max-w-xs ml-2">
+            <p className="text-sm max-w-xs ml-2">
               Plusieurs élements déja mis en place pour vous aider a démmarer
             </p>
           </div>
-          <div className="flex flex-col absolute bottom-5 left-1/2 -translate-x-[50%] w-full">
-            <div className="h-1 w-40 bg-gray-800 mb-1 mx-auto animate-chariot animation-delay-2000 "></div>
-            <div className="h-1 w-40 bg-gray-800 ml-[30%] animate-chariotX animation-delay-2000"></div>
-          </div>
-          <div className="absolute top-3 right-3 border-2 border-gray-800 h-10 w-10 " />
-          <div className="absolute top-8 right-9 border-2 border-gray-800 h-7 w-7 animate-spinSlow bg-amber-300" />
         </div>
-        <div className="flex items-center -skew-x-12 bg-white shadow-lg pb-8 px-2 py-1 h-56  border-l-4 border-black border-dotted rounded-3xl">
-          <p className="text-5xl font-semibold border-r-[4px] border-t-[4px] border-r-pink-300 border-t-pink-300 pr-1">
-            3
-          </p>
+        <div className="flex items-center my-2 mx-1">
           <div className="flex flex-col max-w-fit">
-            <img src="/icons/paiment.png" alt="" className="max-w-[140px] mx-auto skew-x-12" />
+            <img
+              src="/icons/paiment.png"
+              alt=""
+              className="max-w-[140px] mx-auto"
+            />
             <p className="ml-2 font-semibold text-md">
               Possibilité de rémuneration pour vos oeuvres
             </p>
-            <p className="text-xs max-w-xs ml-2">
+            <p className="text-sm max-w-xs ml-2">
               Vous pouvez commander votre t shirt et aussi le vendre sur notre
               site
             </p>
           </div>
-          <div className="flex flex-col absolute bottom-5 left-1/2 -translate-x-[50%] w-full">
-            <div className="h-1 w-40 bg-gray-800 mb-1 mx-auto animate-chariotX "></div>
-            <div className="h-1 w-40 bg-gray-800 ml-[30%] animate-chariot"></div>
-          </div>
-          <div className="absolute top-3 right-3 border-2 border-gray-800 h-10 w-10 " />
-          <div className="absolute top-8 right-9 border-2 border-gray-800 h-7 w-7 animate-spinSlow bg-pink-300" />
         </div>
       </div>
       {/* section design mobile */}
@@ -317,7 +302,7 @@ function WelcomeScreen() {
         <HorizontalScroll />
       </div>
       {/* aventages */}
-      <p className=" text-gray-800 md:mt-10 mt-5 lg:mb-8 mb-1 underline underline-offset-8 decoration-2 decoration-dotted ml-4 xl:text-6xl lg:text-4xl text-2xl font-semibold  ">
+      <p className=" text-gray-800 md:mt-10 mt-5 lg:mb-8 mb-1  ml-4 xl:text-5xl lg:text-4xl text-2xl font-semibold  ">
         Pourquoi choisir Shirty ?{" "}
       </p>
       {/* aventages */}
