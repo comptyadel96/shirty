@@ -100,37 +100,37 @@ function WelcomeScreen() {
         </div>
       </div>
       {/* little separator */}
-      <div className="hidden lg:flex lg:items-center lg:flex-wrap bg-white p-4 justify-evenly shadow-lg">
+      <div className="lg:flex lg:flex-row flex-col lg:items-center lg:flex-wrap lg:mt-10 mt-2  bg-white px-4 lg:py-10 justify-evenly shadow-lg">
         {/* card 1 */}
-        <div className="flex flex-col border-r-4 border-dotted border-gray-800 pr-2">
-          <h1 className="lg:text-3xl font-bold text-center">
-            Shirty <span className="text-2xl font-semibold">c'est quoi ? </span>{" "}
+        <div className="flex flex-col items-center lg:my-0 my-4 lg:border-r-4 lg:border-l-0 border-l-4 border-dotted border-gray-800 pr-2">
+          <h1 className="lg:text-3xl text-2xl font-bold text-center">
+            Shirty <span className="lg:text-2xl font-semibold">c'est quoi ? </span>{" "}
           </h1>
-          <p className="max-w-sm text-gray-800  leading-6 text-center font-semibold">
+          <p className="xl:max-w-sm lg:max-w-[20rem] max-w-[15rem] text-gray-800  leading-6 text-center font-semibold">
             Shirty est un service d'imprimerie a la demmande en ligne qui vous
             permettra de commander votre produit personalisé et de créer et
             vendre votre propre marque sur toute la gamme de nos produits
           </p>
         </div>
         {/* card 2*/}
-        <div className="flex flex-col border-r-4 border-dotted border-gray-800 pr-2">
-          <h1 className="lg:text-3xl font-bold text-center">
-            +4 ans <span className="text-xl font-semibold">d'éxperience</span>{" "}
+        <div className="flex flex-col items-center lg:my-0 my-4 border-r-4 border-dotted border-gray-800 pr-2">
+          <h1 className="lg:text-3xl text-2xl font-bold text-center">
+            +4 ans <span className="lg:text-xl font-semibold">d'éxperience</span>{" "}
           </h1>
-          <p className="max-w-sm text-gray-800  leading-6 text-center font-semibold">
+          <p className="xl:max-w-sm lg:max-w-[20rem] max-w-[15rem] text-gray-800  leading-6 text-center font-semibold">
             Nous vous garantissons un service à la fois rapide et fiable peut
             importe la taille ou le type de votre commande
           </p>
         </div>
         {/* card 3*/}
-        <div className="flex flex-col border-r-4 border-dotted border-gray-800 pr-2">
-          <h1 className="lg:text-3xl font-bold text-center">
-            +de 200 commandes
-            <span className="text-xl font-semibold">/jour</span>{" "}
+        <div className="flex flex-col items-center lg:my-0 my-4 lg:border-r-4 lg:border-l-0 border-l-4 border-dotted border-gray-800 pr-2">
+          <h1 className="lg:text-3xl text-2xl font-bold text-center">
+            +de 200 {" "}
+            <span className="lg:text-xl font-semibold">commandes/jour</span>{" "}
           </h1>
-          <p className="max-w-sm text-gray-800  leading-6 text-center font-semibold">
+          <p className="xl:max-w-sm lg:max-w-[20rem] max-w-[15rem] text-gray-800  leading-6 text-center font-semibold">
             Plus de 26 entreprises nous font confiance sur tous le térritoire
-            national 
+            national
           </p>
         </div>
       </div>
