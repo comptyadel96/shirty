@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import Faq from "../components/Faq"
 import HorizontalScroll from "../components/HorizontalScroll"
-import ScrollDesigners from "../components/ScrollDesigners"
+// import ScrollDesigners from "../components/ScrollDesigners"
 import AuthContext from "../utils/AuthContext"
 // import { EyeDropper } from "react-eyedrop"
 // import { ImEyedropper } from "react-icons/im"
@@ -28,7 +28,7 @@ function WelcomeScreen() {
   return (
     <div className="flex flex-col select-text h-full lg:bg-[#f7f7f7] bg-white overflow-hidden">
       {/* section descriptive desktop */}
-      <div className="md:mt-20 lg:mb-10 lg:flex lg:items-center hidden relative bg-white">
+      <div className="md:mt-20 lg:mb-10 lg:flex lg:items-center hidden relative bg-white xl:mx-10 border ">
         <div className="relative mx-auto  md:py-2">
           <img
             alt=""
@@ -88,7 +88,7 @@ function WelcomeScreen() {
             en ligne
           </p>
           <div className=" flex items-center sm:mt-6 px-3 sm:py-2 bg-white rounded-lg sm:skew-y-3">
-            <p className="text-gray-800 select-none   sm:text-2xl text-md sm:max-w-sm max-w-xs">
+            <p className="text-gray-800 select-none   sm:text-2xl text-lg sm:max-w-sm max-w-xs">
               Une solution simple pour créer et vendre des produits engageants
               en quelques étapes seulement, laissez exprimer vos idées et vos
               envies.
@@ -100,11 +100,12 @@ function WelcomeScreen() {
         </div>
       </div>
       {/* little separator */}
-      <div className="lg:flex lg:flex-row flex-col lg:items-center lg:flex-wrap lg:mt-10 mt-2  bg-white px-4 lg:py-10 justify-evenly shadow-lg">
+      <div className="lg:flex lg:flex-row border flex-col lg:items-center lg:flex-wrap lg:mt-10 mt-2 max-w-fit mx-auto  bg-white px-4 lg:py-10 justify-evenly shadow-lg">
         {/* card 1 */}
         <div className="flex flex-col items-center lg:my-0 my-4 lg:border-r-4 lg:border-l-0 border-l-4 border-dotted border-gray-800 pr-2">
           <h1 className="lg:text-3xl text-2xl font-bold text-center">
-            Shirty <span className="lg:text-2xl font-semibold">c'est quoi ? </span>{" "}
+            Shirty{" "}
+            <span className="lg:text-2xl font-semibold">c'est quoi ? </span>{" "}
           </h1>
           <p className="xl:max-w-sm lg:max-w-[20rem] max-w-[15rem] text-gray-800  leading-6 text-center font-semibold">
             Shirty est un service d'imprimerie a la demmande en ligne qui vous
@@ -115,7 +116,8 @@ function WelcomeScreen() {
         {/* card 2*/}
         <div className="flex flex-col items-center lg:my-0 my-4 border-r-4 border-dotted border-gray-800 pr-2">
           <h1 className="lg:text-3xl text-2xl font-bold text-center">
-            +4 ans <span className="lg:text-xl font-semibold">d'éxperience</span>{" "}
+            +4 ans{" "}
+            <span className="lg:text-xl font-semibold">d'éxperience</span>{" "}
           </h1>
           <p className="xl:max-w-sm lg:max-w-[20rem] max-w-[15rem] text-gray-800  leading-6 text-center font-semibold">
             Nous vous garantissons un service à la fois rapide et fiable peut
@@ -125,7 +127,7 @@ function WelcomeScreen() {
         {/* card 3*/}
         <div className="flex flex-col items-center lg:my-0 my-4 lg:border-r-4 lg:border-l-0 border-l-4 border-dotted border-gray-800 pr-2">
           <h1 className="lg:text-3xl text-2xl font-bold text-center">
-            +de 200 {" "}
+            +de 200{" "}
             <span className="lg:text-xl font-semibold">commandes/jour</span>{" "}
           </h1>
           <p className="xl:max-w-sm lg:max-w-[20rem] max-w-[15rem] text-gray-800  leading-6 text-center font-semibold">
@@ -135,7 +137,7 @@ function WelcomeScreen() {
         </div>
       </div>
       {/* section design desktop */}
-      <div className="lg:flex lg:items-center   bg-white  lg:flex-wrap  sm:mb-10 mt-20 relative hidden w-full">
+      <div className="lg:flex lg:items-center   bg-white shadow-md border lg:flex-wrap  sm:mb-10 lg:pb-20 mt-20 relative hidden mx-10">
         <div className="flex items-center justify-around  w-full md:py-3 relative">
           <img
             src="/images/design-desktop.png"
@@ -160,64 +162,16 @@ function WelcomeScreen() {
           </div>
         </div>
       </div>
-      {/* deparator1 */}
-      <div className="hidden  lg:w-full lg:flex flex-wrap  bg-gray-800 text-white  py-3 my-5 items-center justify-evenly  overflow-visible">
-        <div className="flex items-center my-2 mx-1">
-          <div className="flex flex-col max-w-fit">
-            <img
-              src="/icons/no-download.png"
-              alt=""
-              className="max-w-[100px] mx-auto"
-            />
-            <p className="ml-2 font-semibold text-md">
-              Pas besoin de télécharger quoi que ce soit
-            </p>
-            <p className="text-sm max-w-xs ml-2">
-              Le design ce fait en ligne et en quelques minutes avec les outils
-              de personalisation shirty{" "}
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center my-2 mx-1">
-          <div className="flex flex-col max-w-fit">
-            <img
-              src="/icons/pre-design.png"
-              alt=""
-              className="max-w-[140px] mx-auto"
-            />
-            <p className="ml-2 font-semibold text-md">
-              Des designs déja préts pour vos modifications
-            </p>
-            <p className="text-sm max-w-xs ml-2">
-              Plusieurs élements déja mis en place pour vous aider a démmarer
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center my-2 mx-1">
-          <div className="flex flex-col max-w-fit">
-            <img
-              src="/icons/paiment.png"
-              alt=""
-              className="max-w-[140px] mx-auto"
-            />
-            <p className="ml-2 font-semibold text-md">
-              Possibilité de rémuneration pour vos oeuvres
-            </p>
-            <p className="text-sm max-w-xs ml-2">
-              Vous pouvez commander votre t shirt et aussi le vendre sur notre
-              site
-            </p>
-          </div>
-        </div>
-      </div>
       {/* section design mobile */}
       <div className="lg:hidden flex flex-col items-center md:flex-row mt-10 mb-7">
         <img src="/images/ill2-mob.png" alt="" className="max-w-sm" />
         <div className="flex flex-col items-center self-start text-center mx-auto ">
           {/* title */}
-          <p className="md:mb-4 text-gray-800 font-semibold   md:text-3xl text-2xl  max-w-xs">
-            Tous est question de <br />
-            <span className="bg-gray-800 text-white md:px-2">créativité </span>
+          <p className="md:mb-4 text-gray-800 font-semibold leading-9  md:text-3xl text-2xl  max-w-xs">
+            Tous est question de{" "}
+            <span className="bg-gray-800 text-white md:px-2 mt-1">
+              créativité{" "}
+            </span>
           </p>
           <p className="md:text-2xl text-lg text-gray-800 max-w-xs md:mt-0 mt-3 ">
             Libérez votre créativité et faite un design original grâce au outils
@@ -228,8 +182,58 @@ function WelcomeScreen() {
           </p>
         </div>
       </div>
+      {/* deparator1 */}
+      <div className="lg:max-w-[97%] max-w-full lg:flex flex-wrap lg:mx-10 bg-gray-800 lg:text-white  py-3 my-5 items-center justify-evenly  overflow-visible">
+        <div className="flex items-center lg:flex-row flex-col my-2 mx-1">
+          <div className="flex flex-col max-w-fit mx-auto">
+            <img
+              src="/icons/no-download.png"
+              alt=""
+              className="max-w-[90px] mx-auto"
+            />
+            <p className="ml-2 font-semibold lg:text-md text-lg text-center lg:max-w-md  lg:text-white lg:bg-transparent text-gray-800 bg-white lg:mt-0 mt-3 mb-1">
+              Pas besoin de télécharger quoi que ce soit
+            </p>
+            <p className="lg:text-sm text-md lg:max-w-xs max-w-[22rem] ml-2 mx-auto text-center text-white">
+              Le design ce fait en ligne et en quelques minutes avec les outils
+              de personalisation shirty{" "}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center lg:my-2 my-6 mx-1">
+          <div className="flex flex-col max-w-fit mx-auto">
+            <img
+              src="/icons/pre-design.png"
+              alt=""
+              className="max-w-[120px] mx-auto"
+            />
+            <p className="ml-2 font-semibold lg:text-md text-lg text-center lg:max-w-md  lg:text-white lg:bg-transparent text-gray-800 bg-white lg:mt-0 mt-3 mb-1">
+              Des designs déja préts pour vos modifications
+            </p>
+            <p className="lg:text-sm text-md lg:max-w-xs max-w-[22rem] ml-2 mx-auto text-center text-white">
+              Plusieurs élements déja mis en place pour vous aider a démmarer
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center lg:my-2 my-6 mx-1">
+          <div className="flex flex-col max-w-fit mx-auto">
+            <img
+              src="/icons/paiment.png"
+              alt=""
+              className="max-w-[120px] mx-auto"
+            />
+            <p className="ml-2 font-semibold lg:text-md text-lg text-center lg:max-w-md  lg:text-white lg:bg-transparent text-gray-800 bg-white lg:mt-0 mt-3 mb-1">
+              Possibilité de rémuneration pour vos oeuvres
+            </p>
+            <p className="lg:text-sm text-md lg:max-w-xs max-w-[22rem] ml-2 mx-auto text-center text-white">
+              Vous pouvez commander votre t shirt et aussi le vendre sur notre
+              site
+            </p>
+          </div>
+        </div>
+      </div>
       {/* shop desktop  */}
-      <div className="lg:flex w-full mx-10 bg-white lg:mt-16 relative hidden lg:py-8 lg:px-5">
+      <div className="lg:flex w-full max-w-[95%] bg-white lg:mt-16 relative hidden lg:py-8 lg:px-5 mx-auto">
         <div className="flex flex-col bg-[#50d6d7] lg:w-[30%] overflow-visible ">
           <p className="xl:text-5xl xl:min-w-[36rem] lg:max-w-md lg:min-w-[28rem] text-4xl font-semibold text-white bg-gray-800 xl:px-2 px-1 pb-2 xl:mb-14 xl:mt-10 mb-5">
             Ce que vous aimer porter
@@ -250,7 +254,19 @@ function WelcomeScreen() {
           className="xl:max-h-[45rem] max-h-[40rem] ml-auto mr-10"
         />
       </div>
-
+      {/* shop mobile */}
+      <div className="flex flex-col items-center lg:hidden mt-2 mb-14">
+        <img src="/images/shop-mobile.png" alt="" className="max-w-sm" />
+        <p className="text-2xl font-semibold bg-gray-800 text-white  px-1 pb-2 xl:mb-14 mt-7">
+          Ce que vous aimer porter
+        </p>
+        <p className=" max-w-xs text-lg text-center">
+          Que vous soyez un designer professionelle, un débutant ou que vous
+          voulez juste faire plaisir à un proche, nous vous proposons une large
+          sélection de produits que vous pouvez modifier à vos goûts et vos
+          envies
+        </p>
+      </div>
       {/* aventages */}
       <div className="flex items-center flex-wrap  justify-evenly relative bg-gray-800 md:px-3 overflow-hidden  mb-2 ">
         <div className="my-2 flex md:mx-1  flex-col items-center  px-2  rounded-lg  drop-shadow-lg">
@@ -317,24 +333,60 @@ function WelcomeScreen() {
           </p>
         </div>
       </div>
-      {/* offres */}
-      <div className="flex md:flex-row flex-wrap flex-col items-center md:ml-20">
-        <p className="py-1 md:px-2 px-1 m-1 text-center text-gray-800 md:text-sm text-xs font-semibold rounded-sm bg-[#f3cb65]/40 max-w-fit ">
-          Découvrez aussi nos remises exclusives pour les étudiants et les
-          commerçants{" "}
-        </p>
-        <p className="py-1 md:px-2 px-1 m-1 text-center text-gray-800 md:text-sm text-xs font-semibold rounded-sm bg-[#ebb8d9]/40 max-w-fit ">
-          Des codes promotionnels qui vous permettront d'économiser jusqu'à 25%
-        </p>
-      </div>
 
       {/* section produits à la une */}
       <div className="mx-auto w-full  flex flex-col items-center">
-        <p className="md:text-3xl self-start md:ml-3  md:my-1 text-gray-700 font-semibold ">
+        <p className="md:text-3xl  self-start md:ml-3  md:my-1 text-gray-800 font-semibold ">
           Produits à la une :
         </p>
         <HorizontalScroll />
       </div>
+      {/* offres exclusives*/}
+
+      <div className="flex flex-col  bg-neutral-600 lg:mb-10 lg:pb-10 pb-5 relative">
+        <div className="absolute top-0 bg-gray-800 h-[2.4rem] w-full"/>
+        <h1 className="lg:text-5xl text-3xl font-semibold text-white w-full text-center py-1 z-40 lg:mb-4">
+          Remise Speciales{" "}
+        </h1>
+        <div className="flex md:flex-row flex-wrap flex-col items-center justify-evenly lg:mt-4">
+          {/* etudiants */}
+          <div className="flex  flex-col bg-white p-2 border shadow-md md:my-0 my-3">
+            <img
+              src="/images/etudiants.jpg"
+              alt=""
+              className="xl:max-w-sm  max-w-[20rem] brightness-70"
+            />
+            <div className="flex flex-col items-center ">
+              <h2 className="font-bold lg:text-3xl text-xl mb-3 bg-[#50d6d7] text-gray-800 w-full text-center">
+                Etudiants
+              </h2>
+              <p className="max-w-xs text-center text-lg font-semibold">
+                En tant qu'étudiant vous pouvez profiter d'une remise sur tous
+                nos produits + livraison gratuite pour votre premiére commande
+              </p>
+            </div>
+          </div>
+          {/* commercants */}
+          <div className="flex  flex-col bg-white p-2 border shadow-md md:my-0 my-3">
+            <img
+              src="/images/commercants.jpg"
+              alt=""
+              className="xl:max-w-sm  max-w-[20rem] brightness-70"
+            />
+            <div className="flex flex-col items-center ">
+              <h2 className="font-bold lg:text-3xl text-xl mb-3 bg-[#f3cb65] text-gray-800 w-full text-center">
+                Commerçants
+              </h2>
+              <p className="max-w-xs text-center text-lg font-semibold">
+                Si vous gérer un commerce vous bénéficierez aussi d'une remise
+                jusqu'a 25% + livraison gratuite pour toute commande qui dépasse
+                10 piéces
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* aventages */}
       <p className=" text-gray-800 md:mt-10 mt-5 lg:mb-8 mb-1  ml-4 xl:text-5xl lg:text-4xl text-2xl font-semibold  ">
         Pourquoi choisir Shirty ?{" "}
@@ -389,17 +441,14 @@ function WelcomeScreen() {
         </p>
       </div>
       {/* section designer en vedette */}
-      <p className="text-3xl text-gray-700 self-start md:ml-3 font-semibold md:mt-5">
+      {/* <p className="text-3xl text-gray-700 self-start md:ml-3 font-semibold md:mt-5">
         Désigners en vedette
       </p>
-      {/* designers en vedette  */}
       <div className="w-full mx-auto  my-2 flex items-center">
         <ScrollDesigners />
-      </div>
+      </div> */}
       {/* section de FAQ */}
-
       <Faq />
-
       {currUser.currUser && (
         <p className="text-gray-900 text-4xl"> {currUser.currUser.name} </p>
       )}

@@ -13,12 +13,12 @@ function HorizontalScroll() {
   const handleClick = () => {}
 
   return (
-    <div className="w-full md:w-11/12  relative z-20">
+    <div className="w-full md:w-11/12  relative z-20 overflow-visible">
       <ScrollMenu
         LeftArrow={LeftArrow}
         RightArrow={RightArrow}
         scrollContainerClassName="z-40 md:overflow-x-hidden"
-        itemClassName="z-50  md:h-96 h-56 md:mx-0 mx-0 flex justify-center items-center "
+        itemClassName="z-50  lg:h-[19rem] h-56 md:mx-0 mx-0 flex justify-center items-center  overflow-visible"
         transitionDuration={700}
       >
         {items.map(({ id }) => (
@@ -65,7 +65,7 @@ function Card({ onClick, selected, title, itemId }) {
   return (
     <div
       onClick={() => onClick(visibility)}
-      className="py-2 px-4  md:w-48 z-50 "
+      className="py-2 px-4  md:w-48 z-50 overflow-visible mx-4 "
     >
       <div
         className={
