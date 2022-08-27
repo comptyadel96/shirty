@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react"
 import { fabric } from "fabric"
 import shirtsArray from "../components/Shirts"
-import ClipArt from "./ClipArt"
 // import { Canvas } from "@react-three/fiber"
 // import { OrbitControls } from "@react-three/drei"
-
+import ClipArt from "./ClipArt"
+import axios from "axios"
 import {
   BiText,
   BiPhotoAlbum,
@@ -39,7 +39,6 @@ import MyPicker from "../components/MyPicker"
 import ToolTip from "../components/ToolTip"
 import NormalPicker from "../components/NormalPicker"
 // import ModelDraco from "../components/ModelDraco"
-// import axios from "axios"
 import Joyride from "react-joyride"
 import { PopoverPicker } from "../components/PopoverPicker"
 
@@ -115,6 +114,10 @@ function MakeShirt() {
     JSON.parse(localStorage.getItem("saw-tuto")) || false
   )
   const [depass, setDepass] = useState(false)
+  const [currentObjectColor, setCurrentObjectColor] = useState(null)
+  const [currentObjectStroke, setCurrentObjectStroke] = useState(null)
+  const [textSize, setTextSize] = useState(40)
+
   // initialize canvas and image objects on mount
   useEffect(() => {
     const canvas = new fabric.Canvas(canvasRef.current, {
@@ -125,6 +128,7 @@ function MakeShirt() {
       allowTouchScrolling: true,
       enableRetinaScaling: true,
     })
+    fabric.textureSize = 30000
 
     // if the user has visited this page for the first time we show him the onboard tuto
     if (hasVisitedPage === false) {
@@ -146,28 +150,7 @@ function MakeShirt() {
     canvas.renderAll()
   }, [hasVisitedPage])
 
-  // load image on mount and set image object on state change (for re-render)
-
-  // useEffect(() => {
-  //   canvas && canvas.clear()
-  //   if (canvas && shirtId) {
-  //     let tshirt = new fabric.Image(shirtId, {
-  //       selectable: false,
-  //       hasControls: false,
-  //       excludeFromExport: true,
-  //       hoverCursor: "default",
-  //       absolutePositioned: true,
-  //     })
-  //     tshirt.scaleToWidth(canvas.width * 2)
-  //     tshirt.scaleToHeight(canvas.height * 2)
-  //     canvas.centerObject(tshirt)
-  //     // setShirt(tshirt)
-  //     canvas.add(tshirt)
-  //     canvas.renderAll()
-  //   }
-  // }, [canvas, shirtId])
   // custom delete icon on objects
-
   function deleteshape(eventData, transform) {
     var target = transform.target
     var canvas = target.canvas
@@ -235,25 +218,45 @@ function MakeShirt() {
   }
   // let user upload his image (logo) on the shirt
   const handleImageChange = (e) => {
-    // console.log(e)
+    const units = ["bytes", "KB", "MB"]
+    function convertToMb(x) {
+      let l = 0,
+        n = parseInt(x, 10) || 0
+
+      while (n >= 1024 && ++l) {
+        n = n / 1024
+      }
+
+      return n.toFixed(n < 10 && l > 0 ? 1 : 0) + " " + units[l]
+    }
+    console.log(convertToMb(e.target.files[0].size))
+    if (e.target.files[0].size > 3000000) {
+      alert(
+        `votre image (${convertToMb(
+          e.target.files[0].size
+        )}) est supérieur a 3Mb, et cela peut causer un crash ou ralentissement de votre appareil lors de l'application des filtres images, il est préferable d'utiliser une image inférieure ou egal a 2mb pour assurer une bonne éxperience sur notre site`
+      )
+    }
     const reader = new FileReader()
     reader.readAsDataURL(e.target.files[0])
     reader.onload = (e) => {
       setHasUploadImage(true)
       const imgObj = new Image()
+
       imgObj.src = e.target.result
+      console.log(imgObj.src.split("/")[1].slice(0, 4).replace(";", ""))
+
       imgObj.onload = () => {
-        const image = new fabric.Image(imgObj)
+        const image = new fabric.Image(imgObj, {
+          dirty: true,
+        })
         image.scaleToWidth(100)
         image.set({
           top: 100,
           left: canvas.width / 3,
         })
-        // canvas.centerObject(image)
-
         canvas.add(image)
         setImage(image)
-
         canvas.renderAll()
       }
     }
@@ -315,14 +318,13 @@ function MakeShirt() {
     setText(null)
   }
   const addText = () => {
-    // new fabric.Path.fromObject()
-
     if (text !== "" && text != null) {
       let myText = new fabric.IText(text, {
         editable: true,
         pathStartOffset: 1,
         textAlign: "center",
-        stroke: 0,
+        // transparentCorners:true,
+        // cornerSize:1
       })
       canvas.centerObject(myText)
       canvas.add(myText)
@@ -475,47 +477,50 @@ function MakeShirt() {
     const dataURL = canvas.toDataURL({
       format: "png",
       quality: 1,
+      multiplier: 6,
     })
     const link = document.createElement("a")
     link.download = `canvas${Math.floor(Math.random() * 10000)}.png`
     link.href = dataURL
     link.click()
   }
-  //  send canvas to backend
-  // const sendCanvas = async () => {
-  //   const dataURL = canvas.toDataURL({
-  //     format: "png",
-  //     quality: 1,
-  //   })
-  //   var byMakeShirtring = atob(dataURL.split(",")[1])
+  //  send design to backend
+  const sendCanvas = async () => {
+    const dataURL = canvas.toDataURL({
+      format: "png",
+      quality: 1,
+      multiplier: 6,
+    })
 
-  //   // separate out the mime component
-  //   var mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0]
+    var byMakeShirtring = atob(dataURL.split(",")[1])
 
-  //   // write the bytes of the string to an ArrayBuffer
-  //   var ab = new ArrayBuffer(byMakeShirtring.length)
+    // separate out the mime component
+    var mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0]
 
-  //   // create a view into the buffer
-  //   var ia = new Uint8Array(ab)
+    // write the bytes of the string to an ArrayBuffer
+    var ab = new ArrayBuffer(byMakeShirtring.length)
 
-  //   // set the bytes of the buffer to the correct values
-  //   for (var i = 0; i < byMakeShirtring.length; i++) {
-  //     ia[i] = byMakeShirtring.charCodeAt(i)
-  //   }
+    // create a view into the buffer
+    var ia = new Uint8Array(ab)
 
-  //   // write the ArrayBuffer to a blob
-  //   var blob = new Blob([ab], { type: mimeString })
-  //   blob.name = "canvas.png"
-  //   console.log(blob)
+    // set the bytes of the buffer to the correct values
+    for (var i = 0; i < byMakeShirtring.length; i++) {
+      ia[i] = byMakeShirtring.charCodeAt(i)
+    }
 
-  //   const formData = new FormData()
-  //   formData.append("shirtTof", blob, "canvas.png")
-  //   await axios.post("http://localhost:5000/api/admin/shirtPhoto", formData, {
-  //     headers: {
-  //       "Content-Type": "multipart/form-data",
-  //     },
-  //   })
-  // }
+    // write the ArrayBuffer to a blob
+    var blob = new Blob([ab], { type: mimeString })
+    blob.name = "canvas.png"
+
+    const formData = new FormData()
+    formData.append("shirtTof", blob, "canvas.png")
+    await axios.post("http://localhost:5000/api/admin/shirtPhoto", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      withCredentials: true,
+    })
+  }
 
   //  serialize canvas to svg  and send it to the server to save it in the database (for the admin)
   const serializeCanvas = async () => {
@@ -532,15 +537,6 @@ function MakeShirt() {
       .then((res) => res.json())
       .then((data) => console.log(data))
   }
-  // group svg elements
-  // const groupCanvasElements = () => {
-  //   let group = new fabric.Group([text, image])
-  //   canvas.remove(image)
-  //   canvas.remove(text)
-  //   canvas.add(group)
-  //   canvas.renderAll()
-
-  // }
 
   // change text style color
   const textColorHandler = (e) => {
@@ -552,7 +548,7 @@ function MakeShirt() {
   // change font size
   const textSizeHandler = (e) => {
     if (canvas && canvas.getActiveObject()) {
-      canvas.getActiveObject().set("fontSize", e.target.value)
+      canvas.getActiveObject().set("fontSize", e)
     }
     canvas.renderAll()
   }
@@ -691,25 +687,50 @@ function MakeShirt() {
   // if the user click on the text input we show him the text options
   canvas &&
     canvas.on("mouse:down", function (e) {
-      if (e.target && e.target.type === "i-text") {
-        document.querySelector("#text-options").className =
-          " relative  flex flex-col   items-center flex-wrap  rounded-lg w-full  "
-        toggleMenu(textOptionsRef)
+      if (e.target) {
+        if (e.target.type === "i-text") {
+          document.querySelector("#text-options").className =
+            " relative  flex flex-col items-center flex-wrap  rounded-lg w-full  "
+          toggleMenu(textOptionsRef)
+        } else if (
+          e.target.type === "path" ||
+          e.target.type === "circle" ||
+          e.target.type === "polygon"
+        ) {
+          return toggleRightMenu(false)
+        }
       } else {
-        // document.querySelector("#text-options").className += " hidden"
-        !canvas.isDrawingMode && hideMenu()
+        !canvas.isDrawingMode && toggleRightMenu(true)
       }
     })
-  // if the user click on the shirt we hide the text options
-  // canvas &&
-  //   canvas.on("mouse:up", function (e) {
-  //     if (e.target && e.target.type !== "i-text") {
-
-  //       document.querySelector("#text-options").className += " hidden"
-  //     }
-  //   })
-
-  if (image !== null && imageRef.current) {
+  canvas &&
+    canvas.on("mouse:down", function (e) {
+      const showArray = [
+        "my-6",
+        "flex",
+        "flex-col",
+        "items-center",
+        "flex-wrap",
+        "bg-white",
+        "md:py-2",
+        "max-w-rightBar",
+        "shadow-lg",
+        "md:ml-2",
+        "absolute",
+        "left-0",
+        "border",
+      ]
+      if (e.target) {
+        if (image && e.target.type === "image" && imageRef.current) {
+          showArray.map((clas) => imageRef.current.classList.add(clas))
+          imageRef.current.classList.remove("hidden")
+        }
+      } else {
+        imageRef.current.classList.add("hidden")
+        showArray.map((clas) => imageRef.current.classList.remove(clas))
+      }
+    })
+  if (!image && imageRef.current) {
     const showArray = [
       "my-6",
       "flex",
@@ -717,34 +738,17 @@ function MakeShirt() {
       "items-center",
       "flex-wrap",
       "bg-white",
-
       "md:py-2",
       "max-w-rightBar",
-      "relative",
       "shadow-lg",
       "md:ml-2",
-    ]
-    showArray.map((clas) => imageRef.current.classList.add(clas))
-    imageRef.current.classList.remove("hidden")
-  } else if (image === null && imageRef.current) {
-    const showArray = [
-      "my-6",
-      "flex",
-      "flex-col",
-      "items-center",
-      "flex-wrap",
-      "bg-white",
-
-      "md:py-2",
-      "max-w-rightBar",
-      "relative",
-      "shadow-lg",
-      "md:ml-2",
+      "absolute",
+      "left-0",
+      "border"
     ]
     imageRef.current.classList.add("hidden")
     showArray.map((clas) => imageRef.current.classList.remove(clas))
   }
-
   // filter images
   const filterColorHandler = (e) => {
     image.filters = []
@@ -907,33 +911,35 @@ function MakeShirt() {
     clipartRef.current.classList.remove("hidden")
     styleArray.map((clas) => clipartRef.current.classList.add(clas))
   }
-  // add the clip art image to the canvas
-  const addClipImg = (url) => {
-    new fabric.Image.fromURL(url, (img) => {
-      img.scaleToWidth(100)
-      canvas.centerObject(img)
-      canvas.add(img)
-    })
+  // make a blob from img url
+  async function loadImageFromBlob(url) {
+    return new Promise((resolve, reject) => {
+      window
+        .fetch(url)
+        .then((resp) => resp.blob())
+        .then((blob) => {
+          const urlFromBlob = window.URL.createObjectURL(blob)
 
+          const image = new Image()
+          image.src = urlFromBlob
+          image.crossOrigin = "Anonymous"
+          image.addEventListener("load", () => {
+            resolve(image)
+          })
+          image.addEventListener("error", reject)
+        })
+    })
+  }
+  // add the clip art image to the canvas
+  const addClipImg = async (url) => {
+    let blobImg = await loadImageFromBlob(url)
+    let img = new fabric.Image(blobImg)
+    img.type = "clipart"
+    img.scaleToWidth(100)
+    canvas.centerObject(img)
+    canvas.add(img)
     canvas.renderAll()
   }
-
-  // add gradient to objects
-  // const addGradient = () => {
-  //   var gradient = new fabric.Gradient({
-  //     type: "linear",
-  //     gradientUnits: "percentage",
-  //     coords: { x1: 0, y1: 0, x2: 1, y2: 0 },
-  //     colorStops: [
-  //       { offset: 0, color: "red" },
-  //       { offset: 1, color: "blue" },
-  //     ],
-  //   })
-  //   if (canvas && canvas.getActiveObject()) {
-  //     canvas.getActiveObject().set("fill", gradient)
-  //   }
-  //   canvas.renderAll()
-  // }
   //   show shapes container
   const showShapes = () => {
     const removeStyle = ["hidden"]
@@ -975,11 +981,16 @@ function MakeShirt() {
           "md:mb-4",
           "absolute",
           "top-8",
-          "-left-80",
+          "-left-56",
           "max-w-rightBar",
         ]
 
         const target = e.target.type
+        setCurrentObjectColor(e.target.fill)
+        setCurrentObjectStroke(e.target.stroke)
+        if (e.target.type === "i-text") {
+          setTextSize(e.target.fontSize)
+        }
         if (
           e.target !== null &&
           (target === "path" || target === "polygon" || target === "circle")
@@ -997,6 +1008,7 @@ function MakeShirt() {
         }
       }
     })
+
   //  add svg shape
   const addSvg = (url) => {
     fabric.loadSVGFromURL(url, (result) => {
@@ -1037,21 +1049,19 @@ function MakeShirt() {
       "bg-white",
       "z-50",
       "overflow-visible",
-      "border-2",
+
       "bg-white",
       "mr-2",
       "md:px-2",
       "md:pt-2",
       "shadow-xl",
-      // "transition-all",
-      // "duration-700",
     ]
-    const hideArr = ["max-w-0", "md:max-h-0", "border-2", "overflow-hidden"]
+    const hideArr = ["max-w-0", "md:max-h-0", "overflow-hidden"]
 
     showArr.map((clas) => optionsContainerRef.current.classList.add(clas))
     hideArr.map((clas) => optionsContainerRef.current.classList.remove(clas))
   }
-  const hideMenu = () => {
+  const toggleRightMenu = (hide = true) => {
     const showArr = [
       "md:max-h-128",
       "select-none",
@@ -1079,8 +1089,13 @@ function MakeShirt() {
       "md:px-2",
       "md:pt-2",
     ]
-    hideArr.map((clas) => optionsContainerRef.current.classList.add(clas))
-    showArr.map((clas) => optionsContainerRef.current.classList.remove(clas))
+    if (hide === true) {
+      hideArr.map((clas) => optionsContainerRef.current.classList.add(clas))
+      showArr.map((clas) => optionsContainerRef.current.classList.remove(clas))
+    } else {
+      hideArr.map((clas) => optionsContainerRef.current.classList.remove(clas))
+      showArr.map((clas) => optionsContainerRef.current.classList.add(clas))
+    }
   }
   // show free drawing options
   const showDrawingOptions = () => {
@@ -1121,8 +1136,9 @@ function MakeShirt() {
           }}
           continuous
           // showProgress
-          scrollToFirstStep
+          scrollOffset={100}
           hideCloseButton
+          // spotlightClicks
         />
       )}
       {/* horizontal top menu */}
@@ -1142,7 +1158,7 @@ function MakeShirt() {
 
             <input
               type="file"
-              accept="image/*"
+              accept=".png, .jpg, .jpeg"
               onChange={handleImageChange}
               className=" text-sm text-gray-400 file:mr-4 file:py-1 file:px-1 file:rounded-full file:border-0  file:text-xs file:font-semibold file:bg-[#596475] file:text-white hover:file:bg-gray-400 cursor-pointer"
             />
@@ -1150,19 +1166,19 @@ function MakeShirt() {
         )}
 
         {/* add text */}
-        {!text && (
-          <button
-            onClick={() => {
-              insertText()
-            }}
-            className=" my-2 bg-gray-50 texte text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
-          >
-            <BiText className="mx-auto text-3xl text-[#596475]" />
-            <p className="font-semibold text-[#343633] text-sm">
-              Ajouter du texte{" "}
-            </p>
-          </button>
-        )}
+        {/* {!text && ( */}
+        <button
+          onClick={() => {
+            insertText()
+          }}
+          className=" my-2 bg-gray-50 texte text-gray-500 border border-gray-400 py-1 px-2 rounded-md"
+        >
+          <BiText className="mx-auto text-3xl text-[#596475]" />
+          <p className="font-semibold text-[#343633] text-sm">
+            Ajouter du texte{" "}
+          </p>
+        </button>
+        {/* )} */}
 
         <button
           className="md:px-2 bg-gray-50 dessin text-gray-700 border border-gray-400 py-1 px-2 rounded-md hover:shadow-md"
@@ -1223,176 +1239,174 @@ function MakeShirt() {
 
       <div className="flex items-center flex-wrap md:mb-10   md:max-h-128 md:pb-10 md:pt-3">
         {/* image controller */}
-        {hasUploadImage && (
-          <div ref={imageRef} className="hidden">
-            <div className="inline-flex md:mt-2 bg-[#eee] md:pb-1 md:px-2 md:py-1 self-start ml-2">
-              <p className="font-semibold text-gray-800">Filtres image</p>
-              <BiPhotoAlbum className="text-gray-600 text-3xl" />
-            </div>
-            {/* filtre */}
-            <div className="flex flex-col  mb-2 bg-[#eee] md:p-2 mx-2 ">
-              <p className="self-start font-semibold text-sm">
-                Matrice de couleurs
-              </p>
-              <div className="flex items-center flex-wrap  ">
-                {filterArray.map((filter) => (
-                  <div className="flex flex-col items-center" key={filter.name}>
-                    <img
-                      src={filter.img}
-                      key={filter.name}
-                      alt=""
-                      onClick={filter.effect}
-                      className="h-16 cursor-pointer hover:scale-150 md:m-2 transition-all duration-500 "
-                    />
-                    <p className="text-xs font-semibold italic">
-                      {filter.name}{" "}
-                    </p>
-                  </div>
-                ))}
-                <div className="flex flex-col items-center relative">
-                  <div
-                    onMouseOver={() => {
-                      document
-                        .getElementById("removeFilters")
-                        .classList.remove("hidden")
-                    }}
-                    onMouseLeave={() => {
-                      document
-                        .getElementById("removeFilters")
-                        .classList.add("hidden")
-                    }}
-                    onClick={removeFilters}
-                    className=" flex items-center justify-center rounded-full md:w-7 md:h-7 relative cursor-pointer bg-white border-2 md:mt-1 hover:scale-150 transition-all duration-300"
-                  >
-                    <MdRemoveCircle className="md:text-2xl" />
-                  </div>
-                  <div className="hidden w-full" id="removeFilters">
-                    <ToolTip
-                      text={"Enlever les filtres"}
-                      style={{ right: 0, left: 0, width: "120px" }}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col items-center  self-start  relative w-full ">
-                <p className="self-start font-semibold text-sm">filtres</p>
-                <div
-                  className="inline-flex items-center md:my-1 w-full"
-                  onMouseOver={() => {
-                    document.getElementById("noise").classList.remove("hidden")
-                  }}
-                  onMouseLeave={() => {
-                    document.getElementById("noise").classList.add("hidden")
-                  }}
-                >
-                  <MdTexture className="text-xl mr-1" />
 
-                  <div className="w-4/5 relative">
-                    <MySlider
-                      max={350}
-                      min={0}
-                      step={10}
-                      onChange={(val) => {
-                        filterNoiseHandler(val)
-                      }}
-                    />{" "}
-                    {/* tooltip */}
-                    <div className="hidden" id="noise">
-                      <ToolTip
-                        text={"noise"}
-                        style={{ right: "26px", top: "-22px" }}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="inline-flex items-center md:my-1 relative w-full"
-                  onMouseOver={() => {
-                    document
-                      .getElementById("brightness")
-                      .classList.remove("hidden")
-                  }}
-                  onMouseLeave={() => {
-                    document
-                      .getElementById("brightness")
-                      .classList.add("hidden")
-                  }}
-                >
-                  <MdLightMode className="text-xl mr-1" />
-                  <div className="w-4/5 relative">
-                    <MySlider
-                      max={40}
-                      min={0}
-                      onChange={(val) => {
-                        filterBrightnessHandler(val)
-                      }}
-                    />
-                  </div>
-                  {/* tooltip */}
-                  <div className="hidden" id="brightness">
-                    <ToolTip
-                      text={"luminosité"}
-                      style={{ right: "20px", top: "-22px" }}
-                    />
-                  </div>
-                </div>
-
-                <div
-                  onMouseOver={() => {
-                    document
-                      .getElementById("saturation")
-                      .classList.remove("hidden")
-                  }}
-                  onMouseLeave={() => {
-                    document
-                      .getElementById("saturation")
-                      .classList.add("hidden")
-                  }}
-                  className="inline-flex items-center md:my-1 relative w-full"
-                >
-                  <MdFilterDrama className="text-xl mr-1" />
-                  <div className="w-4/5 relative">
-                    <MySlider
-                      max={10}
-                      min={0}
-                      onChange={(val) => {
-                        filterSaturation(val)
-                      }}
-                    />
-                    {/* tooltip */}
-                    <div className="hidden" id="saturation">
-                      <ToolTip
-                        text={"saturation"}
-                        style={{ right: "10px", top: "-22px" }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* couleur */}
-              <div className="flex items-center my-2 relative">
-                <MdPhotoFilter className="text-xl" />
-                <p className="text-sm mx-1">Filtre couleur</p>
-                <PopoverPicker onChange={filterColorHandler} />
-              </div>
-              {!hasRoundImage ? (
-                <button
-                  onClick={roundImage}
-                  className="md:px-2  rounded-lg bg-white text-yellow-600 border border-yellow-500 hover:bg-yellow-100 hover:text-gray-700  "
-                >
-                  Arroundir l'image
-                </button>
-              ) : (
-                <button
-                  onClick={normalizImage}
-                  className="md:px-2  rounded-xl bg-rose-500 text-white"
-                >
-                  Annuler
-                </button>
-              )}
-            </div>
+        <div ref={imageRef} className="hidden">
+          <div className="inline-flex md:mt-2 bg-[#eee] md:pb-1 md:px-2 md:py-1 self-start ml-2">
+            <p className="font-semibold text-gray-800">Filtres image</p>
+            <BiPhotoAlbum className="text-gray-600 text-3xl" />
           </div>
-        )}
+          {/* filtre */}
+          <div className="flex flex-col  mb-2 bg-[#eee] md:p-2 mx-2 ">
+            <p className="self-start font-semibold text-sm">
+              Matrice de couleurs
+            </p>
+            <div className="flex items-center flex-wrap  ">
+              {filterArray.map((filter) => (
+                <div className="flex flex-col items-center" key={filter.name}>
+                  <img
+                    src={filter.img}
+                    key={filter.name}
+                    alt=""
+                    onClick={filter.effect}
+                    className="h-16 cursor-pointer hover:scale-150 md:m-2 transition-all duration-500 "
+                  />
+                  <p className="text-xs font-semibold italic">{filter.name} </p>
+                </div>
+              ))}
+              <div className="flex flex-col items-center relative">
+                <div
+                  onMouseOver={() => {
+                    document
+                      .getElementById("removeFilters")
+                      .classList.remove("hidden")
+                  }}
+                  onMouseLeave={() => {
+                    document
+                      .getElementById("removeFilters")
+                      .classList.add("hidden")
+                  }}
+                  onClick={removeFilters}
+                  className=" flex items-center justify-center rounded-full md:w-7 md:h-7 relative cursor-pointer bg-white border-2 md:mt-1 hover:scale-150 transition-all duration-300"
+                >
+                  <MdRemoveCircle className="md:text-2xl" />
+                </div>
+                <div className="hidden w-full" id="removeFilters">
+                  <ToolTip
+                    text={"Enlever les filtres"}
+                    style={{ right: 0, left: 0, width: "120px" }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col items-center  self-start  relative w-full ">
+              <p className="self-start font-semibold text-sm">filtres</p>
+              <div
+                className="inline-flex items-center md:my-1 w-full"
+                onMouseOver={() => {
+                  document.getElementById("noise").classList.remove("hidden")
+                }}
+                onMouseLeave={() => {
+                  document.getElementById("noise").classList.add("hidden")
+                }}
+              >
+                <MdTexture className="text-xl mr-1" />
+
+                <div className="w-4/5 relative">
+                  <MySlider
+                    max={350}
+                    min={0}
+                    step={10}
+                    // onChange={(val) => {
+                    //   filterNoiseHandler(val)
+                    // }}
+                    onChange={filterNoiseHandler}
+                    defaultValue={0}
+                  />{" "}
+                  {/* tooltip */}
+                  <div className="hidden" id="noise">
+                    <ToolTip
+                      text={"noise"}
+                      style={{ right: "26px", top: "-22px" }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                className="inline-flex items-center md:my-1 relative w-full"
+                onMouseOver={() => {
+                  document
+                    .getElementById("brightness")
+                    .classList.remove("hidden")
+                }}
+                onMouseLeave={() => {
+                  document.getElementById("brightness").classList.add("hidden")
+                }}
+              >
+                <MdLightMode className="text-xl mr-1" />
+                <div className="w-4/5 relative">
+                  <MySlider
+                    max={40}
+                    min={0}
+                    onChange={(val) => {
+                      filterBrightnessHandler(val)
+                    }}
+                    defaultValue={0}
+                  />
+                </div>
+                {/* tooltip */}
+                <div className="hidden" id="brightness">
+                  <ToolTip
+                    text={"luminosité"}
+                    style={{ right: "20px", top: "-22px" }}
+                  />
+                </div>
+              </div>
+
+              <div
+                onMouseOver={() => {
+                  document
+                    .getElementById("saturation")
+                    .classList.remove("hidden")
+                }}
+                onMouseLeave={() => {
+                  document.getElementById("saturation").classList.add("hidden")
+                }}
+                className="inline-flex items-center md:my-1 relative w-full"
+              >
+                <MdFilterDrama className="text-xl mr-1" />
+                <div className="w-4/5 relative">
+                  <MySlider
+                    max={10}
+                    min={0}
+                    onChange={(val) => {
+                      filterSaturation(val)
+                    }}
+                    defaultValue={0}
+                  />
+                  {/* tooltip */}
+                  <div className="hidden" id="saturation">
+                    <ToolTip
+                      text={"saturation"}
+                      style={{ right: "10px", top: "-22px" }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* couleur */}
+            <div className="flex items-center my-2 relative">
+              <MdPhotoFilter className="text-xl" />
+              <p className="text-sm mx-1">Filtre couleur</p>
+              <PopoverPicker onChange={filterColorHandler} />
+            </div>
+            {!hasRoundImage ? (
+              <button
+                onClick={roundImage}
+                className="md:px-2  rounded-lg bg-white text-yellow-600 border border-yellow-500 hover:bg-yellow-100 hover:text-gray-700  "
+              >
+                Arroundir l'image
+              </button>
+            ) : (
+              <button
+                onClick={normalizImage}
+                className="md:px-2  rounded-xl bg-rose-500 text-white"
+              >
+                Annuler
+              </button>
+            )}
+          </div>
+        </div>
+
         <div className="px-4 m-5 mx-auto  relative w-[500px] h-[500px]  border-2">
           {depass && (
             <p className="animate-pulse bg-red-500 px-3 py-2 text-gray-800 font-semibold  absolute left-1/2 -translate-x-[50%] top-0 z-40">
@@ -1447,7 +1461,7 @@ function MakeShirt() {
         {/* options container */}
         <div
           ref={optionsContainerRef}
-          className="max-w-0 md:max-h-0 border-2 overflow-hidden absolute right-0 transition-all duration-700"
+          className="max-w-0 md:max-h-0 border overflow-hidden absolute right-0 transition-all duration-700"
         >
           {/* custom emoji */}
           <div className="hidden overflow-hidden" ref={emojiRef}>
@@ -1482,7 +1496,10 @@ function MakeShirt() {
                   Couleur texte
                 </p>
 
-                <PopoverPicker onChange={textColorHandler} />
+                <PopoverPicker
+                  onChange={textColorHandler}
+                  currentColor={currentObjectColor}
+                />
               </div>
               {/* opacity */}
               <div className="inline-flex items-center">
@@ -1503,7 +1520,11 @@ function MakeShirt() {
 
             {/* text stroke color */}
             <div className=" flex items-center self-start  md:mt-1  w-full bg-[#eee] md:py-2">
-              <PopoverPicker onChange={textStrokeColorHandler} />
+              <PopoverPicker
+                onChange={textStrokeColorHandler}
+                isBorder
+                currentBorder={currentObjectStroke}
+              />
               <div className="flex flex-col items-center md:ml-2  w-3/4 mx-2">
                 <p className="text-gray-800 mr-1 font-semibold  text-sm self-start">
                   Taille du contour
@@ -1517,18 +1538,29 @@ function MakeShirt() {
             </div>
 
             {/* font size */}
-            <div className="flex items-center my-1 bg-[#eee] px-2 py-2 self-start ">
-              <p className="text-gray-700 text-sm mr-2 font-semibold">
-                Taille du texte
+            <div className="flex items-center flex-col my-1 bg-[#eee] px-2 py-2 w-full ">
+              <p className="text-gray-700 text-sm mr-2 flex items-center font-semibold self-start">
+                Taille du texte{" "}
+                <span>
+                  <GoTextSize className="text-xl ml-2 self-start" />{" "}
+                </span>
               </p>
-              <GoTextSize className="text-xl mr-2" />
-              <input
+
+              {/* <input
                 type="number"
                 onChange={textSizeHandler}
                 min={5}
                 max={100}
-                defaultValue={30}
+                defaultValue={textSize}
                 className="text-md font-semibold text-gray-800 text-center bg-white w-16 pr-1 "
+              /> */}
+              <MySlider
+                onChange={(e) => {
+                  textSizeHandler(e)
+                }}
+                defaultValue={textSize}
+                isText
+                min={14}
               />
             </div>
 
@@ -1886,39 +1918,41 @@ function MakeShirt() {
 
           {/* clip art container */}
           <div ref={clipartRef} className="hidden">
-            {ClipArt.map((sectionImages) => (
-              <div className="flex flex-col" key={sectionImages.groupeTitle}>
-                <p className="text-center font-semibold text-gray-700">
-                  {sectionImages.groupeTitle}
-                </p>
-                <div className="flex justify-evenly items-center  flex-wrap bg-white">
-                  {sectionImages.url.map((img) => (
-                    <img
-                      src={img}
-                      className=" md:h-14 m-2 cursor-pointer  hover:scale-150 transition-all duration-700"
-                      onClick={() => addClipImg(img)}
-                      key={img}
-                      alt=""
-                    />
-                  ))}
+            {ClipArt &&
+              ClipArt.map((sectionImages) => (
+                <div className="flex flex-col" key={sectionImages.groupeTitle}>
+                  <p className="text-center font-semibold text-gray-700">
+                    {sectionImages.groupeTitle}
+                  </p>
+                  <div className="flex justify-evenly items-center  flex-wrap bg-white">
+                    {sectionImages.url.map((img) => (
+                      <img
+                        src={img}
+                        className=" md:h-14 m-2 cursor-pointer  hover:scale-150 transition-all duration-700"
+                        onClick={() => addClipImg(img)}
+                        key={img}
+                        alt="clip art"
+                        contentEditable={true}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
 
           {/* shapes container */}
-          <div className="hidden" ref={shapesRef}>
+          <div className="hidden h-full" ref={shapesRef}>
             <p className="text-center md:text-md font-semibold text-gray-700 bg-[#eee] self-start md:p-1">
               Formes géometrique basique
             </p>
 
-            <div className="flex flex-wrap  items-center justify-evenly overflow-auto h-120 bg-[#eee] md:h-full md:mb-2 md:px-2 md:max-w-sm">
+            <div className="flex flex-wrap  items-center justify-evenly overflow-auto bg-[#eee] md:h-full md:mb-2 md:px-2 md:max-w-sm">
               {Svgs.map((svg) => (
                 <div
                   onClick={() => {
                     addSvg(svg.svgSrc)
                   }}
-                  className="cursor-pointer bg-white md:px-2 mx-1 hover:scale-150 transition-all duration-500"
+                  className="cursor-pointer bg-white md:px-2 mx-1 hover:scale-150 transition-all duration-500 m-6"
                   key={svg.name}
                 >
                   <img
@@ -1932,43 +1966,50 @@ function MakeShirt() {
                 </div>
               ))}
             </div>
-            {/* shapes options */}
-            <div className="hidden" ref={shapeControllerRef}>
-              <p className="self-start bg-[#eee] md:p-2 text-sm font-semibold italic">
-                Options forme géometrique
-              </p>
-              <div className="flex flex-col bg-[#eee] md:p-1 w-full text-xs font-semibold">
-                <div className="inline-flex items-center my-1">
-                  <p className="mr-2">Couleur</p>
+          </div>
+          {/* shapes options */}
+          <div className="hidden" ref={shapeControllerRef}>
+            <p className="self-start bg-[#eee] md:p-2 text-sm font-semibold italic">
+              Options forme géometrique
+            </p>
+            <div className="flex flex-col bg-[#eee] md:p-1 w-full text-xs font-semibold">
+              <div className="inline-flex items-center my-1">
+                <p className="mr-2">Couleur</p>
+                <PopoverPicker
+                  onChange={shapesColor}
+                  currentColor={currentObjectColor}
+                />
+              </div>
 
-                  <PopoverPicker onChange={shapesColor} />
+              <div className="inline-flex items-center my-1 w-full">
+                <p className="mr-1">Bordure</p>
+                <div className="w-full">
+                  <MySlider
+                    min={0}
+                    max={20}
+                    onChange={(val) => shapesCornerWidth(val)}
+                  />
                 </div>
+              </div>
 
-                <div className="inline-flex items-center my-1 w-full">
-                  <p className="mr-1">Bordure</p>
-                  <div className="w-full">
-                    <MySlider
-                      min={0}
-                      max={20}
-                      onChange={(val) => shapesCornerWidth(val)}
-                    />
-                  </div>
-                </div>
+              <div className="inline-flex items-center my-1 w-full">
+                <p className="mr-1">Couleur de la bordure</p>
+                <PopoverPicker
+                  onChange={shapesCornerColor}
+                  isBorder
+                  currentBorder={currentObjectStroke}
+                />
+              </div>
 
-                <div className="inline-flex items-center my-1 w-full">
-                  <p className="mr-1">Couleur de la bordure</p>
-                  <PopoverPicker onChange={shapesCornerColor} />
-                </div>
-
-                <div className="inline-flex items-center my-1 w-full">
-                  <p className="mr-1">Opacité</p>
-                  <div className="w-full">
-                    <MySlider
-                      min={0}
-                      max={10}
-                      onChange={(e) => shapesOpacity(e)}
-                    />
-                  </div>
+              <div className="inline-flex items-center my-1 w-full">
+                <p className="mr-1">Opacité</p>
+                <div className="w-full">
+                  <MySlider
+                    min={0}
+                    max={10}
+                    onChange={(e) => shapesOpacity(e)}
+                    defaultValue={100}
+                  />
                 </div>
               </div>
             </div>
@@ -2070,7 +2111,7 @@ function MakeShirt() {
 
       <button
         className="bg-green-400 rounded-full py-1 px-3 mx-auto my-5 text-white max-w-md"
-        onClick={serializeCanvas}
+        onClick={sendCanvas}
       >
         envoyer le canvas au serveur
       </button>

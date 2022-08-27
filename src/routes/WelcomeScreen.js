@@ -100,37 +100,37 @@ function WelcomeScreen() {
         </div>
       </div>
       {/* little separator */}
-      <div className="lg:flex lg:flex-row border flex-col lg:items-center lg:flex-wrap lg:mt-10 mt-2 max-w-fit mx-auto  bg-white px-4 lg:py-10 justify-evenly shadow-lg">
+      <div className="lg:flex lg:flex-row md:border flex-col lg:items-center lg:flex-wrap lg:mt-10 mt-2 lg:max-w-fit lg:mx-auto  bg-white px-4 lg:py-10 justify-evenly shadow-lg">
         {/* card 1 */}
-        <div className="flex flex-col items-center lg:my-0 my-4 lg:border-r-4 lg:border-l-0 border-l-4 border-dotted border-gray-800 pr-2">
-          <h1 className="lg:text-3xl text-2xl font-bold text-center">
+        <div className="flex flex-col lg:items-center lg:my-0 my-4 xl:mx-2 lg:mx-1 lg:border-r-4 lg:border-l-0 border-l-4 border-dotted border-gray-800 pr-2">
+          <h1 className="text-3xl font-bold text-center ">
             Shirty{" "}
             <span className="lg:text-2xl font-semibold">c'est quoi ? </span>{" "}
           </h1>
-          <p className="xl:max-w-sm lg:max-w-[20rem] max-w-[15rem] text-gray-800  leading-6 text-center font-semibold">
+          <p className="xl:max-w-sm lg:max-w-[20rem] max-w-[17rem] text-gray-800  leading-6 text-center mx-auto font-semibold">
             Shirty est un service d'imprimerie a la demmande en ligne qui vous
             permettra de commander votre produit personalisé et de créer et
             vendre votre propre marque sur toute la gamme de nos produits
           </p>
         </div>
         {/* card 2*/}
-        <div className="flex flex-col items-center lg:my-0 my-4 border-r-4 border-dotted border-gray-800 pr-2">
-          <h1 className="lg:text-3xl text-2xl font-bold text-center">
+        <div className="flex flex-col lg:items-center lg:my-0 my-4 xl:mx-2 lg:mx-1 border-r-4 border-dotted border-gray-800 pr-2">
+          <h1 className="text-3xl font-bold text-center ">
             +4 ans{" "}
             <span className="lg:text-xl font-semibold">d'éxperience</span>{" "}
           </h1>
-          <p className="xl:max-w-sm lg:max-w-[20rem] max-w-[15rem] text-gray-800  leading-6 text-center font-semibold">
+          <p className="xl:max-w-sm lg:max-w-[20rem] max-w-[17rem] text-gray-800  leading-6 text-center mx-auto font-semibold">
             Nous vous garantissons un service à la fois rapide et fiable peut
             importe la taille ou le type de votre commande
           </p>
         </div>
         {/* card 3*/}
-        <div className="flex flex-col items-center lg:my-0 my-4 lg:border-r-4 lg:border-l-0 border-l-4 border-dotted border-gray-800 pr-2">
-          <h1 className="lg:text-3xl text-2xl font-bold text-center">
+        <div className="flex flex-col lg:items-center lg:my-0 my-4 xl:mx-2 lg:mx-1 lg:border-r-4 lg:border-l-0 border-l-4 border-dotted border-gray-800 pr-2">
+          <h1 className="text-3xl font-bold text-center ">
             +de 200{" "}
             <span className="lg:text-xl font-semibold">commandes/jour</span>{" "}
           </h1>
-          <p className="xl:max-w-sm lg:max-w-[20rem] max-w-[15rem] text-gray-800  leading-6 text-center font-semibold">
+          <p className="xl:max-w-sm lg:max-w-[20rem] max-w-[17rem] text-gray-800  leading-6 text-center mx-auto font-semibold">
             Plus de 26 entreprises nous font confiance sur tous le térritoire
             national
           </p>
@@ -169,7 +169,7 @@ function WelcomeScreen() {
           {/* title */}
           <p className="md:mb-4 text-gray-800 font-semibold leading-9  md:text-3xl text-2xl  max-w-xs">
             Tous est question de{" "}
-            <span className="bg-gray-800 text-white md:px-2 mt-1">
+            <span className="bg-gray-800 text-white rounded-sm px-2 mt-1">
               créativité{" "}
             </span>
           </p>
@@ -194,7 +194,7 @@ function WelcomeScreen() {
             <p className="ml-2 font-semibold lg:text-md text-lg text-center lg:max-w-md  lg:text-white lg:bg-transparent text-gray-800 bg-white lg:mt-0 mt-3 mb-1">
               Pas besoin de télécharger quoi que ce soit
             </p>
-            <p className="lg:text-sm text-md lg:max-w-xs max-w-[22rem] ml-2 mx-auto text-center text-white">
+            <p className="lg:text-sm text-md lg:max-w-xs ml-2 mx-auto text-center text-white">
               Le design ce fait en ligne et en quelques minutes avec les outils
               de personalisation shirty{" "}
             </p>
@@ -208,9 +208,9 @@ function WelcomeScreen() {
               className="max-w-[120px] mx-auto"
             />
             <p className="ml-2 font-semibold lg:text-md text-lg text-center lg:max-w-md  lg:text-white lg:bg-transparent text-gray-800 bg-white lg:mt-0 mt-3 mb-1">
-              Des designs déja préts pour vos modifications
+              Designs déja préts pour vos modifications
             </p>
-            <p className="lg:text-sm text-md lg:max-w-xs max-w-[22rem] ml-2 mx-auto text-center text-white">
+            <p className="lg:text-sm text-md lg:max-w-xs ml-2 mx-auto text-center text-white">
               Plusieurs élements déja mis en place pour vous aider a démmarer
             </p>
           </div>
@@ -223,10 +223,10 @@ function WelcomeScreen() {
               className="max-w-[120px] mx-auto"
             />
             <p className="ml-2 font-semibold lg:text-md text-lg text-center lg:max-w-md  lg:text-white lg:bg-transparent text-gray-800 bg-white lg:mt-0 mt-3 mb-1">
-              Possibilité de rémuneration pour vos oeuvres
+              Rémuneration pour vos oeuvres
             </p>
-            <p className="lg:text-sm text-md lg:max-w-xs max-w-[22rem] ml-2 mx-auto text-center text-white">
-              Vous pouvez commander votre t shirt et aussi le vendre sur notre
+            <p className="lg:text-sm text-md lg:max-w-xs ml-2 mx-auto text-center text-white">
+              Vous pouvez acheter votre produit et aussi le vendre sur notre
               site
             </p>
           </div>
@@ -257,7 +257,7 @@ function WelcomeScreen() {
       {/* shop mobile */}
       <div className="flex flex-col items-center lg:hidden mt-2 mb-14">
         <img src="/images/shop-mobile.png" alt="" className="max-w-sm" />
-        <p className="text-2xl font-semibold bg-gray-800 text-white  px-1 pb-2 xl:mb-14 mt-7">
+        <p className="text-2xl font-semibold bg-gray-800 text-white  px-3 pb-2  mt-10 mb-3 rounded-md">
           Ce que vous aimer porter
         </p>
         <p className=" max-w-xs text-lg text-center">
@@ -335,26 +335,26 @@ function WelcomeScreen() {
       </div>
 
       {/* section produits à la une */}
-      <div className="mx-auto w-full  flex flex-col items-center">
+      <div className="mx-auto w-full  flex flex-col items-center my-10 ">
         <p className="md:text-3xl  self-start md:ml-3  md:my-1 text-gray-800 font-semibold ">
           Produits à la une :
         </p>
         <HorizontalScroll />
       </div>
-      {/* offres exclusives*/}
 
-      <div className="flex flex-col  bg-neutral-600 lg:mb-10 lg:pb-10 pb-5 relative">
-        <div className="absolute top-0 bg-gray-800 h-[2.4rem] w-full"/>
-        <h1 className="lg:text-5xl text-3xl font-semibold text-white w-full text-center py-1 z-40 lg:mb-4">
+      {/* offres exclusives*/}
+      <div className="flex flex-col  bg-neutral-600 lg:mb-10  lg:pb-10 pb-5 relative">
+        <div className="absolute top-0 bg-gray-800 h-[2.4rem] w-full" />
+        <h1 className="lg:text-5xl text-3xl font-bold  text-white bg-cyan-400/10 w-full text-center py-2 z-40 lg:mb-4">
           Remise Speciales{" "}
         </h1>
         <div className="flex md:flex-row flex-wrap flex-col items-center justify-evenly lg:mt-4">
           {/* etudiants */}
-          <div className="flex  flex-col bg-white p-2 border shadow-md md:my-0 my-3">
+          <div className="flex  flex-col bg-white p-2 border shadow-md md:my-0 my-3 rounded-r-3xl">
             <img
               src="/images/etudiants.jpg"
               alt=""
-              className="xl:max-w-sm  max-w-[20rem] brightness-70"
+              className="xl:max-w-sm  max-w-[20rem] brightness-70 rounded-tr-3xl"
             />
             <div className="flex flex-col items-center ">
               <h2 className="font-bold lg:text-3xl text-xl mb-3 bg-[#50d6d7] text-gray-800 w-full text-center">
@@ -365,6 +365,10 @@ function WelcomeScreen() {
                 nos produits + livraison gratuite pour votre premiére commande
               </p>
             </div>
+          </div>
+          <div className="lg:flex items-center hidden relative animate-spinSlow ">
+            <div className="w-1 h-48 bg-white absolute left-1/2 -translate-x-[50%] rounded-md " />
+            <div className="w-48 h-1 bg-white absolute left-1/2 -translate-x-[50%] rounded-md " />
           </div>
           {/* commercants */}
           <div className="flex  flex-col bg-white p-2 border shadow-md md:my-0 my-3">

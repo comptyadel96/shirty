@@ -3,7 +3,12 @@ import { HexColorPicker, HexColorInput } from "react-colorful"
 
 import useClickOutside from "./useClickOutside"
 
-export const PopoverPicker = ({ onChange }) => {
+export const PopoverPicker = ({
+  onChange,
+  currentColor,
+  currentBorder,
+  isBorder = false,
+}) => {
   const popover = useRef()
   const [isOpen, toggle] = useState(false)
   const [color, setColor] = useState("#000000")
@@ -11,24 +16,29 @@ export const PopoverPicker = ({ onChange }) => {
   useClickOutside(popover, close)
 
   return (
-    <div className="relative  shadow-xl">
+    <div className="relative  shadow-xl ml-1">
       <div
-        className="w-7 h-7 rounded-md  border-[3px] border-white cursor-pointer z-0"
-        style={{ backgroundColor: color }}
+        className="lg:w-7 lg:h-7 w-4 h-4 rounded-lg  border-[1px] border-[#50d6d7] cursor-pointer z-0"
+        style={{
+          background:
+            !isBorder && currentColor
+              ? currentColor
+              : isBorder
+              ? currentBorder
+              : color,
+        }}
         onClick={() => toggle(true)}
       />
 
       {isOpen && (
-        <div
-          className="absolute left-0 rounded-lg z-50"
-          ref={popover}
-        >
+        <div className="absolute left-0 rounded-lg z-50" ref={popover}>
           <HexColorPicker
             color={color}
             onChange={(e) => {
               onChange(e)
               setColor(e)
             }}
+            
           />
           <HexColorInput
             placeholder="#fffff"

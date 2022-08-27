@@ -3,13 +3,10 @@ import { fabric } from "fabric"
 function GetShirt() {
   const [canvas, setCanvas] = useState(null)
   const [shirt, setShirt] = useState(null)
-  // const [shirtLogo, setShirtLogo] = useState(null)
-  // const [shirtText, setShirtText] = useState(null)
-  // const [oneLink, setOneLink] = useState(false)
 
   const getShirt = async () => {
     await fetch(
-      `${process.env.REACT_APP_URL}/shirts/6283ad3d9b21c24cea9e0dc3`,
+      `${process.env.REACT_APP_URL}/shirts/63047dbfee82c9debed2d3e9`,
       {
         method: "GET",
         headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -18,12 +15,12 @@ function GetShirt() {
       .then((res) => res.json())
       .then((shirt) => {
         setShirt(shirt)
-        console.log(shirt)
+        // console.log(shirt)
       })
   }
   useEffect(() => {
     getShirt()
-    const canvas = new fabric.Canvas("shirt-canvas", {
+    const canvas = new fabric.StaticCanvas("shirt-canvas", {
       selectionColor: "rgba(0,0,0,.5)",
       selectionLineWidth: 3,
     })
@@ -33,9 +30,11 @@ function GetShirt() {
   useEffect(() => {
     if (canvas && shirt) {
       fabric.loadSVGFromString(shirt.canvas, function (objects, options) {
-        var obj = fabric.util.groupSVGElements(objects, options)
+        var obj = fabric.util.groupSVGElements(objects)
+
+        canvas.centerObject(obj)
         canvas.add(obj).renderAll()
-        console.log(obj)
+       
       })
     }
   }, [canvas, shirt])
@@ -67,23 +66,10 @@ function GetShirt() {
     <div className="h-screen w-screen flex flex-col items-center justify-center">
       <canvas
         id="shirt-canvas"
-        height="800px"
-        width="1000px"
+        height="300px"
+        width="210px"
         className="border-2 border-red-400 border-double "
       />
-      {/* {!oneLink ? (
-        <>
-          <button
-            className="rounded-full px-4 py-1 bg-purple-500 text-white"
-            onClick={exportLogo}
-          >
-            télécharger le premier élément
-          </button>
-          <button onClick={exportText}>télécharger le deuxiéme élément</button>
-        </>
-      ) : (
-        <button>télécharger l'élément</button>
-      )} */}
     </div>
   )
 }

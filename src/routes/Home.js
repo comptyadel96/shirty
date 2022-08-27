@@ -28,15 +28,15 @@ function Home() {
       .then((res) => {
         if (res.status === 200) {
           // setHasGoogleAccount(true)
+          console.log("is connected")
           return res.json()
         } else {
-          return null
+          return
         }
       })
       .then((data) => {
         if (data) {
           setCurrUser(data)
-          console.log(data)
         }
       })
       .catch((err) => {
@@ -54,16 +54,17 @@ function Home() {
     })
       .then((res) => {
         if (res.status === 200) {
+          console.log("is connected")
           // setHasFacebookAccount(true)
           return res.json()
         } else {
-          return null
+          return
         }
       })
       .then((data) => {
         if (data) {
           setCurrUser(data)
-          console.log(data)
+          // console.log(data)
         }
       })
       .catch((err) => {
