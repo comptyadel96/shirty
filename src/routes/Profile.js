@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react"
 // import AuthContext from "../utils/AuthContext"
-import { useNavigate } from "react-router-dom"
-import axios from "axios"
+// import { useNavigate } from "react-router-dom"
+// import axios from "axios"
 function Profile() {
   // const currUser = useContext(AuthContext)
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const [user, setUser] = useState(null)
   const fetchUserInfos = async () => {
     await fetch(`${process.env.REACT_APP_URL_CURRENT_USER_FACEBOOK}`, {
