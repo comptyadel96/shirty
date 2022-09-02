@@ -104,7 +104,7 @@ function MakeShirt() {
   const optionsContainerRef = useRef(null)
   const [canvas, setCanvas] = useState(null)
   const [image, setImage] = useState(null)
-  const [hasUploadImage, setHasUploadImage] = useState(false)
+  // const [hasUploadImage, setHasUploadImage] = useState(false)
   const [shirtId, setShirtId] = useState(shirtsArray[0])
   const [text, setText] = useState("")
   const [hasRoundImage, setHasRoundImage] = useState(false)
@@ -240,7 +240,7 @@ function MakeShirt() {
     const reader = new FileReader()
     reader.readAsDataURL(e.target.files[0])
     reader.onload = (e) => {
-      setHasUploadImage(true)
+      // setHasUploadImage(true)
       const imgObj = new Image()
 
       imgObj.src = e.target.result
@@ -323,6 +323,7 @@ function MakeShirt() {
         editable: true,
         pathStartOffset: 1,
         textAlign: "center",
+
         // transparentCorners:true,
         // cornerSize:1
       })
@@ -523,20 +524,20 @@ function MakeShirt() {
   }
 
   //  serialize canvas to svg  and send it to the server to save it in the database (for the admin)
-  const serializeCanvas = async () => {
-    let myCanvas = canvas.toSVG()
-    let myData = {
-      canvas: myCanvas,
-      title: "title22",
-    }
-    await fetch(`${process.env.REACT_APP_URL}/shirts`, {
-      method: "POST",
-      headers: { "Content-type": "application/json; charset=UTF-8" },
-      body: JSON.stringify(myData),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-  }
+  // const serializeCanvas = async () => {
+  //   let myCanvas = canvas.toSVG()
+  //   let myData = {
+  //     canvas: myCanvas,
+  //     title: "title22",
+  //   }
+  //   await fetch(`${process.env.REACT_APP_URL}/shirts`, {
+  //     method: "POST",
+  //     headers: { "Content-type": "application/json; charset=UTF-8" },
+  //     body: JSON.stringify(myData),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => console.log(data))
+  // }
 
   // change text style color
   const textColorHandler = (e) => {
@@ -673,13 +674,13 @@ function MakeShirt() {
       document.querySelector("#text-options").className += " hidden"
       if (activeObj.type === "image") {
         setImage(null)
-        setHasUploadImage(false)
+        // setHasUploadImage(false)
       }
       canvas.getActiveObjects().forEach((object) => {
         canvas.remove(object)
         if (object.type === "image") {
           setImage(null)
-          setHasUploadImage(false)
+          // setHasUploadImage(false)
         }
       })
     }
@@ -699,10 +700,15 @@ function MakeShirt() {
         ) {
           return toggleRightMenu(false)
         }
+        if (e.target.type === "image") {
+          toggleRightMenu(true)
+        }
       } else {
-        !canvas.isDrawingMode && toggleRightMenu(true)
+        canvas.isDrawingMode = false
+        toggleRightMenu(true)
       }
     })
+  // display image option filters if the user click on the image
   canvas &&
     canvas.on("mouse:down", function (e) {
       const showArray = [
@@ -716,7 +722,7 @@ function MakeShirt() {
         "max-w-rightBar",
         "shadow-lg",
         "md:ml-2",
-        "absolute",
+        "lg:absolute",
         "left-0",
         "border",
       ]
@@ -744,7 +750,7 @@ function MakeShirt() {
       "md:ml-2",
       "absolute",
       "left-0",
-      "border"
+      "border",
     ]
     imageRef.current.classList.add("hidden")
     showArray.map((clas) => imageRef.current.classList.remove(clas))
@@ -1039,8 +1045,8 @@ function MakeShirt() {
     currentRef.current.classList.remove("hidden")
 
     const showArr = [
-      "md:max-h-128",
-      "md:min-h-[600px]",
+      "max-h-128",
+      "min-h-[600px]",
       "select-none",
       "max-w-rightBar",
       "flex",
@@ -1049,22 +1055,29 @@ function MakeShirt() {
       "bg-white",
       "z-50",
       "overflow-visible",
-
-      "bg-white",
-      "mr-2",
-      "md:px-2",
-      "md:pt-2",
+      "lg:mt-14",
+      "-mt-20",
+      "lg:mr-2",
+      "px-2",
+      "pt-2",
       "shadow-xl",
+      "mx-auto",
     ]
-    const hideArr = ["max-w-0", "md:max-h-0", "overflow-hidden"]
+    const hideArr = ["max-w-0", "max-h-0", "overflow-hidden"]
+    if (window.innerWidth <= 460) {
+      imageRef.current.classList.add("hidden")
+      window.scrollTo({
+        top: 480,
+        behavior: "smooth",
+      })
+    }
 
     showArr.map((clas) => optionsContainerRef.current.classList.add(clas))
     hideArr.map((clas) => optionsContainerRef.current.classList.remove(clas))
   }
   const toggleRightMenu = (hide = true) => {
     const showArr = [
-      "md:max-h-128",
-      "select-none",
+      "max-h-128",
       "max-w-rightBar",
       "flex",
       "flex-col",
@@ -1073,22 +1086,15 @@ function MakeShirt() {
       "z-50",
       "overflow-visible",
       "border-2",
-
+      "lg:mt-10",
       "mr-2",
-      "md:px-2",
-      "md:pt-2",
+      "px-2",
+      "pt-2",
       "shadow-xl",
-      // "transition-all",
-      // "duration-700",
+      "absolute",
+      "right-8",
     ]
-    const hideArr = [
-      "max-w-0",
-      "md:max-h-0",
-      "border-2",
-      "overflow-hidden",
-      "md:px-2",
-      "md:pt-2",
-    ]
+    const hideArr = ["max-w-0", "max-h-0", "border-2", "overflow-hidden"]
     if (hide === true) {
       hideArr.map((clas) => optionsContainerRef.current.classList.add(clas))
       showArr.map((clas) => optionsContainerRef.current.classList.remove(clas))
@@ -1112,7 +1118,7 @@ function MakeShirt() {
   }
 
   return (
-    <div className="flex flex-col md:pt-20 bg-white  select-none">
+    <div className="flex flex-col md:mt-20 bg-white h-full select-none">
       {!hasVisitedPage && (
         <Joyride
           styles={{
@@ -1144,7 +1150,7 @@ function MakeShirt() {
       {/* horizontal top menu */}
       <div
         id="controller"
-        className={`flex items-center justify-evenly  md:w-3/4 md:ml-14 md:mr-12 mt-5 p-2 md:mb-2 bg-white border shadow-lg  rounded-md `}
+        className={`flex items-center justify-evenly flex-wrap  md:w-3/4 md:ml-14 md:mr-12 p-2 md:mb-2 bg-white border shadow-lg  rounded-md md:mt-5 mt-20 `}
       >
         {/* add design */}
         {!image && (
@@ -1237,16 +1243,15 @@ function MakeShirt() {
         </button>
       </div>
 
-      <div className="flex items-center flex-wrap md:mb-10   md:max-h-128 md:pb-10 md:pt-3">
+      <div className="flex items-center flex-wrap md:mb-10   max-h-128 pb-10 pt-3">
         {/* image controller */}
-
-        <div ref={imageRef} className="hidden">
-          <div className="inline-flex md:mt-2 bg-[#eee] md:pb-1 md:px-2 md:py-1 self-start ml-2">
+        <div ref={imageRef} className="hidden z-50">
+          <div className="inline-flex mt-2 bg-[#eee] pb-1 px-2 py-1 self-start ml-2">
             <p className="font-semibold text-gray-800">Filtres image</p>
             <BiPhotoAlbum className="text-gray-600 text-3xl" />
           </div>
           {/* filtre */}
-          <div className="flex flex-col  mb-2 bg-[#eee] md:p-2 mx-2 ">
+          <div className="flex flex-col  mb-2 bg-[#eee] p-2 mx-2 ">
             <p className="self-start font-semibold text-sm">
               Matrice de couleurs
             </p>
@@ -1258,7 +1263,7 @@ function MakeShirt() {
                     key={filter.name}
                     alt=""
                     onClick={filter.effect}
-                    className="h-16 cursor-pointer hover:scale-150 md:m-2 transition-all duration-500 "
+                    className="h-16 cursor-pointer hover:scale-150 m-2 transition-all duration-500 "
                   />
                   <p className="text-xs font-semibold italic">{filter.name} </p>
                 </div>
@@ -1276,9 +1281,9 @@ function MakeShirt() {
                       .classList.add("hidden")
                   }}
                   onClick={removeFilters}
-                  className=" flex items-center justify-center rounded-full md:w-7 md:h-7 relative cursor-pointer bg-white border-2 md:mt-1 hover:scale-150 transition-all duration-300"
+                  className=" flex items-center justify-center rounded-full w-7 h-7 relative cursor-pointer bg-white border-2 mt-1 hover:scale-150 transition-all duration-300"
                 >
-                  <MdRemoveCircle className="md:text-2xl" />
+                  <MdRemoveCircle className="text-2xl" />
                 </div>
                 <div className="hidden w-full" id="removeFilters">
                   <ToolTip
@@ -1291,7 +1296,7 @@ function MakeShirt() {
             <div className="flex flex-col items-center  self-start  relative w-full ">
               <p className="self-start font-semibold text-sm">filtres</p>
               <div
-                className="inline-flex items-center md:my-1 w-full"
+                className="inline-flex items-center my-1 w-full"
                 onMouseOver={() => {
                   document.getElementById("noise").classList.remove("hidden")
                 }}
@@ -1322,7 +1327,7 @@ function MakeShirt() {
                 </div>
               </div>
               <div
-                className="inline-flex items-center md:my-1 relative w-full"
+                className="inline-flex items-center my-1 relative w-full"
                 onMouseOver={() => {
                   document
                     .getElementById("brightness")
@@ -1409,7 +1414,7 @@ function MakeShirt() {
 
         <div className="px-4 m-5 mx-auto  relative w-[500px] h-[500px]  border-2">
           {depass && (
-            <p className="animate-pulse bg-red-500 px-3 py-2 text-gray-800 font-semibold  absolute left-1/2 -translate-x-[50%] top-0 z-40">
+            <p className="animate-pulse bg-red-500 px-3 py-2 text-gray-800 font-semibold  absolute left-1/2 -translate-x-[50%] top-0 z-40 w-[85%]">
               votre element ne sera pas totalement visible, veuillez le
               repositionner{" "}
             </p>
@@ -1461,7 +1466,7 @@ function MakeShirt() {
         {/* options container */}
         <div
           ref={optionsContainerRef}
-          className="max-w-0 md:max-h-0 border overflow-hidden absolute right-0 transition-all duration-700"
+          className="max-w-0 max-h-0 border overflow-hidden lg:absolute right-0 transition-all duration-700"
         >
           {/* custom emoji */}
           <div className="hidden overflow-hidden" ref={emojiRef}>
@@ -1480,10 +1485,10 @@ function MakeShirt() {
           {/* text options */}
           <div
             id="text-options"
-            className="hidden relative "
+            className="hidden relative"
             ref={textOptionsRef}
           >
-            <div className="inline-flex items-center md:pb-2 bg-[#eee] self-start mt-2 ">
+            <div className="inline-flex items-center pb-2 bg-[#eee] self-start mt-2  ">
               <MdTextFields className="md:text-2xl text-gray-600" />
               <p className="text-gray-700 font-semibold text-md ml-1 px-2">
                 Options texte
@@ -1491,7 +1496,7 @@ function MakeShirt() {
             </div>
             {/* color */}
             <div className="flex items-center justify-between self-start w-full bg-[#eee]">
-              <div className="flex  items-center  md:ml-2">
+              <div className="flex items-center ml-2">
                 <p className="text-gray-800 mr-1 font-semibold text-sm  ">
                   Couleur texte
                 </p>
@@ -1503,12 +1508,12 @@ function MakeShirt() {
               </div>
               {/* opacity */}
               <div className="inline-flex items-center">
-                <p className="md:mr-2 text-xs font-semibold text-gray-700">
+                <p className="mr-2 text-xs font-semibold text-gray-700">
                   opacité
                 </p>
                 <input
                   type="number"
-                  className="md:w-16 shadow-md md:mr-2 rounded-md text-gray-500"
+                  className="w-16 shadow-md md:mr-2 rounded-md text-gray-500 "
                   placeholder="100%"
                   min={0}
                   max={100}
@@ -1519,13 +1524,13 @@ function MakeShirt() {
             </div>
 
             {/* text stroke color */}
-            <div className=" flex items-center self-start  md:mt-1  w-full bg-[#eee] md:py-2">
+            <div className=" flex items-center self-start  mt-1  w-full bg-[#eee] py-2">
               <PopoverPicker
                 onChange={textStrokeColorHandler}
                 isBorder
                 currentBorder={currentObjectStroke}
               />
-              <div className="flex flex-col items-center md:ml-2  w-3/4 mx-2">
+              <div className="flex flex-col items-center ml-2  w-3/4 mx-2">
                 <p className="text-gray-800 mr-1 font-semibold  text-sm self-start">
                   Taille du contour
                 </p>
@@ -1546,14 +1551,6 @@ function MakeShirt() {
                 </span>
               </p>
 
-              {/* <input
-                type="number"
-                onChange={textSizeHandler}
-                min={5}
-                max={100}
-                defaultValue={textSize}
-                className="text-md font-semibold text-gray-800 text-center bg-white w-16 pr-1 "
-              /> */}
               <MySlider
                 onChange={(e) => {
                   textSizeHandler(e)
@@ -1564,7 +1561,7 @@ function MakeShirt() {
               />
             </div>
 
-            <div className="flex items-center justify-around flex-wrap w-full  bg-[#eee] md:py-2 md:px-2 ">
+            <div className="flex items-center justify-around flex-wrap w-full  bg-[#eee] py-2 px-2 ">
               {/* font style */}
               <div
                 onMouseOver={() =>
@@ -1590,7 +1587,7 @@ function MakeShirt() {
                 onMouseLeave={() =>
                   document.getElementById("bold").classList.add("hidden")
                 }
-                className="bg-white relative md:px-4 md:py-1 shadow-md border cursor-pointer rounded-md"
+                className="bg-white relative px-4 py-1 shadow-md border cursor-pointer rounded-md"
                 id="text-weight"
                 onClick={textWeightHandler}
               >
@@ -1608,7 +1605,7 @@ function MakeShirt() {
                 onMouseLeave={() =>
                   document.getElementById("italic").classList.add("hidden")
                 }
-                className="bg-white relative md:px-4 md:py-1 shadow-md border cursor-pointer rounded-md"
+                className="bg-white relative px-4 py-1 shadow-md border cursor-pointer rounded-md"
                 id="text-style"
                 onClick={textStyleHandler}
               >
@@ -1630,7 +1627,7 @@ function MakeShirt() {
                     .getElementById("textUnderline")
                     .classList.add("hidden")
                 }
-                className="bg-white relative md:px-4 md:py-1 shadow-md border cursor-pointer rounded-md"
+                className="bg-white relative px-4 py-1 shadow-md border cursor-pointer rounded-md"
                 id="text-underline"
                 onClick={textUnderlineHandler}
               >
@@ -1652,7 +1649,7 @@ function MakeShirt() {
                     .getElementById("textOverline")
                     .classList.add("hidden")
                 }
-                className="bg-white relative md:px-4 md:py-1 shadow-md border cursor-pointer rounded-md md:mt-1"
+                className="bg-white relative px-4 py-1 shadow-md border cursor-pointer rounded-md mt-1"
                 id="text-overline"
                 onClick={textOverlineHandler}
               >
@@ -1676,7 +1673,7 @@ function MakeShirt() {
                 onMouseLeave={() =>
                   document.getElementById("textThrough").classList.add("hidden")
                 }
-                className="bg-white relative md:px-4 md:py-1 shadow-md border cursor-pointer rounded-md md:mt-1"
+                className="bg-white relative px-4 py-1 shadow-md border cursor-pointer rounded-md mt-1"
                 id="text-strike"
                 onClick={textStrikeHandler}
               >
@@ -1687,19 +1684,19 @@ function MakeShirt() {
                 </div>
               </div>
               {/* line height */}
-              <div className="bg-white flex items-center md:px-4 md:py-1 shadow-md border cursor-pointer rounded-md md:mt-1 relative">
+              <div className="bg-white flex items-center px-4 py-1 shadow-md border cursor-pointer rounded-md mt-1 relative">
                 <ImTextHeight className="text-gray-600 text-xl mr-2" />
                 <input
                   type="number"
                   onChange={textHeight}
-                  className="bg-white  ml-1 md:w-14 text-gray-400 font-semibold "
+                  className="bg-white  ml-1 w-14 text-gray-400 font-semibold "
                   defaultValue={11}
                   min={7}
                   max={25}
                 />
               </div>
               {/* char spacing */}
-              <div className="bg-white flex items-center md:px-4 md:py-1 shadow-md border cursor-pointer rounded-md md:mt-1 relative">
+              <div className="bg-white flex items-center px-4 py-1 shadow-md border cursor-pointer rounded-md mt-1 relative">
                 <ImTextWidth className="text-gray-600 text-xl mr-2" />
                 <input
                   type="number"
@@ -1712,14 +1709,14 @@ function MakeShirt() {
               </div>
             </div>
             {/* text transformations */}
-            <div className="flex flex-col items-center bg-[#eee] md:p-2 mt-1 w-full ">
+            <div className="flex flex-col items-center bg-[#eee] p-2 mt-1 w-full ">
               <p className="text-sm font-semibold text-gray-700 self-start mb-2">
                 Transformations du texte
               </p>
               <div className="flex items-center flex-wrap ">
                 {/* circle */}
                 <div
-                  className="bg-white shadow-lg md:px-2 md:py-1 cursor-pointer mr-1"
+                  className="bg-white shadow-lg px-2 py-1 cursor-pointer mr-1"
                   onClick={textwave}
                 >
                   <svg
@@ -1738,7 +1735,7 @@ function MakeShirt() {
                 </div>
                 {/* ascendent */}
                 <div
-                  className="bg-white shadow-lg md:px-2 md:py-1 cursor-pointer mr-1"
+                  className="bg-white shadow-lg px-2 py-1 cursor-pointer mr-1"
                   onClick={textAscend}
                 >
                   <svg
@@ -1758,7 +1755,7 @@ function MakeShirt() {
 
                 {/* Arc */}
                 <div
-                  className="bg-white shadow-lg md:px-2 md:py-1 cursor-pointer mr-1"
+                  className="bg-white shadow-lg px-2 py-1 cursor-pointer mr-1"
                   onClick={textArc}
                 >
                   <svg
@@ -1816,7 +1813,7 @@ function MakeShirt() {
 
                 {/* circle */}
                 <div
-                  className="bg-white shadow-lg md:px-2 md:py-1 cursor-pointer mr-1"
+                  className="bg-white shadow-lg px-2 py-1 cursor-pointer mr-1"
                   onClick={textcircle}
                 >
                   <svg height={45} width={45}>
@@ -1851,7 +1848,7 @@ function MakeShirt() {
                         .getElementById("alignLeft")
                         .classList.add("hidden")
                     }
-                    className="bg-white flex items-center md:px-4 md:py-1 shadow-md border cursor-pointer rounded-md md:mt-1 relative"
+                    className="bg-white flex items-center px-4 py-1 shadow-md border cursor-pointer rounded-md md:mt-1 relative"
                   >
                     <BsTextIndentRight className="text-gray-600 text-xl" />
                     {/* tooltip */}
@@ -1870,7 +1867,7 @@ function MakeShirt() {
                     onMouseLeave={() =>
                       document.getElementById("center").classList.add("hidden")
                     }
-                    className="bg-white flex items-center md:px-4 md:py-1 shadow-md border cursor-pointer rounded-md md:mt-1 relative"
+                    className="bg-white flex items-center px-4 py-1 shadow-md border cursor-pointer rounded-md md:mt-1 relative"
                   >
                     <BsTextCenter className="text-gray-600 text-xl" />
                     {/* tooltip */}
@@ -1891,7 +1888,7 @@ function MakeShirt() {
                         .getElementById("alignRight")
                         .classList.add("hidden")
                     }
-                    className="bg-white flex items-center md:px-4 md:py-1 shadow-md border cursor-pointer rounded-md md:mt-1 relative"
+                    className="bg-white flex items-center px-4 py-1 shadow-md border cursor-pointer rounded-md md:mt-1 relative"
                   >
                     <BsTextIndentLeft className="text-gray-600 text-xl" />
                     {/* tooltip */}
@@ -1928,7 +1925,7 @@ function MakeShirt() {
                     {sectionImages.url.map((img) => (
                       <img
                         src={img}
-                        className=" md:h-14 m-2 cursor-pointer  hover:scale-150 transition-all duration-700"
+                        className="h-14 m-2 cursor-pointer  hover:scale-150 transition-all duration-700"
                         onClick={() => addClipImg(img)}
                         key={img}
                         alt="clip art"
@@ -1955,11 +1952,7 @@ function MakeShirt() {
                   className="cursor-pointer bg-white md:px-2 mx-1 hover:scale-150 transition-all duration-500 m-6"
                   key={svg.name}
                 >
-                  <img
-                    src={svg.url}
-                    alt={svg.name}
-                    className="md:w-10 mx-auto"
-                  />
+                  <img src={svg.url} alt={svg.name} className="w-10 mx-auto" />
                   <p className="text-gray-600 text-xs font-semibold text-center">
                     {svg.name}
                   </p>

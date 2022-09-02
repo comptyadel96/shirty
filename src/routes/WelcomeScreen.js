@@ -28,7 +28,7 @@ function WelcomeScreen() {
   return (
     <div className="flex flex-col select-text h-full lg:bg-[#f7f7f7] bg-white overflow-hidden">
       {/* section descriptive desktop */}
-      <div className="md:mt-20 lg:mb-10 lg:flex lg:items-center hidden relative bg-white xl:mx-10 border ">
+      <div className="lg:mt-20 lg:mb-10 lg:flex lg:items-center hidden relative bg-white xl:mx-10 border ">
         <div className="relative mx-auto  md:py-2">
           <img
             alt=""
