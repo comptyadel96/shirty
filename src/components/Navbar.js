@@ -48,7 +48,7 @@ function Navbar() {
         <ul className="flex items-center p-0 justify-start  mr-5 relative h-full ">
           <li
             onClick={() => {
-              navigate("/getShirt")
+              navigate("/shop")
             }}
             className="mx-1 cursor-pointer text-xl text-black hover:text-cyan-600 px-2 py-1 font-semibold "
           >
@@ -77,12 +77,14 @@ function Navbar() {
               Profil
             </li>
           )}
-          <li
-            onClick={() => navigate("/adminDashboard")}
-            className="mx-1 cursor-pointer text-xl text-black hover:text-cyan-600 px-2 py-1 font-semibold"
-          >
-            Admin dashboard
-          </li>
+          {user.currUser && user.currUser.isAdmin && (
+            <li
+              onClick={() => navigate("/adminDashboard")}
+              className="mx-1 cursor-pointer text-xl text-black hover:text-cyan-600 px-2 py-1 font-semibold"
+            >
+              Admin dashboard
+            </li>
+          )}
 
           <MdShoppingCart className="text-xl text-gray-700 cursor-pointer mx-3 transition-all duration-700 hover:translate-x-1 hover:text-red-400 " />
           <div
@@ -107,7 +109,7 @@ function Navbar() {
       </div>
 
       {/* mobile navbar */}
-      <div className="lg:hidden bg-white px-3 py-2 flex  items-center shadow-lg  fixed top-0 z-50 w-full ">
+      <div className="lg:hidden bg-white px-3 py-2 flex  items-center shadow-lg  fixed top-0 z-50  w-full ">
         {/* brand */}
         <div
           className="inline-flex items-center  cursor-pointer "
@@ -124,7 +126,7 @@ function Navbar() {
           onClick={toggleBurgerMenu}
         />
         <div
-          className="absolute left-0 bg-white  max-h-0  block overflow-hidden shadow-xl"
+          className="absolute left-0 bg-white max-h-0  block overflow-hidden shadow-xl"
           ref={burgerMenu}
           style={{
             bottom:
@@ -142,7 +144,7 @@ function Navbar() {
           <p
             className="font-semibold text-lg text-center my-1"
             onClick={() => {
-              navigate("/getShirt")
+              navigate("/shop")
             }}
           >
             Découvrez nous produits

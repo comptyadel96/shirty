@@ -11,6 +11,7 @@ import Login from "./Login"
 import Navbar from "../components/Navbar"
 import MakeShirt from "./MakeShirt"
 import GetShirt from "./GetShirt"
+import Shop from "./Shop"
 
 function Home() {
   const [currUser, setCurrUser] = useState(null)
@@ -87,7 +88,8 @@ function Home() {
           <Route path="/adminDashboard" element={<AdminDashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/makeShirt" element={<MakeShirt />} />
-          <Route path="getShirt" element={<GetShirt />} />
+          <Route path="/getShirt" element={<GetShirt />} />
+          <Route path="/shop" element={<Shop />} />
           <Route path="*" element={<Error />} />
         </Routes>
         <Footer />

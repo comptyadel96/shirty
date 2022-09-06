@@ -270,14 +270,20 @@ function MakeShirt() {
       "flex-col",
       "items-center",
       "justify-center",
-      "bg-white",
-      "md:px-4",
-      "md:pt-7",
-      "md:pb-4",
+      "bg-gray-800",
+      "px-4",
+      "pt-7",
+      "pb-4",
       "shadow-lg",
       "mx-auto",
-      "relative",
       "rounded-md",
+      "absolute",
+      "xl:bottom-[52%]",
+      "lg:bottom-[43%]",
+      "md:bottom-[40%]",
+      "bottom-[42%]",
+      "left-1/2",
+      "-translate-x-[50%]"
     ]
     const classArray2 = ["hidden"]
     if (textAreaContainer.current) {
@@ -1447,18 +1453,18 @@ function MakeShirt() {
         <div ref={textAreaContainer} className="hidden">
           <IoCloseSharp
             onClick={removeTextContainer}
-            className="absolute right-2 top-1 cursor-pointer z-20 text-2xl text-gray-400 hover:text-gray-600"
+            className="absolute right-2 top-1 cursor-pointer z-20 text-2xl text-gray-400 hover:text-cyan-500"
           />
           <textarea
             ref={textAreaRef}
             onChange={(e) => setText(e.target.value)}
-            className="bg-gray-50 border-2 border-gray-200 text-gray-700 md:py-3 md:px-3 placeholder:text-gray-400"
-            placeholder="entrer votre texte ici"
+            className="bg-white   text-gray-800 py-3 px-3 placeholder:text-gray-800 "
+            placeholder="Entrer votre texte ici"
             onFocus={removeOutline}
           />
           <button
             onClick={addText}
-            className="bg-gray-50 md:px-2 font-semibold text-gray-400 border border-gray-400 mt-2 rounded-md hover:bg-gray-400 hover:text-white"
+            className="bg-white px-2 font-semibold text-gray-800 mt-2 rounded-md hover:bg-cyan-400 hover:text-white"
           >
             Ajouter le texte
           </button>
