@@ -67,7 +67,7 @@ function Navbar() {
               className="mx-1 cursor-pointer text-xl text-black hover:text-cyan-600 px-2 py-1 font-semibold"
               onClick={() => navigate("/login")}
             >
-              Se connecter
+              Se connecter/ s'inscrire
             </li>
           ) : (
             <li
@@ -154,7 +154,7 @@ function Navbar() {
               className="font-semibold text-lg text-center my-1"
               onClick={() => navigate("/login")}
             >
-              Se connecter
+              Se connecter/S'inscrire
             </p>
           ) : (
             <p
