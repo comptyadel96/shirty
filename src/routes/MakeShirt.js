@@ -283,7 +283,7 @@ function MakeShirt() {
       "md:bottom-[40%]",
       "bottom-[42%]",
       "left-1/2",
-      "-translate-x-[50%]"
+      "-translate-x-[50%]",
     ]
     const classArray2 = ["hidden"]
     if (textAreaContainer.current) {
@@ -974,7 +974,7 @@ function MakeShirt() {
     canvas.renderAll()
   }
   const shapesOpacity = (value) => {
-    canvas.getActiveObject().set("opacity", Math.floor(value) / 100)
+    canvas.getActiveObject().set("opacity", Math.floor(value) / 10)
     canvas.renderAll()
   }
 
@@ -1985,7 +1985,7 @@ function MakeShirt() {
                 <div className="w-full">
                   <MySlider
                     min={0}
-                    max={20}
+                    max={60}
                     onChange={(val) => shapesCornerWidth(val)}
                   />
                 </div>
@@ -2008,6 +2008,7 @@ function MakeShirt() {
                     max={10}
                     onChange={(e) => shapesOpacity(e)}
                     defaultValue={100}
+                    isText
                   />
                 </div>
               </div>

@@ -5,6 +5,7 @@ import {
   FiChevronDown,
   //  FiChevronUp
 } from "react-icons/fi"
+import { AiFillControl } from "react-icons/ai"
 function Shop() {
   const leftBarRef = useRef(null)
   const dateRef = useRef(null)
@@ -68,14 +69,23 @@ function Shop() {
           className="lg:max-w-[85%] object-cover mx-auto"
         />
       </div>
-      {/* toggle left bar */}
-      <div
-        className="flex items-center ml-10 cursor-pointer px-2 py-1 border max-w-fit"
-        onClick={() => toggleLeftMenu(leftBarRef)}
-      >
-        <IoFilterSharp />
-        <p className="text-xl font-semibold ml-2">Filtres</p>
+      <div className="flex items-center w-full">
+        {/* toggle left bar */}
+        <div
+          className="flex items-center hover:shadow-md ml-10 cursor-pointer px-2 py-1 border max-w-fit"
+          onClick={() => toggleLeftMenu(leftBarRef)}
+        >
+          <IoFilterSharp />
+          <p className="text-xl font-semibold ml-2">Filtres</p>
+        </div>
+        {/* categories */}
+        <div className="flex items-center hover:shadow-md ml-10 cursor-pointer px-2 py-1 border max-w-fit">
+          <AiFillControl size={26} />
+          <p className="text-xl font-semibold ml-2">Categories de produits</p>
+          <FiChevronDown className="ml-1"/>
+        </div>
       </div>
+
       <div className="w-full  flex">
         {/* left-bar search and filters */}
         <div
@@ -246,8 +256,8 @@ function Shop() {
           </div>
         </div>
         {/* t-shirts section */}
-        <div className="flex self-start flex-wrap w-[77%] ml-10 bg-white my-6 justify-evenly ">
-          <div className="flex flex-col  shadow-md border lg:py-3 lg:px-2 lg:mx-2">
+        <div className="flex self-start flex-wrap w-[77%] ml-10 bg-white my-12 justify-evenly ">
+          <div className="flex flex-col  shadow-md cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2 lg:mx-2">
             <img
               src="/images/white.jpg"
               alt="tshirt"
@@ -280,7 +290,7 @@ function Shop() {
             </div>
           </div>
           {/* 2 */}
-          <div className="flex flex-col  shadow-md border lg:py-3 lg:px-2  lg:mx-2">
+          <div className="flex flex-col  shadow-md cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2  lg:mx-2">
             <img
               src="/images/black.jpg"
               alt="tshirt"
@@ -312,7 +322,7 @@ function Shop() {
             </div>
           </div>
           {/* 3 */}
-          <div className="flex flex-col  shadow-md border lg:py-3 lg:px-2  lg:mx-2">
+          <div className="flex flex-col  shadow-md cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2  lg:mx-2">
             <img
               src="/images/green.jpg"
               alt="tshirt"
@@ -345,7 +355,7 @@ function Shop() {
             </div>
           </div>
           {/* 4 */}
-          <div className="flex flex-col  shadow-md border lg:py-3 lg:px-2 ">
+          <div className="flex flex-col  shadow-md cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2 ">
             <img
               src="/images/purple.jpg"
               alt="tshirt"
@@ -378,7 +388,7 @@ function Shop() {
             </div>
           </div>
           {/* 5 */}
-          <div className="flex flex-col  shadow-md border lg:py-3 lg:px-2 ">
+          <div className="flex flex-col  shadow-md cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2 ">
             <img src="/images/red.jpg" alt="tshirt" className="max-h-[14rem]" />
             <div className="mx-auto">
               <p className="font-semibold text-2xl my-2 w-full text-center bg-gray-100">

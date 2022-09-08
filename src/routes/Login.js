@@ -49,19 +49,19 @@ function Login() {
             <clipPath id="b">
               <use href="#a" overflow="visible" />
             </clipPath>
-            <path clip-path="url(#b)" fill="#FBBC05" d="M0 37V11l17 13z" />
+            <path clipPath="url(#b)" fill="#FBBC05" d="M0 37V11l17 13z" />
             <path
-              clip-path="url(#b)"
+              clipPath="url(#b)"
               fill="#EA4335"
               d="M0 11l17 13 7-6.1L48 14V0H0z"
             />
             <path
-              clip-path="url(#b)"
+              clipPath="url(#b)"
               fill="#34A853"
               d="M0 37l30-23 7.9 1L48 0v48H0z"
             />
             <path
-              clip-path="url(#b)"
+              clipPath="url(#b)"
               fill="#4285F4"
               d="M48 48L17 24l-4-3 35-10z"
             />
@@ -72,31 +72,34 @@ function Login() {
           <AiFillApple size={26} />
           <p className="ml-2">Continuer avec Apple </p>
         </button>
-        <p className="text-xs max-w-xs text-center mt-3 font-semibold border-b-2 pb-2">
+        <div className="text-xs max-w-xs text-center mt-3 mb-4 font-semibold border-b-2 pb-8 relative">
           En vous inscrivant, vous acceptez nos Conditions d'utilisation et
           notre Politique de confidentialité.
-        </p>
+          <p className="absolute left-1/2 translate-x-[-50%] -bottom-[12px] text-lg font-semibold bg-white px-2 ">ou</p>
+        </div>
         {/* email - password */}
         <form className="mt-3">
           <div className="flex items-center px-3 py-2 border border-gray-800">
-            <AiOutlineMail size={28} />
+            <AiOutlineMail size={28} className="text-gray-500" />
             <input
-              type="text"
-              className="ml-1 outline-none"
+              type="email"
+              className="ml-1 placeholder:text-gray-800 placeholder:font-semibold outline-none"
               placeholder="Ex: personne@mail.com"
+              required
             />
           </div>
           <div className="flex items-center px-3 py-2 border border-gray-800 mt-2">
-            <AiOutlineLock size={28} />
+            <AiOutlineLock size={28} className="text-gray-500" />
             <input
               type="password"
-              className="ml-1  outline-none"
+              className="ml-1 placeholder:text-gray-800 placeholder:font-semibold outline-none"
               placeholder="Mot de passe"
+              required
             />
           </div>
           <button
             type="submit"
-            className="lg:w-72 my-1  rounded-sm  bg-cyan-500 hover:bg-cyan-600 font-semibold  md:px-6 md:py-2"
+            className="lg:w-72 mt-3  rounded-sm  bg-cyan-500 hover:bg-cyan-600 font-semibold  md:px-6 md:py-2"
           >
             <p className="text-white text-center"> Se connecter </p>
           </button>
