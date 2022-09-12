@@ -1,17 +1,23 @@
-import React, { useRef } from "react"
-import { IoSearch, IoFilterSharp } from "react-icons/io5"
-
+import React, { useEffect, useRef, useState } from "react"
+import { IoFilterSharp } from "react-icons/io5"
+import axios from "axios"
 import {
   FiChevronDown,
   //  FiChevronUp
 } from "react-icons/fi"
 import { AiFillControl } from "react-icons/ai"
+import NormalPicker from "../components/NormalPicker"
+import Pagination from "../components/Pagination"
 function Shop() {
   const leftBarRef = useRef(null)
   const dateRef = useRef(null)
   const noteRef = useRef(null)
   const prixRef = useRef(null)
   const couleurRef = useRef(null)
+  const [shirts, setShirts] = useState([])
+  const [itemsPerPage] = useState(10)
+  const [startIndex, setStartIndex] = useState(0)
+  const [endIndex, setEndIndex] = useState(10)
   const toggleLeftMenu = (ref) => {
     const showArr = [
       "shadow-md",
@@ -47,20 +53,24 @@ function Shop() {
       ref.current.classList.add("max-h-0")
     }
   }
+  const getPosts = async () => {
+    const items = await axios.get("https://jsonplaceholder.typicode.com/posts")
+    return setShirts(items.data)
+  }
+  useEffect(() => {
+    getPosts()
+  }, [])
+
+  const showNextPage = () => {
+    setStartIndex(startIndex + 10)
+    setEndIndex(endIndex + 10)
+  }
+  const showPreviousPage = () => {
+    setStartIndex(startIndex - 10)
+    setEndIndex(endIndex - 10)
+  }
   return (
     <div className="h-full w-full flex flex-col lg:mt-20 mt-16">
-      {/* search bar */}
-      <div className="inline-flex mx-auto items-center justify-between relative border shadow-md my-3 rounded-md px-3 py-2 lg:w-[30%] w-[80%]">
-        <input
-          type="text"
-          className="px-2 py-2 outline-none rounded-md  w-[80%] "
-          placeholder="Rechercher un article"
-        />
-        <IoSearch
-          size={50}
-          className="cursor-pointer h-full text-gray-700 px-2 py-1 rounded-xl border bg-gray-100 hover:bg-gray-200 "
-        />
-      </div>
       {/* carrousel */}
       <div className="lg:mb-20 lg:mt-6 relative max-w-fit mx-auto">
         <img
@@ -79,14 +89,27 @@ function Shop() {
           <p className="text-xl font-semibold ml-2">Filtres</p>
         </div>
         {/* categories */}
-        <div className="flex items-center hover:shadow-md ml-10 cursor-pointer px-2 py-1 border max-w-fit">
-          <AiFillControl size={26} />
-          <p className="text-xl font-semibold ml-2">Categories de produits</p>
-          <FiChevronDown className="ml-1"/>
+        <div className="flex items-center hover:shadow-md ml-10 cursor-pointer  py-1 border max-w-fit">
+          <AiFillControl size={26} className="ml-1 text-gray-800" />
+          {/* <p className="text-xl font-semibold ml-2">Categories de produits</p> */}
+          <NormalPicker
+            values={[
+              { name: "T-shirts" },
+              { name: "Polos" },
+              { name: "Sweet shirt" },
+              { name: "Vestes" },
+              { name: "Casquettes" },
+              { name: "Bonnets" },
+              { name: "Sac à dos" },
+            ]}
+            onItemClick={() => console.log("bb")}
+            style={{ position: "absolute", left: "103%", bottom: "auto" }}
+            text="Categories produits"
+          />
         </div>
       </div>
 
-      <div className="w-full  flex">
+      <div className="w-full flex">
         {/* left-bar search and filters */}
         <div
           ref={leftBarRef}
@@ -106,23 +129,25 @@ function Shop() {
               </div>
 
               <div
-                className="flex flex-wrap justify-evenly lg:px-2 w-full transition-all duration-500 max-h-0  bg-white"
+                className="flex flex-wrap justify-evenly font-normal lg:px-2 w-full transition-all duration-500 max-h-0  bg-white"
                 ref={dateRef}
+                onClick={(e) => e.stopPropagation()}
               >
-                <p className="cursor-pointer border px-2 py-1 my-1 shadow-md rounded-lg hover:text-cyan-600">
+                <p className="cursor-pointer px-2 py-1 my-1  hover:text-cyan-600">
                   Ce mois
                 </p>
-                <p className="cursor-pointer border px-2 py-1 my-1 shadow-md rounded-lg hover:text-cyan-600">
+                <p className="cursor-pointer px-2 py-1 my-1  hover:text-cyan-600">
                   3 derniers mois
                 </p>
-                <p className="cursor-pointer border px-2 py-1 my-1 shadow-md rounded-lg hover:text-cyan-600">
+                <p className="cursor-pointer px-2 py-1 my-1  hover:text-cyan-600">
                   6 derniers mois
                 </p>
-                <p className="cursor-pointer border px-2 py-1 my-1 shadow-md rounded-lg hover:text-cyan-600">
+                <p className="cursor-pointer px-2 py-1 my-1  hover:text-cyan-600">
                   Cette année
                 </p>
               </div>
             </div>
+            {/* note */}
             <div
               onClick={() => toggleFilter(noteRef)}
               className="flex flex-col items-center overflow-hidden lg:px-2 relative py-1  my-1 shadow-md border border-transparent font-semibold cursor-pointer rounded-lg mx-1 hover:shadow-lg hover:border-gray-300"
@@ -134,6 +159,7 @@ function Shop() {
               <div
                 className="flex flex-wrap justify-evenly lg:px-2 w-full transition-all duration-500 font-thin  bg-white max-h-0"
                 ref={noteRef}
+                onClick={(e) => e.stopPropagation()}
               >
                 <p className="flex items-center border font-semibold px-2 shadow-md my-1 rounded-md w-full">
                   Toutes
@@ -156,6 +182,7 @@ function Shop() {
                 </p>
               </div>
             </div>
+            {/* prix */}
             <div
               onClick={() => toggleFilter(prixRef)}
               className="flex flex-col items-center overflow-hidden lg:px-2 relative py-1  my-1 shadow-md border border-transparent font-semibold cursor-pointer rounded-lg mx-1 hover:shadow-lg hover:border-gray-300"
@@ -167,6 +194,7 @@ function Shop() {
               <div
                 className="flex flex-wrap justify-evenly lg:px-2 w-full transition-all duration-500  bg-white max-h-0"
                 ref={prixRef}
+                onClick={(e) => e.stopPropagation()}
               >
                 <p className="px-2 py-1 my-1 rounded-lg shadow-md border border-transparent hover:border-gray-300 hover:text-cyan-600">
                   Afficher Tous les prix
@@ -193,11 +221,11 @@ function Shop() {
               <FiChevronDown className="ml-auto" />
             </div>
             <div
-              className="flex flex-wrap justify-evenly lg:px-2 w-full transition-all duration-500 max-h-0  bg-white"
+              className="flex flex-wrap  justify-between lg:px-2 w-full transition-all duration-500 max-h-0  bg-white"
               ref={couleurRef}
             >
               <div className="font-semibold inline-flex items-center mx-2 my-1 cursor-pointer">
-                <p>Noir</p>{" "}
+                <p>Noir</p>
                 <div className="h-4 w-4 rounded-full ml-1 bg-black" />
               </div>
               <div className="font-semibold inline-flex items-center mx-2 my-1 cursor-pointer">
@@ -256,8 +284,8 @@ function Shop() {
           </div>
         </div>
         {/* t-shirts section */}
-        <div className="flex self-start flex-wrap w-[77%] ml-10 bg-white my-12 justify-evenly ">
-          <div className="flex flex-col  shadow-md cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2 lg:mx-2">
+        <div className="flex self-start flex-wrap border ml-10 bg-white my-12 justify-evenly ">
+          <div className="flex flex-col  shadow-md bg-white cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2 lg:mx-2">
             <img
               src="/images/white.jpg"
               alt="tshirt"
@@ -290,7 +318,7 @@ function Shop() {
             </div>
           </div>
           {/* 2 */}
-          <div className="flex flex-col  shadow-md cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2  lg:mx-2">
+          <div className="flex flex-col  shadow-md bg-white cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2  lg:mx-2">
             <img
               src="/images/black.jpg"
               alt="tshirt"
@@ -322,7 +350,7 @@ function Shop() {
             </div>
           </div>
           {/* 3 */}
-          <div className="flex flex-col  shadow-md cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2  lg:mx-2">
+          <div className="flex flex-col  shadow-md bg-white cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2  lg:mx-2">
             <img
               src="/images/green.jpg"
               alt="tshirt"
@@ -355,7 +383,7 @@ function Shop() {
             </div>
           </div>
           {/* 4 */}
-          <div className="flex flex-col  shadow-md cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2 ">
+          <div className="flex flex-col  shadow-md bg-white cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2 ">
             <img
               src="/images/purple.jpg"
               alt="tshirt"
@@ -388,7 +416,7 @@ function Shop() {
             </div>
           </div>
           {/* 5 */}
-          <div className="flex flex-col  shadow-md cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2 ">
+          <div className="flex flex-col  shadow-md bg-white cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2 ">
             <img src="/images/red.jpg" alt="tshirt" className="max-h-[14rem]" />
             <div className="mx-auto">
               <p className="font-semibold text-2xl my-2 w-full text-center bg-gray-100">
@@ -419,7 +447,7 @@ function Shop() {
         </div>
       </div>
       {/* pagination */}
-      <div className="flex items-center justify-evenly my-3 mx-auto w-[60%]">
+      {/* <div className="flex items-center justify-evenly my-3 mx-auto w-[60%]">
         <button className="px-3 py-1 border shadow-md rounded-lg font-semibold bg-sky-500 text-white">
           1
         </button>
@@ -450,7 +478,26 @@ function Shop() {
         <button className="px-3 py-1 border shadow-md rounded-lg font-semibold">
           10
         </button>
+      </div> */}
+      <div className="flex flex-wrap justify-evenly border shadow-md mb-3 mx-5">
+        {shirts.slice(startIndex, endIndex).map((shirt) => (
+          <div
+            className="flex flex-col items-center mx-2 border my-2 cursor-pointer overflow-hidden"
+            key={shirt.id}
+          >
+            <p>{shirt.id} </p>
+            <p className="max-w-[5rem]">{shirt.title} </p>
+          </div>
+        ))}
       </div>
+      {shirts && (
+        <Pagination
+          items={shirts}
+          itemPerPage={itemsPerPage}
+          onClickNext={showNextPage}
+          onClickPrevious={showPreviousPage}
+        />
+      )}
     </div>
   )
 }

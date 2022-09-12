@@ -4,6 +4,7 @@ import { ImEarth } from "react-icons/im"
 import { MdOutlineMenu } from "react-icons/md"
 import AuthContext from "../utils/AuthContext"
 import { useNavigate } from "react-router-dom"
+import { IoSearch } from "react-icons/io5"
 function Navbar() {
   const user = useContext(AuthContext)
 
@@ -43,6 +44,20 @@ function Navbar() {
           <img alt="brand" src="/images/logo2.png" className="md:h-10" />
           <p className="md:ml-2 text-2xl font-bold text-gray-900">Shirty </p>
         </div>
+        {/* search bar */}
+        <div className="inline-flex  items-center justify-between relative border xl:w-[38%] w-[27%]  rounded-md pl-1  ">
+          <input
+            type="text"
+            className=" py-1 outline-none w-full   "
+            placeholder="Rechercher un article"
+          />
+          <div className="bg-gray-100 hover:bg-gray-200 h-full border-l">
+            <IoSearch
+              size={39}
+              className="cursor-pointer text-gray-700 px-2  "
+            />
+          </div>
+        </div>
 
         {/* nav elements */}
         <ul className="flex items-center p-0 justify-start  mr-5 relative h-full ">
@@ -50,7 +65,7 @@ function Navbar() {
             onClick={() => {
               navigate("/shop")
             }}
-            className="mx-1 cursor-pointer text-xl text-black hover:text-cyan-600 px-2 py-1 font-semibold "
+            className="mx-2 cursor-pointer text-lg text-black hover:text-cyan-600  font-semibold "
           >
             Découvrez nos produits
           </li>
@@ -58,20 +73,20 @@ function Navbar() {
             onClick={() => {
               navigate("/makeShirt")
             }}
-            className="mx-1 cursor-pointer text-xl text-black hover:text-cyan-600 px-2 py-1 font-semibold"
+            className="mx-2 cursor-pointer text-lg text-black hover:text-cyan-600  font-semibold"
           >
             Commancez le design
           </li>
           {!user.currUser ? (
             <li
-              className="mx-1 cursor-pointer text-xl text-black hover:text-cyan-600 px-2 py-1 font-semibold"
+              className="mx-2 cursor-pointer text-lg text-black hover:text-cyan-600  font-semibold"
               onClick={() => navigate("/login")}
             >
-              Se connecter/ s'inscrire
+              Se connecter
             </li>
           ) : (
             <li
-              className="mx-1 cursor-pointer text-xl text-black hover:text-cyan-600 px-2 py-1 font-semibold"
+              className="mx-2 cursor-pointer text-lg text-black hover:text-cyan-600  font-semibold"
               onClick={() => navigate("/profile")}
             >
               Profil
@@ -80,19 +95,19 @@ function Navbar() {
           {user.currUser && user.currUser.isAdmin && (
             <li
               onClick={() => navigate("/adminDashboard")}
-              className="mx-1 cursor-pointer text-xl text-black hover:text-cyan-600 px-2 py-1 font-semibold"
+              className="mx-2 cursor-pointer text-lg text-black hover:text-cyan-600  font-semibold"
             >
               Admin dashboard
             </li>
           )}
 
-          <MdShoppingCart className="text-xl text-gray-700 cursor-pointer mx-3 transition-all duration-700 hover:translate-x-1 hover:text-red-400 " />
+          <MdShoppingCart className="text-xl  cursor-pointer" />
           <div
             className="relative"
             onMouseEnter={toggleLang}
             onMouseLeave={toggleLang}
           >
-            <ImEarth className="text-xl  cursor-pointer mx-3 transition-all duration-700 hover:rotate-180 hover:text-blue-400 " />
+            <ImEarth className="text-xl  cursor-pointer ml-2 " />
             <div
               className="absolute left-2 bottom-auto overflow-y-hidden  px-1 max-h-0 bg-black "
               ref={langRef}
