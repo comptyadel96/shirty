@@ -28,7 +28,7 @@ function WelcomeScreen() {
   return (
     <div className="flex flex-col select-text h-full lg:bg-[#f7f7f7] bg-white overflow-hidden">
       {/* section descriptive desktop */}
-      <div className="lg:mt-20 lg:mb-10 lg:flex lg:items-center hidden relative bg-white xl:mx-10 border ">
+      <div className="lg:mt-20 lg:mb-10 lg:flex lg:items-center hidden relative bg-white ">
         <div className="relative mx-auto  md:py-2">
           <img
             alt=""
@@ -100,7 +100,7 @@ function WelcomeScreen() {
         </div>
       </div>
       {/* little separator */}
-      <div className="lg:flex lg:flex-row md:border flex-col lg:items-center lg:flex-wrap lg:mt-10 mt-2 lg:max-w-fit lg:mx-auto  bg-white px-4 lg:py-10 justify-evenly shadow-lg">
+      <div className="lg:flex lg:flex-row  flex-col lg:items-center lg:flex-wrap lg:mt-10 mt-2 lg:max-w-fit lg:mx-auto  bg-white px-4 lg:py-10 justify-evenly shadow-lg">
         {/* card 1 */}
         <div className="flex flex-col lg:items-center lg:my-0 my-4 xl:mx-2 lg:mx-1 lg:border-r-4 lg:border-l-0 border-l-4 border-dotted border-gray-800 pr-2">
           <h1 className="text-3xl font-bold text-center ">
@@ -137,7 +137,7 @@ function WelcomeScreen() {
         </div>
       </div>
       {/* section design desktop */}
-      <div className="lg:flex lg:items-center   bg-white shadow-md border lg:flex-wrap  sm:mb-10 lg:pb-20 mt-20 relative hidden mx-10">
+      <div className="lg:flex lg:items-center   bg-white shadow-md  lg:flex-wrap  sm:mb-10 lg:pb-20 mt-20 relative hidden mx-10">
         <div className="flex items-center justify-around  w-full md:py-3 relative">
           <img
             src="/images/design-desktop.png"

@@ -1,13 +1,17 @@
-import React, { useRef, useContext } from "react"
+import React, { useRef, useContext, useState, useEffect } from "react"
 import { MdShoppingCart } from "react-icons/md"
 import { ImEarth } from "react-icons/im"
 import { MdOutlineMenu } from "react-icons/md"
 import AuthContext from "../utils/AuthContext"
 import { useNavigate } from "react-router-dom"
 import { IoSearch } from "react-icons/io5"
+import { FiX } from "react-icons/fi"
+import axios from "axios"
+import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css"
+
 function Navbar() {
   const user = useContext(AuthContext)
-
   const langRef = useRef(null)
   const burgerMenu = useRef(null)
   const toggleLang = () => {
@@ -30,6 +34,39 @@ function Navbar() {
     }
   }
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
+  const [shirts, setShirts] = useState([])
+  const [sweats, setSweats] = useState([])
+  const [query, setquery] = useState("")
+  const [item, setItem] = useState(true)
+
+  useEffect(() => {
+    const getClothes = async () => {
+      setLoading(true)
+      const shirts = await axios.get(
+        `http://localhost:5000/api/shirty/shirts?search=${query}&limit=6`
+      )
+      setShirts(shirts.data)
+      const sweats = await axios.get(
+        `http://localhost:5000/api/shirty/sweats?search=${query}&limit=6`
+      )
+      setSweats(sweats.data)
+      // if there is no result for both tshirt and sweat shirt
+      if (shirts.data.numbOfshirts === 0 && sweats.data.numbOfSweats === 0) {
+        setItem(false)
+      } else {
+        setItem(true)
+      }
+      // simulate slow internet connexion
+      // setTimeout(() => {
+      setLoading(false)
+      // }, 1000)
+    }
+
+    if (query.length > 3) {
+      getClothes()
+    }
+  }, [query])
   return (
     <>
       {/* horizontal navbar */}
@@ -48,14 +85,66 @@ function Navbar() {
         <div className="inline-flex  items-center justify-between relative border xl:w-[38%] w-[27%]  rounded-md pl-1  ">
           <input
             type="text"
-            className=" py-1 outline-none w-full   "
+            value={query}
+            className=" py-1 outline-none w-full font-semibold text-gray-800 placeholder:text-gray-400 placeholder:font-semibold   "
             placeholder="Rechercher un article"
+            onChange={(e) => {
+              setquery(e.target.value.trimStart())
+            }}
           />
           <div className="bg-gray-100 hover:bg-gray-200 h-full border-l">
             <IoSearch
               size={39}
               className="cursor-pointer text-gray-700 px-2  "
             />
+          </div>
+          {/* remove text */}
+          {query.length > 3 && (
+            <div
+              className="absolute right-14 cursor-pointer p-1 bg-gray-800 rounded-full text-white"
+              onClick={() => setquery("")}
+            >
+              <FiX />
+            </div>
+          )}
+          {/* search result */}
+          <div className="flex flex-col  absolute left-0 top-[2.5rem] w-full bg-white">
+            {/* t-shirts */}
+            {/* loading component */}
+            {loading && (
+              <Skeleton className="w-full h-full z-50 py-1 my-2" count={4} />
+            )}
+            {/* display shirts */}
+            {query !== "" &&
+              shirts.shirts &&
+              !loading &&
+              shirts.shirts.map((shirt) => (
+                <p
+                  key={shirt._id}
+                  onClick={() => console.log(shirt._id)}
+                  className="font-semibold cursor-pointer pl-4 py-1 mb-2 hover:bg-gray-100"
+                >
+                  {shirt.title}
+                </p>
+              ))}
+            {/* sweats */}
+            {query !== "" &&
+              sweats.sweats &&
+              !loading &&
+              sweats.sweats.map((sweat) => (
+                <p
+                  key={sweat._id}
+                  onClick={() => console.log(sweat._id)}
+                  className="font-semibold cursor-pointer pl-4 py-1 mb-2 hover:bg-gray-100"
+                >
+                  {sweat.title}
+                </p>
+              ))}
+            {!item && !loading && query.length > 3 && (
+              <p className="text-sm font-semibold py-1 ml-2">
+                Aucun article trouver pour: {query}{" "}
+              </p>
+            )}
           </div>
         </div>
 

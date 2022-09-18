@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import { IoFilterSharp } from "react-icons/io5"
+import { MdAddShoppingCart } from "react-icons/md"
 import axios from "axios"
 import {
   FiChevronDown,
@@ -8,6 +9,9 @@ import {
 import { AiFillControl } from "react-icons/ai"
 import NormalPicker from "../components/NormalPicker"
 import Pagination from "../components/Pagination"
+import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css"
+
 function Shop() {
   const leftBarRef = useRef(null)
   const dateRef = useRef(null)
@@ -18,22 +22,16 @@ function Shop() {
   const [itemsPerPage] = useState(10)
   const [startIndex, setStartIndex] = useState(0)
   const [endIndex, setEndIndex] = useState(10)
+  const [productGenre, setProductGenre] = useState("T-shirts")
   const toggleLeftMenu = (ref) => {
-    const showArr = [
-      "shadow-md",
-      "lg:px-4",
-      "lg:py-2",
-      "lg:my-5",
-      "ml-3",
-      "max-w-xs",
-      "border",
-    ]
+    const showArr = ["lg:px-4", "lg:py-2", "lg:my-5", "ml-3", "max-w-xs"]
     if (ref.current.classList.contains("max-w-0")) {
       ref.current.classList.remove("max-w-0")
       showArr.map((clas) => ref.current.classList.add(clas))
     } else {
       showArr.map((clas) => ref.current.classList.remove(clas))
       ref.current.classList.add("max-w-0")
+      ref.current.classList.remove("min-w-[20rem]")
     }
   }
   const toggleFilter = (ref) => {
@@ -41,7 +39,7 @@ function Shop() {
       "lg:px-2",
       "max-h-auto",
       "flex",
-      "flex-wrap",
+      "flex-col",
       "justify-evenly",
       "max-h-[30rem]",
     ]
@@ -55,10 +53,26 @@ function Shop() {
   }
   const getPosts = async () => {
     const items = await axios.get("https://jsonplaceholder.typicode.com/posts")
-    return setShirts(items.data)
+    setShirts(items.data)
   }
   useEffect(() => {
     getPosts()
+    let slideIndex = 0
+    showSlides()
+
+    function showSlides() {
+      let i
+      let slides = document.getElementsByClassName("mySlides")
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none"
+      }
+      slideIndex++
+      if (slideIndex > slides.length) {
+        slideIndex = 1
+      }
+      slides[slideIndex - 1].style.display = "block"
+      setTimeout(showSlides, 4000) // Change image every 2 seconds
+    }
   }, [])
 
   const showNextPage = () => {
@@ -69,15 +83,33 @@ function Shop() {
     setStartIndex(startIndex - 10)
     setEndIndex(endIndex - 10)
   }
+
   return (
     <div className="h-full w-full flex flex-col lg:mt-20 mt-16">
       {/* carrousel */}
-      <div className="lg:mb-20 lg:mt-6 relative max-w-fit mx-auto">
-        <img
-          src="/images/shop-1.png"
-          alt="summer collection"
-          className="lg:max-w-[85%] object-cover mx-auto"
-        />
+      <div className="lg:mb-20 lg:mt-6 relative border py-5 self-center bg-gray-100 w-full ">
+        <div className="mySlides  max-h-[33rem]">
+          <img
+            src="/images/shop-winter.png"
+            alt="winter collection"
+            className=" max-h-[33rem] object-cover mx-auto "
+          />
+        </div>
+        <div className="mySlides  max-h-[33rem]">
+          <img
+            src="/images/shop-summer.png"
+            alt="summer collection"
+            className=" max-h-[33rem] object-cover mx-auto "
+          />
+        </div>
+        {/* colorful image */}
+        <div className="mySlides max-h-[33rem]">
+          <img
+            src="/images/colorful.png"
+            alt="colorful collection"
+            className=" max-h-[33rem] object-cover mx-auto "
+          />
+        </div>
       </div>
       <div className="flex items-center w-full">
         {/* toggle left bar */}
@@ -94,29 +126,40 @@ function Shop() {
           {/* <p className="text-xl font-semibold ml-2">Categories de produits</p> */}
           <NormalPicker
             values={[
-              { name: "T-shirts" },
-              { name: "Polos" },
-              { name: "Sweet shirt" },
-              { name: "Vestes" },
-              { name: "Casquettes" },
-              { name: "Bonnets" },
-              { name: "Sac à dos" },
+              { name: "T-shirts", value: "T-shirts" },
+              { name: "Polos", value: "Polos" },
+              { name: "Sweat shirt", value: "Sweat shirt" },
+              { name: "Vestes", value: "Vestes" },
+              { name: "Casquettes", value: "Casquettes" },
+              { name: "Bonnets", value: "Bonnets" },
+              { name: "Sac à dos", value: "Sac à dos" },
             ]}
-            onItemClick={() => console.log("bb")}
+            onItemClick={(val) => {
+              setProductGenre(val)
+            }}
             style={{ position: "absolute", left: "103%", bottom: "auto" }}
             text="Categories produits"
           />
         </div>
       </div>
-
+      {/* shop product */}
+      <div className="flex items-center w-1/2  mx-auto  relative">
+        <div className="w-1/2 h-[1px] bg-gray-800" />
+        <p className="font-semibold text-2xl text-center mx-2 text-white px-2 rounded-md bg-gray-800">
+          {productGenre}
+        </p>
+        <div className="w-1/2 h-[1px] bg-gray-800" />
+      </div>
       <div className="w-full flex">
         {/* left-bar search and filters */}
         <div
           ref={leftBarRef}
-          className="flex flex-col bg-white overflow-hidden  shadow-md lg:px-4 lg:py-2 lg:my-5 ml-3  max-w-xs border transition-all duration-500"
+          className="flex flex-col bg-white overflow-hidden   lg:py-2 lg:my-5 ml-3  max-w-xs min-w-[20rem] transition-all duration-500"
         >
           {/* filtres */}
-          <p className="font-semibold lg:text-xl mb-2">Filtres produits</p>
+          <p className="font-semibold  mb-2 text-white py-2 bg-gray-800 text-center">
+            Filtres produits
+          </p>
 
           <div className="flex flex-col flex-wrap py-1 ">
             <div
@@ -124,25 +167,25 @@ function Shop() {
               className="flex flex-col items-center overflow-hidden lg:px-2 relative py-1  my-1 shadow-md border border-transparent font-semibold cursor-pointer rounded-lg mx-1 hover:shadow-lg hover:border-gray-300"
             >
               <div className="flex items-center w-full">
-                <p className="lg:text-xl">Date de publication </p>
+                <p className="">Date de publication </p>
                 <FiChevronDown className="ml-auto" />
               </div>
 
               <div
-                className="flex flex-wrap justify-evenly font-normal lg:px-2 w-full transition-all duration-500 max-h-0  bg-white"
+                className="flex  justify-evenly font-normal lg:px-2 w-full transition-all duration-500 max-h-0  bg-white"
                 ref={dateRef}
                 onClick={(e) => e.stopPropagation()}
               >
-                <p className="cursor-pointer px-2 py-1 my-1  hover:text-cyan-600">
+                <p className="cursor-pointer px-2 py-1 my-1  hover:text-cyan-600 hover:translate-x-5 transition-transform duration-500">
                   Ce mois
                 </p>
-                <p className="cursor-pointer px-2 py-1 my-1  hover:text-cyan-600">
+                <p className="cursor-pointer px-2 py-1 my-1  hover:text-cyan-600 hover:translate-x-5 transition-transform duration-500">
                   3 derniers mois
                 </p>
-                <p className="cursor-pointer px-2 py-1 my-1  hover:text-cyan-600">
+                <p className="cursor-pointer px-2 py-1 my-1  hover:text-cyan-600 hover:translate-x-5 transition-transform duration-500">
                   6 derniers mois
                 </p>
-                <p className="cursor-pointer px-2 py-1 my-1  hover:text-cyan-600">
+                <p className="cursor-pointer px-2 py-1 my-1  hover:text-cyan-600 hover:translate-x-5 transition-transform duration-500">
                   Cette année
                 </p>
               </div>
@@ -153,7 +196,7 @@ function Shop() {
               className="flex flex-col items-center overflow-hidden lg:px-2 relative py-1  my-1 shadow-md border border-transparent font-semibold cursor-pointer rounded-lg mx-1 hover:shadow-lg hover:border-gray-300"
             >
               <div className="flex items-center w-full">
-                <p className="lg:text-xl">Note du produit </p>
+                <p className="">Note du produit </p>
                 <FiChevronDown className="ml-auto" />
               </div>
               <div
@@ -161,22 +204,22 @@ function Shop() {
                 ref={noteRef}
                 onClick={(e) => e.stopPropagation()}
               >
-                <p className="flex items-center border font-semibold px-2 shadow-md my-1 rounded-md w-full">
-                  Toutes
+                <p className="flex items-center max-w-fit px-2  my-1 hover:text-cyan-500">
+                  Tous afficher
                 </p>
-                <p className="flex items-center border border-transparent px-2 py-1 shadow-md my-1 rounded-md text-xs hover:border-gray-300">
+                <p className="flex items-center px-2 my-3 max-w-fit rounded-md text-xs hover:text-cyan-500 hover:translate-x-5 transition-transform duration-500">
                   <img src="/icons/2-5.png" alt="stars" className="h-4 mr-1" />2
                   étoiles
                 </p>
-                <p className="flex items-center border border-transparent px-2 py-1 shadow-md my-1 rounded-md text-xs hover:border-gray-300">
+                <p className="flex items-center px-2 my-3 max-w-fit rounded-md text-xs hover:text-cyan-500 hover:translate-x-5 transition-transform duration-500">
                   <img src="/icons/3-5.png" alt="stars" className="h-4 mr-1" />3
                   étoiles
                 </p>
-                <p className="flex items-center border border-transparent px-2 py-1 shadow-md my-1 rounded-md text-xs hover:border-gray-300">
+                <p className="flex items-center px-2 my-3 max-w-fit rounded-md text-xs hover:text-cyan-500 hover:translate-x-5 transition-transform duration-500">
                   <img src="/icons/4-5.png" alt="stars" className="h-4 mr-1" />4
                   étoiles
                 </p>
-                <p className="flex items-center border border-transparent px-2 py-1 shadow-md my-1 rounded-md text-xs hover:border-gray-300">
+                <p className="flex items-center px-2 my-3 max-w-fit rounded-md text-xs hover:text-cyan-500 hover:translate-x-5 transition-transform duration-500">
                   <img src="/icons/5-5.png" alt="stars" className="h-4 mr-1" />5
                   étoiles
                 </p>
@@ -185,10 +228,10 @@ function Shop() {
             {/* prix */}
             <div
               onClick={() => toggleFilter(prixRef)}
-              className="flex flex-col items-center overflow-hidden lg:px-2 relative py-1  my-1 shadow-md border border-transparent font-semibold cursor-pointer rounded-lg mx-1 hover:shadow-lg hover:border-gray-300"
+              className="flex flex-col items-center overflow-hidden lg:px-2 relative py-1  my-1 shadow-md border border-transparent cursor-pointer rounded-lg mx-1 hover:shadow-lg hover:border-gray-300"
             >
               <div className="flex items-center w-full">
-                <p className="lg:text-xl">Prix du produit</p>
+                <p className="font-semibold">Prix du produit</p>
                 <FiChevronDown className="ml-auto" />
               </div>
               <div
@@ -196,16 +239,16 @@ function Shop() {
                 ref={prixRef}
                 onClick={(e) => e.stopPropagation()}
               >
-                <p className="px-2 py-1 my-1 rounded-lg shadow-md border border-transparent hover:border-gray-300 hover:text-cyan-600">
+                <p className="px-2 py-1 my-1 text-sm hover:text-cyan-500 hover:translate-x-5 transition-transform duration-500">
                   Afficher Tous les prix
                 </p>
-                <p className="px-2 py-1 my-1 rounded-lg shadow-md border border-transparent hover:border-gray-300 hover:text-cyan-600">
+                <p className="px-2 py-1 my-1 text-sm hover:text-cyan-500 hover:translate-x-5 transition-transform duration-500">
                   1500 da - 3000 da
                 </p>
-                <p className="px-2 py-1 my-1 rounded-lg shadow-md border border-transparent hover:border-gray-300 hover:text-cyan-600">
+                <p className="px-2 py-1 my-1 text-sm hover:text-cyan-500 hover:translate-x-5 transition-transform duration-500">
                   3000 da - 5000 da
                 </p>
-                <p className="px-2 py-1 my-1 rounded-lg shadow-md border border-transparent hover:border-gray-300 hover:text-cyan-600">
+                <p className="px-2 py-1 my-1 text-sm hover:text-cyan-500 hover:translate-x-5 transition-transform duration-500">
                   5000 da - 8000 da
                 </p>
               </div>
@@ -217,231 +260,246 @@ function Shop() {
             className="flex flex-col items-center overflow-hidden lg:px-2 relative py-1  my-1 shadow-md border border-transparent font-semibold cursor-pointer rounded-lg mx-1 hover:shadow-lg hover:border-gray-300"
           >
             <div className="flex items-center w-full">
-              <p className="lg:text-xl">Couleur produit</p>
+              <p className="">Couleur produit</p>
               <FiChevronDown className="ml-auto" />
             </div>
             <div
-              className="flex flex-wrap  justify-between lg:px-2 w-full transition-all duration-500 max-h-0  bg-white"
+              className="flex flex-wrap  lg:px-2 w-full transition-all duration-500 max-h-0  bg-white"
               ref={couleurRef}
             >
-              <div className="font-semibold inline-flex items-center mx-2 my-1 cursor-pointer">
-                <p>Noir</p>
-                <div className="h-4 w-4 rounded-full ml-1 bg-black" />
-              </div>
-              <div className="font-semibold inline-flex items-center mx-2 my-1 cursor-pointer">
-                <p>Gris</p>
-                <div className="h-4 w-4 rounded-full ml-1 bg-gray-300" />
-              </div>
-              <div className="font-semibold inline-flex items-center mx-2 my-1 cursor-pointer">
-                <p>Blanc</p>
-                <div className="h-4 w-4 rounded-full ml-1 bg-white border border-black" />
-              </div>
-              <div className="font-semibold inline-flex items-center mx-2 my-1 cursor-pointer">
-                <p>Rouge</p>
-                <div className="h-4 w-4 rounded-full ml-1 bg-red-600" />
-              </div>
-              <div className="font-semibold inline-flex items-center mx-2 my-1 cursor-pointer">
-                <p>Bleu</p>
-                <div className="h-4 w-4 rounded-full ml-1 bg-blue-500" />
-              </div>
-              <div className="font-semibold inline-flex items-center mx-2 my-1 cursor-pointer">
-                <p>Vert</p>
-                <div className="h-4 w-4 rounded-full ml-1 bg-green-500" />
-              </div>
-              <div className="font-semibold inline-flex items-center mx-2 my-1 cursor-pointer">
-                <p>Orange</p>
-                <div className="h-4 w-4 rounded-full ml-1 bg-orange-400" />
-              </div>
-              <div className="font-semibold inline-flex items-center mx-2 my-1 cursor-pointer">
-                <p>Violet</p>
-                <div className="h-4 w-4 rounded-full ml-1 bg-violet-500" />
-              </div>
-              <div className="font-semibold inline-flex items-center mx-2 my-1 cursor-pointer">
-                <p>Marron</p>
-                <div className="h-4 w-4 rounded-full ml-1 bg-yellow-700" />
-              </div>
-              <div className="font-semibold inline-flex items-center mx-2 my-1 cursor-pointer">
-                <p>Rose</p>
-                <div className="h-4 w-4 rounded-full ml-1 bg-pink-400" />
+              <div className="flex items-center flex-wrap">
+                <div className="font-semibold inline-flex max-w-fit  items-center mx-2 my-1 cursor-pointer">
+                  <p>Noir</p>
+                  <div className="h-4 w-4 rounded-full ml-1 bg-black" />
+                </div>
+                <div className="font-semibold inline-flex max-w-fit  items-center mx-2 my-1 cursor-pointer">
+                  <p>Gris</p>
+                  <div className="h-4 w-4 rounded-full ml-1 bg-gray-300" />
+                </div>
+                <div className="font-semibold inline-flex max-w-fit  items-center mx-2 my-1 cursor-pointer">
+                  <p>Blanc</p>
+                  <div className="h-4 w-4 rounded-full ml-1 bg-white border border-black" />
+                </div>
+                <div className="font-semibold inline-flex max-w-fit  items-center mx-2 my-1 cursor-pointer">
+                  <p>Rouge</p>
+                  <div className="h-4 w-4 rounded-full ml-1 bg-red-600" />
+                </div>
+                <div className="font-semibold inline-flex max-w-fit  items-center mx-2 my-1 cursor-pointer">
+                  <p>Bleu</p>
+                  <div className="h-4 w-4 rounded-full ml-1 bg-blue-500" />
+                </div>
+                <div className="font-semibold inline-flex max-w-fit  items-center mx-2 my-1 cursor-pointer">
+                  <p>Vert</p>
+                  <div className="h-4 w-4 rounded-full ml-1 bg-green-500" />
+                </div>
+                <div className="font-semibold inline-flex max-w-fit  items-center mx-2 my-1 cursor-pointer">
+                  <p>Orange</p>
+                  <div className="h-4 w-4 rounded-full ml-1 bg-orange-400" />
+                </div>
+                <div className="font-semibold inline-flex max-w-fit  items-center mx-2 my-1 cursor-pointer">
+                  <p>Violet</p>
+                  <div className="h-4 w-4 rounded-full ml-1 bg-violet-500" />
+                </div>
+                <div className="font-semibold inline-flex max-w-fit  items-center mx-2 my-1 cursor-pointer">
+                  <p>Marron</p>
+                  <div className="h-4 w-4 rounded-full ml-1 bg-yellow-700" />
+                </div>
+                <div className="font-semibold inline-flex max-w-fit  items-center mx-2 my-1 cursor-pointer">
+                  <p>Rose</p>
+                  <div className="h-4 w-4 rounded-full ml-1 bg-pink-400" />
+                </div>
               </div>
             </div>
           </div>
-          <div className="flex items-center flex-wrap "></div>
-          <p className="font-semibold lg:text-xl my-2">Taille</p>
+
+          <p className="font-semibold  my-2 border-b-2 border-cyan-400 w-[14%]">
+            Taille
+          </p>
           <div className="flex flex-wrap items-center py-1">
-            <button className="font-semibold mx-2 py-1 px-3 bg-white border rounded-lg hover:shadow-lg">
+            <button className="font-semibold mx-2 py-1 shadow-md border px-3 bg-white rounded-md hover:bg-gray-800 hover:text-cyan-400 hover:border-transparent">
               S
             </button>
-            <button className="font-semibold mx-2 py-1 px-2 bg-white border rounded-lg hover:shadow-lg">
+            <button className="font-semibold mx-2 py-1 shadow-md border px-2 bg-white rounded-md hover:bg-gray-800 hover:text-cyan-400 hover:border-transparent">
               M
             </button>
-            <button className="font-semibold mx-2 py-1 px-3 bg-white border rounded-lg hover:shadow-lg">
+            <button className="font-semibold mx-2 py-1 shadow-md border px-3 bg-white rounded-md hover:bg-gray-800 hover:text-cyan-400 hover:border-transparent">
               L
             </button>
-            <button className="font-semibold mx-2 py-1 px-2 bg-white border rounded-lg hover:shadow-lg">
+            <button className="font-semibold mx-2 py-1 shadow-md border px-2 bg-white rounded-md hover:bg-gray-800 hover:text-cyan-400 hover:border-transparent">
               XL
             </button>
           </div>
+          <p className="font-semibold  my-2 border-b-2 border-cyan-400 w-[14%]">
+            Pour
+          </p>
+          <div className="flex flex-wrap justify-evenly">
+            <p className="text-sm font-semibold cursor-pointer hover:text-cyan-500">
+              Femmes
+            </p>
+            <p className="text-sm font-semibold cursor-pointer hover:text-cyan-500">
+              Hommes
+            </p>
+            <p className="text-sm font-semibold cursor-pointer hover:text-cyan-500">
+              Enfant
+            </p>
+          </div>
+          <button className="bg-gray-800 px-2 text-white py-1 w-fit mt-10 ml-auto text-sm font-semibold rounded-full hover:text-cyan-400">
+            Enlever tous les filtres
+          </button>
         </div>
         {/* t-shirts section */}
-        <div className="flex self-start flex-wrap border ml-10 bg-white my-12 justify-evenly ">
-          <div className="flex flex-col  shadow-md bg-white cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2 lg:mx-2">
-            <img
-              src="/images/white.jpg"
-              alt="tshirt"
-              className="max-h-[14rem]"
-            />
-            <div className="mx-auto">
-              <p className="font-semibold text-2xl my-2 w-full text-center bg-gray-100 ">
-                T shirt blanc
+        <div className="flex self-start flex-wrap ml-10 bg-white my-12 justify-evenly ">
+          <div className="flex flex-col bg-white cursor-pointer border lg:py-3 lg:px-2 lg:mx-2 lg:my-2">
+            {
+              // (
+              //   <img
+              //     src="/images/white.jpg"
+              //     alt="tshirt"
+              //     className="max-h-[14rem]"
+              //   />
+              // ) ||
+              <Skeleton
+                className="h-[14rem] border border-gray-400"
+                baseColor="#eeee"
+                highlightColor="#ffff"
+              />
+            }
+            <p className="ml-auto text-gray-400 font-semibold">t-shirt</p>
+            <div className="mx-auto w-full">
+              <p className=" text-2xl my-2 w-full text-center border-b pb-1 ">
+                cotton blanc unis
               </p>
 
-              <p className="font-semibold lg:text-xl my-1">
-                Prix: 1500 <span className="text-red-600">Da</span>
-              </p>
               <div className="flex items-center">
-                <img src="/icons/4-5.png" alt="" className="max-h-6" />
+                <img src="/icons/4-5.png" alt="" className="max-h-4" />
                 <p className="text-gray-400 ml-1"> (15) </p>
               </div>
-              <div className="flex items-center flex-wrap my-1">
-                <img
-                  src="/images/catty.jpg"
-                  alt="profil pic"
-                  className="h-8 w-8 rounded-full"
+
+              <div className="flex items-center justify-evenly mt-2">
+                <p className="font-semibold my-1 lg:text-2xl ">
+                  1500 <span className="text-cyan-500 text-lg">Da</span>
+                </p>
+                <MdAddShoppingCart
+                  size={34}
+                  className="px-1 text-white rounded-md bg-cyan-400 hover:bg-cyan-500"
                 />
-                <p className="font-semibold ml-1">Adel boullif </p>
               </div>
-              <p className="font-semibold">
-                Publié le:
-                <span className="text-gray-500 text-sm">03/09/2022</span>
-              </p>
             </div>
           </div>
           {/* 2 */}
-          <div className="flex flex-col  shadow-md bg-white cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2  lg:mx-2">
+          <div className="flex flex-col bg-white  border border-black lg:py-3 lg:px-2  lg:mx-2 lg:my-2 relative">
+            {/* new product span */}
+            <span className="absolute top-2 left-2 px-2 bg-cyan-500 text-sm text-white rounded-full animate-pulse">
+              Nouveau
+            </span>
             <img
               src="/images/black.jpg"
               alt="tshirt"
               className="max-h-[14rem]"
             />
-            <div className="mx-auto">
-              <p className="font-semibold text-2xl my-2 w-full text-center bg-gray-100 ">
-                T shirt noir
+            <p className="ml-auto text-gray-400 font-semibold">t-shirt</p>
+            <div className="mx-auto w-full">
+              <p className=" text-2xl my-2 w-full text-center border-b  pb-1 ">
+                cotton noir
               </p>
-              <p className="font-semibold lg:text-xl my-1">
-                Prix: 1500 <span className="text-red-600">Da</span>
-              </p>
-              <div className="flex items-center">
-                <img src="/icons/1-5.png" alt="" className="max-h-6" />
-                <p className="text-gray-400 ml-1"> (12) </p>
+
+              <div className="flex items-center justify-end">
+                <img src="/icons/4-5.png" alt="" className="max-h-4" />
+                <p className="text-gray-400 ml-1"> (15) </p>
               </div>
-              <div className="flex items-center flex-wrap my-1">
-                <img
-                  src="/images/catty.jpg"
-                  alt="profil pic"
-                  className="h-8 w-8 rounded-full"
+
+              <div className="flex items-center justify-evenly mt-2 w-full">
+                <p className="font-semibold my-1 lg:text-2xl ">
+                  1500 <span className="text-cyan-500 text-lg">Da</span>
+                </p>
+                <MdAddShoppingCart
+                  size={34}
+                  className="px-1 text-white rounded-md bg-cyan-400 hover:bg-cyan-500 cursor-pointer"
                 />
-                <p className="font-semibold ml-1">Mohamed labani</p>
               </div>
-              <p className="font-semibold">
-                Publié le:
-                <span className="text-gray-500 text-sm">03/09/2022</span>
-              </p>
             </div>
           </div>
           {/* 3 */}
-          <div className="flex flex-col  shadow-md bg-white cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2  lg:mx-2">
+          <div className="flex flex-col bg-white cursor-pointer border lg:py-3 lg:px-2  lg:mx-2 lg:my-2">
             <img
               src="/images/green.jpg"
               alt="tshirt"
               className="max-h-[14rem]"
             />
-            <div className="mx-auto">
-              <p className="font-semibold text-2xl my-2 w-full text-center bg-gray-100">
-                T shirt vert
+            <p className="ml-auto text-gray-400 font-semibold">t-shirt</p>
+            <div className="mx-auto w-full">
+              <p className=" text-2xl my-2 w-full text-center border-b pb-1 ">
+                cotton vert
               </p>
 
-              <p className="font-semibold lg:text-xl my-1">
-                Prix: 1500 <span className="text-red-600">Da</span>
-              </p>
               <div className="flex items-center">
-                <img src="/icons/2-5.png" alt="" className="max-h-6" />
-                <p className="text-gray-400 ml-1"> (8) </p>
+                <img src="/icons/4-5.png" alt="" className="max-h-4" />
+                <p className="text-gray-400 ml-1"> (15) </p>
               </div>
-              <div className="flex items-center flex-wrap my-1">
-                <img
-                  src="/images/catty.jpg"
-                  alt="profil pic"
-                  className="h-8 w-8 rounded-full"
+
+              <div className="flex items-center justify-evenly mt-2">
+                <p className="font-semibold my-1 lg:text-2xl ">
+                  1500 <span className="text-cyan-500 text-lg">Da</span>
+                </p>
+                <MdAddShoppingCart
+                  size={34}
+                  className="px-1 text-white rounded-md bg-cyan-400 hover:bg-cyan-500"
                 />
-                <p className="font-semibold ml-1">Meriem belaib </p>
               </div>
-              <p className="font-semibold">
-                Publié le:
-                <span className="text-gray-500 text-sm">03/09/2022</span>
-              </p>
             </div>
           </div>
           {/* 4 */}
-          <div className="flex flex-col  shadow-md bg-white cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2 ">
+          <div className="flex flex-col bg-white cursor-pointer border lg:py-3 lg:px-2 lg:mx-2 lg:my-2 ">
             <img
               src="/images/purple.jpg"
               alt="tshirt"
               className="max-h-[14rem]"
             />
-            <div className="mx-auto">
-              <p className="font-semibold text-2xl my-2 w-full text-center bg-gray-100">
-                T shirt violet
+            <p className="ml-auto text-gray-400 font-semibold">t-shirt</p>
+            <div className="mx-auto w-full">
+              <p className=" text-2xl my-2 w-full text-center border-b pb-1 ">
+                polyster violet
               </p>
 
-              <p className="font-semibold lg:text-xl my-1">
-                Prix: 1500 <span className="text-red-600">Da</span>
-              </p>
               <div className="flex items-center">
-                <img src="/icons/3-5.png" alt="" className="max-h-6" />
-                <p className="text-gray-400 ml-1"> (23) </p>
+                <img src="/icons/4-5.png" alt="" className="max-h-4" />
+                <p className="text-gray-400 ml-1"> (15) </p>
               </div>
-              <div className="flex items-center flex-wrap my-1">
-                <img
-                  src="/images/catty.jpg"
-                  alt="profil pic"
-                  className="h-8 w-8 rounded-full"
+
+              <div className="flex items-center justify-evenly mt-2">
+                <p className="font-semibold my-1 lg:text-2xl ">
+                  900 <span className="text-cyan-500 text-lg">Da</span>
+                </p>
+                <MdAddShoppingCart
+                  size={34}
+                  className="px-1 text-white rounded-md bg-cyan-400 hover:bg-cyan-500"
                 />
-                <p className="font-semibold ml-1">Yanis touahri </p>
               </div>
-              <p className="font-semibold">
-                Publié le:
-                <span className="text-gray-500 text-sm">03/09/2022</span>
-              </p>
             </div>
           </div>
           {/* 5 */}
-          <div className="flex flex-col  shadow-md bg-white cursor-pointer hover:scale-[1.2] transition-all duration-700 border lg:py-3 lg:px-2 ">
+          <div className="flex flex-col bg-white cursor-pointer border lg:py-3 lg:px-2 lg:mx-2 lg:my-2">
             <img src="/images/red.jpg" alt="tshirt" className="max-h-[14rem]" />
-            <div className="mx-auto">
-              <p className="font-semibold text-2xl my-2 w-full text-center bg-gray-100">
-                T shirt rouge
+            <p className="ml-auto text-gray-400 font-semibold">t-shirt</p>
+            <div className="mx-auto w-full">
+              <p className=" text-2xl my-2 w-full text-center border-b pb-1 ">
+                cotton Rouge
               </p>
 
-              <p className="font-semibold lg:text-xl my-1">
-                Prix: 1500 <span className="text-red-600">Da</span>
-              </p>
               <div className="flex items-center">
-                <img src="/icons/5-5.png" alt="" className="max-h-6" />
-                <p className="text-gray-400 ml-1"> (12) </p>
+                <img src="/icons/4-5.png" alt="" className="max-h-4" />
+                <p className="text-gray-400 ml-1"> (15) </p>
               </div>
-              <div className="flex items-center flex-wrap my-1">
-                <img
-                  src="/images/catty.jpg"
-                  alt="profil pic"
-                  className="h-8 w-8 rounded-full"
+
+              <div className="flex items-center justify-evenly mt-2">
+                <p className="font-semibold my-1 lg:text-2xl ">
+                  1500 <span className="text-cyan-500 text-lg">Da</span>
+                </p>
+                <MdAddShoppingCart
+                  size={34}
+                  className="px-1 text-white rounded-md bg-cyan-400 hover:bg-cyan-500"
                 />
-                <p className="font-semibold ml-1">Beltoum abdellah </p>
               </div>
-              <p className="font-semibold">
-                Publié le:
-                <span className="text-gray-500 text-sm">03/09/2022</span>
-              </p>
             </div>
           </div>
         </div>
