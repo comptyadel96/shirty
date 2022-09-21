@@ -11,6 +11,7 @@ import NormalPicker from "../components/NormalPicker"
 import Pagination from "../components/Pagination"
 import Skeleton from "react-loading-skeleton"
 import "react-loading-skeleton/dist/skeleton.css"
+import Caroussel from "../components/Caroussel"
 
 function Shop() {
   const leftBarRef = useRef(null)
@@ -57,22 +58,6 @@ function Shop() {
   }
   useEffect(() => {
     getPosts()
-    let slideIndex = 0
-    showSlides()
-
-    function showSlides() {
-      let i
-      let slides = document.getElementsByClassName("mySlides")
-      for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none"
-      }
-      slideIndex++
-      if (slideIndex > slides.length) {
-        slideIndex = 1
-      }
-      slides[slideIndex - 1].style.display = "block"
-      setTimeout(showSlides, 4000) // Change image every 2 seconds
-    }
   }, [])
 
   const showNextPage = () => {
@@ -87,30 +72,7 @@ function Shop() {
   return (
     <div className="h-full w-full flex flex-col lg:mt-20 mt-16">
       {/* carrousel */}
-      <div className="lg:mb-20 lg:mt-6 relative border py-5 self-center bg-gray-100 w-full ">
-        <div className="mySlides  max-h-[33rem]">
-          <img
-            src="/images/shop-winter.png"
-            alt="winter collection"
-            className=" max-h-[33rem] object-cover mx-auto "
-          />
-        </div>
-        <div className="mySlides  max-h-[33rem]">
-          <img
-            src="/images/shop-summer.png"
-            alt="summer collection"
-            className=" max-h-[33rem] object-cover mx-auto "
-          />
-        </div>
-        {/* colorful image */}
-        <div className="mySlides max-h-[33rem]">
-          <img
-            src="/images/colorful.png"
-            alt="colorful collection"
-            className=" max-h-[33rem] object-cover mx-auto "
-          />
-        </div>
-      </div>
+      <Caroussel />
       <div className="flex items-center w-full">
         {/* toggle left bar */}
         <div
@@ -143,12 +105,12 @@ function Shop() {
         </div>
       </div>
       {/* shop product */}
-      <div className="flex items-center w-1/2  mx-auto  relative">
-        <div className="w-1/2 h-[1px] bg-gray-800" />
-        <p className="font-semibold text-2xl text-center mx-2 text-white px-2 rounded-md bg-gray-800">
+      <div className="flex items-center w-full  justify-end relative">
+        <div className="w-1/3 h-[1px] bg-gray-800" />
+        <p className="font-semibold text-xl break-normal text-center mx-2 text-white px-2 rounded-md bg-gray-800">
           {productGenre}
         </p>
-        <div className="w-1/2 h-[1px] bg-gray-800" />
+        <div className="w-1/3 h-[1px] bg-gray-800 mr-4" />
       </div>
       <div className="w-full flex">
         {/* left-bar search and filters */}

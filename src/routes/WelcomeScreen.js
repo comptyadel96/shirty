@@ -183,49 +183,49 @@ function WelcomeScreen() {
         </div>
       </div>
       {/* deparator1 */}
-      <div className="lg:max-w-[97%] max-w-full lg:flex flex-wrap lg:mx-10 bg-gray-800 lg:text-white  py-3 my-5 items-center justify-evenly  overflow-visible">
+      <div className="lg:max-w-[97%] max-w-full  lg:flex flex-wrap lg:mx-10 bg-gray-800 lg:text-white  py-3 my-5 items-center justify-evenly  overflow-visible">
         <div className="flex items-center lg:flex-row flex-col my-2 mx-1">
-          <div className="flex flex-col max-w-fit mx-auto">
+          <div className="flex flex-col  mx-auto">
             <img
               src="/icons/no-download.png"
               alt=""
               className="max-w-[90px] mx-auto"
             />
-            <p className="ml-2 font-semibold lg:text-md text-lg text-center lg:max-w-md  lg:text-white lg:bg-transparent text-gray-800 bg-white lg:mt-0 mt-3 mb-1">
+            <p className="ml-2 font-semibold lg:text-md text-lg text-center   lg:text-white lg:bg-transparent text-gray-800 bg-white lg:mt-0 mt-3 mb-1">
               Pas besoin de télécharger quoi que ce soit
             </p>
-            <p className="lg:text-sm text-md lg:max-w-xs ml-2 mx-auto text-center text-white">
+            <p className="lg:text-sm text-md  ml-2  text-center text-white">
               Le design ce fait en ligne et en quelques minutes avec les outils
               de personalisation shirty{" "}
             </p>
           </div>
         </div>
         <div className="flex items-center lg:my-2 my-6 mx-1">
-          <div className="flex flex-col max-w-fit mx-auto">
+          <div className="flex flex-col  mx-auto">
             <img
               src="/icons/pre-design.png"
               alt=""
               className="max-w-[120px] mx-auto"
             />
-            <p className="ml-2 font-semibold lg:text-md text-lg text-center lg:max-w-md  lg:text-white lg:bg-transparent text-gray-800 bg-white lg:mt-0 mt-3 mb-1">
+            <p className="ml-2 font-semibold lg:text-md text-lg text-center   lg:text-white lg:bg-transparent text-gray-800 bg-white lg:mt-0 mt-3 mb-1">
               Designs déja préts pour vos modifications
             </p>
-            <p className="lg:text-sm text-md lg:max-w-xs ml-2 mx-auto text-center text-white">
+            <p className="lg:text-sm text-md  ml-2  text-center text-white">
               Plusieurs élements déja mis en place pour vous aider a démmarer
             </p>
           </div>
         </div>
         <div className="flex items-center lg:my-2 my-6 mx-1">
-          <div className="flex flex-col max-w-fit mx-auto">
+          <div className="flex flex-col  mx-auto">
             <img
               src="/icons/paiment.png"
               alt=""
               className="max-w-[120px] mx-auto"
             />
-            <p className="ml-2 font-semibold lg:text-md text-lg text-center lg:max-w-md  lg:text-white lg:bg-transparent text-gray-800 bg-white lg:mt-0 mt-3 mb-1">
+            <p className="ml-2 font-semibold lg:text-md text-lg text-center   lg:text-white lg:bg-transparent text-gray-800 bg-white lg:mt-0 mt-3 mb-1">
               Rémuneration pour vos oeuvres
             </p>
-            <p className="lg:text-sm text-md lg:max-w-xs ml-2 mx-auto text-center text-white">
+            <p className="lg:text-sm text-md  ml-2  text-center text-white">
               Vous pouvez acheter votre produit et aussi le vendre sur notre
               site
             </p>
